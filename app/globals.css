@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body {
+  @apply bg-[#262626];
+}
+
+.section_title {
+  @apply text-4xl font-bold;
+}
+
+.section_title_smaller {
+  @apply text-2xl font-medium;
+}
+
+.section_subtitle {
+  @apply text-xl font-light;
 }
