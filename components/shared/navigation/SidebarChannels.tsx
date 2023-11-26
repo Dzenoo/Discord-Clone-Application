@@ -36,7 +36,7 @@ const SidebarChannels: React.FC = () => {
   return (
     <nav className="p-3 bg-[#191919] w-fit min-h-screen overflow-y-scroll flex flex-col justify-between gap-3">
       <div className="flex flex-col gap-3">
-        <div>
+        <div className="border-b pb-3 border-gray-400">
           <SidebarItem
             href={`/userId`}
             icon={<Chat style={{ color: "#fff" }} />}

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#262626];
+  @apply bg-[#262626] overflow-y-hidden;
 }
 
 ::-webkit-scrollbar {
@@ -31,7 +31,7 @@ body {
 }
 
 .sidebar_title {
-  @apply p-[6px] rounded-md bg-[#191919] left-[6rem] text-white font-bold hidden whitespace-nowrap absolute;
+  @apply p-[6px] rounded-md bg-[#191919] left-[6rem] text-white font-bold hidden whitespace-nowrap absolute z-30;
   animation: opacity 0.3s;
 }
 
