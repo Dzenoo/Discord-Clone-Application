@@ -6,6 +6,10 @@ body {
   @apply bg-[#262626];
 }
 
+::-webkit-scrollbar {
+  @apply bg-transparent hidden;
+}
+
 .section_title {
   @apply text-4xl font-bold;
 }
@@ -16,4 +20,36 @@ body {
 
 .section_subtitle {
   @apply text-xl font-light;
+}
+
+.sidebar_link {
+  @apply bg-[#313339] p-4 rounded-full cursor-pointer flex justify-center items-center w-fit hover:rounded-3xl;
+}
+
+.sidebar_link_img_container {
+  @apply flex justify-center items-center w-fit;
+}
+
+.sidebar_title {
+  @apply p-[6px] rounded-md bg-[#191919] left-[6rem] text-white font-bold hidden whitespace-nowrap absolute;
+  animation: opacity 0.3s;
+}
+
+.sidebar_link:hover .sidebar_title {
+  @apply block;
+}
+
+.sidebar_link_img_container:hover .sidebar_title {
+  @apply block;
+}
+
+/* KEYFRAMES */
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

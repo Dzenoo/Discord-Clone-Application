@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Discord Clone Application",
+  title: "Chatcord",
   description:
     "This is a Discord Clone Application built with Next.js, Typesscript and Tailwind CSS",
 };
