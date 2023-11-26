@@ -79,8 +79,8 @@ const Input: React.FC<InputProps> = ({
         id={id}
         value={state.value}
         placeholder={placeholder}
-        className={`p-3 rounded-md bg-[#2b2b2b] text-white border border-gray-400 resize-y h-36 ${
-          !state.isValid && state.isTouched && "border-red-600"
+        className={`p-3 rounded-md bg-[#2b2b2b] text-white resize-y h-36 ${
+          !state.isValid && state.isTouched && "border border-red-600"
         }`}
         onChange={changeHandler}
         onBlur={blurHandler}
@@ -93,8 +93,8 @@ const Input: React.FC<InputProps> = ({
         value={state.value}
         placeholder={placeholder}
         type={type}
-        className={`p-3 rounded-md bg-[#2b2b2b] text-white border border-gray-400 ${
-          !state.isValid && state.isTouched && "border-red-600"
+        className={`p-3 rounded-md bg-[#2b2b2b] text-white  ${
+          !state.isValid && state.isTouched && "border border-red-600"
         }`}
         onChange={changeHandler}
         onBlur={blurHandler}

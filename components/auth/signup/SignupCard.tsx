@@ -16,7 +16,10 @@ const SignupCard: React.FC = () => {
           <p className="text-xs text-gray-400">
             By registering, you agree to our Terms of Service and Privacy policy
           </p>
-          <Link href="/login" className="text-blue-400">
+          <Link
+            href="/login"
+            className="text-blue-400 transition-all hover:underline"
+          >
             Already have an account?
           </Link>
         </div>

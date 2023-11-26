@@ -14,7 +14,10 @@ const LoginCard: React.FC = () => {
         <LoginForm />
         <div className="p-3 flex items-center">
           <p className="mr-3 text-gray-400">Need an account?</p>
-          <Link href="/signup" className="text-blue-400">
+          <Link
+            href="/signup"
+            className="text-blue-400 transition-all hover:underline"
+          >
             Register
           </Link>
         </div>
