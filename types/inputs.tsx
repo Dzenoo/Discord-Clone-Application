@@ -10,7 +10,7 @@ export interface InputProps {
   id: string;
   type: "text" | "password" | "email" | "date" | "time" | "number" | "checkbox";
   placeholder: string;
-  value: string;
+  value?: string;
   label?: string;
   helperText?: string;
   validators: ValidatorPropertiesTypes[];

@@ -79,7 +79,7 @@ const Input: React.FC<InputProps> = ({
         id={id}
         value={state.value}
         placeholder={placeholder}
-        className={`p-4 rounded-md bg-[#2b2b2b] text-white border border-gray-400 resize-y h-36 ${
+        className={`p-3 rounded-md bg-[#2b2b2b] text-white border border-gray-400 resize-y h-36 ${
           !state.isValid && state.isTouched && "border-red-600"
         }`}
         onChange={changeHandler}
@@ -93,7 +93,7 @@ const Input: React.FC<InputProps> = ({
         value={state.value}
         placeholder={placeholder}
         type={type}
-        className={`p-4 rounded-md bg-[#2b2b2b] text-white border border-gray-400 ${
+        className={`p-3 rounded-md bg-[#2b2b2b] text-white border border-gray-400 ${
           !state.isValid && state.isTouched && "border-red-600"
         }`}
         onChange={changeHandler}
@@ -106,15 +106,15 @@ const Input: React.FC<InputProps> = ({
     <div className="flex flex-col gap-3">
       <label
         htmlFor={id}
-        className={`text-lg font-bold uppercase text-white ${
-          !state.isValid && state.isTouched && "text-red-600"
+        className={`text-xs font-bold uppercase ${
+          !state.isValid && state.isTouched ? "text-red-600" : "text-gray-300"
         }`}
       >
         {label}
       </label>
       {element}
       {!state.isValid && state.isTouched && (
-        <p className="section_subtitle text-red-600">{helperText}</p>
+        <p className="text-xs text-red-600">{helperText}</p>
       )}
     </div>
   );

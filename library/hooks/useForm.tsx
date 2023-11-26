@@ -48,7 +48,7 @@ const useForm = (
     []
   );
 
-  return [formState, inputChangeHandler];
+  return { formState, inputChangeHandler };
 };
 
 export default useForm;

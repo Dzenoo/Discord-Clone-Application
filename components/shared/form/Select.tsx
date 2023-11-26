@@ -4,7 +4,7 @@ import type {
   SelectReducerActionTypes,
   SelectReducerStateTypes,
 } from "@/types/select";
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 
 const reducer = (
   state: SelectReducerStateTypes,
@@ -23,10 +23,16 @@ const reducer = (
 };
 
 const Select: React.FC<SelectPropsTypes> = ({ options, id, onInputChange }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    value: "",
-    isValid: false,
-  });
+  const [state, dispatch] = useReducer(
+    reducer,
+    useMemo(
+      () => ({
+        value: "",
+        isValid: false,
+      }),
+      []
+    )
+  );
 
   useEffect(() => {
     onInputChange(id, state.value, state.isValid);
@@ -37,9 +43,13 @@ const Select: React.FC<SelectPropsTypes> = ({ options, id, onInputChange }) => {
   }, []);
 
   return (
-    <select id={id} onChange={selectChangeHandler}>
+    <select
+      id={id}
+      onChange={selectChangeHandler}
+      className="p-3 rounded-md w-full bg-[#2b2b2b] text-white transition-opacity border border-gray-400"
+    >
       {options.map((option: { id: string; value: string; label: string }) => (
-        <option key={option.id} value={option.value}>
+        <option key={option.id} value={option.value} className="">
           {option.label}
         </option>
       ))}
