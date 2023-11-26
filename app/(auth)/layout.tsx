@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "This is a Discord Clone Application built with Next.js, Typesscript and Tailwind CSS",
 };
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;

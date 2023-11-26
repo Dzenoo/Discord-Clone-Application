@@ -14,7 +14,7 @@ export interface InputProps {
   label?: string;
   helperText?: string;
   validators: ValidatorPropertiesTypes[];
-  onInputChange: (id: string, value: string, isValid: boolean) => void;
+  onInputChange: any;
   initialValidity: boolean;
 }
 

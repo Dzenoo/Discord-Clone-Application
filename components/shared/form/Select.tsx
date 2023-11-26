@@ -38,7 +38,7 @@ const Select: React.FC<SelectPropsTypes> = ({ options, id, onInputChange }) => {
 
   return (
     <select id={id} onChange={selectChangeHandler}>
-      {options.map((option) => (
+      {options.map((option: { id: string; value: string; label: string }) => (
         <option key={option.id} value={option.value}>
           {option.label}
         </option>

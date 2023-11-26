@@ -5,7 +5,7 @@ export interface SelectPropsTypes {
     label: string;
   }[];
   id: string;
-  onInputChange: (id: string, value: string, isValid: boolean) => void;
+  onInputChange: any;
 }
 
 export interface SelectReducerActionTypes {
