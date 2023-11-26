@@ -106,7 +106,7 @@ const Input: React.FC<InputProps> = ({
     <div className="flex flex-col gap-3">
       <label
         htmlFor={id}
-        className={`section_subtitle text-white ${
+        className={`text-lg font-bold uppercase text-white ${
           !state.isValid && state.isTouched && "text-red-600"
         }`}
       >
