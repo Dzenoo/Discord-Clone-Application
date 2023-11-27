@@ -1,34 +1,11 @@
 import { DirectMessagesData } from "@/data";
-import { DirectMessagesLinkProps } from "@/types/direct-messages";
-import { Add, Chat } from "@mui/icons-material";
+import { Chat } from "@mui/icons-material";
 import { Speed } from "@mui/icons-material";
 import { Shop } from "@mui/icons-material";
-import Link from "next/link";
-
-const DirectMessagesLink: React.FC<DirectMessagesLinkProps> = ({
-  href,
-  image,
-  icon,
-  title,
-}) => {
-  return (
-    <Link
-      href={href}
-      className="flex gap-3 items-center p-[7px] rounded-md transition-all hover:bg-[#313339]"
-    >
-      <div>
-        {image ? (
-          <img src={image} alt={title} className="w-9 h-9 rounded-full" />
-        ) : (
-          icon
-        )}
-      </div>
-      <div>
-        <p className="text-gray-400">{title}</p>
-      </div>
-    </Link>
-  );
-};
+import type { LinkProps } from "@/types/link";
+import DirectMessagesProfile from "./DirectMessagesProfile";
+import LinkHref from "@/components/shared/ui/Link";
+import Tab from "@/components/shared/ui/Tab";
 
 const DirectMessagesSidebar: React.FC = () => {
   return (
@@ -41,21 +18,13 @@ const DirectMessagesSidebar: React.FC = () => {
           />
         </div>
         <div className="mt-3 flex flex-col gap-3">
-          <DirectMessagesLink
+          <LinkHref
             href="/friends"
             icon={<Chat style={{ color: "#fff" }} />}
             title="Friends"
           />
-          <DirectMessagesLink
-            href="/friends"
-            icon={<Speed style={{ color: "#fff" }} />}
-            title="Nitro"
-          />
-          <DirectMessagesLink
-            href="/friends"
-            icon={<Shop style={{ color: "#fff" }} />}
-            title="Shop"
-          />
+          <Tab icon={<Speed style={{ color: "#fff" }} />} title="Nitro" />
+          <Tab icon={<Shop style={{ color: "#fff" }} />} title="Shop" />
         </div>
       </div>
       <div className="pt-3 flex flex-col gap-3">
@@ -63,32 +32,14 @@ const DirectMessagesSidebar: React.FC = () => {
           <h2 className="uppercase text-xs font-bold text-gray-300">
             Direct Messages
           </h2>
-          <Add style={{ color: "#fff", cursor: "pointer" }} />
         </div>
         <ul className="overflow-y-scroll h-[370px]">
-          {DirectMessagesData.map((messages: DirectMessagesLinkProps) => (
-            <DirectMessagesLink
-              href={messages.href}
-              title={messages.title}
-              key={messages.id}
-              image={messages.image}
-            />
+          {DirectMessagesData.map(({ id, href, title, image }: LinkProps) => (
+            <LinkHref href={href} title={title} key={id} image={image} />
           ))}
         </ul>
       </div>
-      <div className="p-3 rounded-md bg-[#191919] sticky bottom-0 flex items-center gap-3 cursor-pointer transition-all hover:bg-[#313339]">
-        <div>
-          <img
-            src="/images/machine-mining.jpg"
-            alt="img"
-            className="w-9 h-9 rounded-full"
-          />
-        </div>
-        <div>
-          <h2 className="text-white">dz3n00</h2>
-          <p className="text-xs text-gray-300">dz3n00</p>
-        </div>
-      </div>
+      <DirectMessagesProfile />
     </nav>
   );
 };

@@ -1,0 +1,20 @@
+import type { TabProps } from "@/types/tab";
+
+const Tab: React.FC<TabProps> = ({ title, image, icon }) => {
+  return (
+    <button className="flex gap-3 items-center p-[7px] rounded-md transition-all hover:bg-[#313339]">
+      <div>
+        {image ? (
+          <img src={image} alt={title} className="w-9 h-9 rounded-full" />
+        ) : (
+          icon
+        )}
+      </div>
+      <div>
+        <p className="text-gray-400">{title}</p>
+      </div>
+    </button>
+  );
+};
+
+export default Tab;

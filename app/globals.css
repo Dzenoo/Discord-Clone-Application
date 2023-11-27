@@ -43,6 +43,11 @@ body {
   @apply block;
 }
 
+/* ANIMATIONS */
+.animate_opacity {
+  animation: opacity 0.3s;
+}
+
 /* KEYFRAMES */
 
 @keyframes opacity {

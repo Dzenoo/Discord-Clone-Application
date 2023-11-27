@@ -35,28 +35,4 @@ export const DirectMessagesData = [
     title: "John Doe",
     href: "/messages/3",
   },
-  {
-    id: "4",
-    image: "/images/machine-mining.jpg",
-    title: "John Doe",
-    href: "/messages/4",
-  },
-  {
-    id: "5",
-    image: "/images/machine-mining.jpg",
-    title: "John Doe",
-    href: "/messages/5",
-  },
-  {
-    id: "6",
-    image: "/images/machine-mining.jpg",
-    title: "John Doe",
-    href: "/messages/6",
-  },
-  {
-    id: "7",
-    image: "/images/machine-mining.jpg",
-    title: "John Doe",
-    href: "/messages/7",
-  },
 ];
