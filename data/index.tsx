@@ -36,3 +36,30 @@ export const DirectMessagesData = [
     href: "/messages/3",
   },
 ];
+
+export const FriendsTopBarData: {
+  id: string;
+  filter: string;
+  title: string;
+}[] = [
+  {
+    id: "b0",
+    title: "All",
+    filter: "",
+  },
+  {
+    id: "b1",
+    title: "Online",
+    filter: "online",
+  },
+  {
+    id: "b2",
+    title: "Blocked",
+    filter: "blocked",
+  },
+  {
+    id: "b3",
+    title: "Add Friend",
+    filter: "add-friend",
+  },
+];
