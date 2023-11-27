@@ -9,7 +9,7 @@ import Tab from "@/components/shared/ui/Tab";
 
 const DirectMessagesSidebar: React.FC = () => {
   return (
-    <nav className="p-3 w-[240px] min-h-screen bg-[#222222] overflow-hidden">
+    <nav className="p-3 min-h-screen bg-[#222222] overflow-hidden">
       <div>
         <div className="border-b pb-4 border-gray-700">
           <input

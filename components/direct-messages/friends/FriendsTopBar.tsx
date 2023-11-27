@@ -5,7 +5,7 @@ import { Chat } from "@mui/icons-material";
 
 const FriendsTopBar: React.FC = () => {
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6">
       <div className="flex gap-6 items-center">
         <div className="flex gap-3 items-center border-r pr-3">
           <div>
