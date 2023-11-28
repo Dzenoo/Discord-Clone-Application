@@ -51,7 +51,7 @@ const LoginForm: React.FC = () => {
         />
       </div>
       <div>
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button variant="primary" type="submit" disabled={!formState.isValid}>
           Log In
         </Button>
       </div>

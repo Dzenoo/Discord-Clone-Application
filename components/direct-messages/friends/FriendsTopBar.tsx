@@ -18,7 +18,11 @@ const FriendsTopBar: React.FC = () => {
         <ul className="flex gap-3 items-center">
           {FriendsTopBarData.map(({ id, filter, title }) => {
             if (filter === "add-friend") {
-              return <Button type="button">Add Friend</Button>;
+              return (
+                <Button variant="primary" type="button">
+                  Add Friend
+                </Button>
+              );
             } else {
               return <Tab key={id} title={title} />;
             }

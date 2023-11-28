@@ -15,9 +15,11 @@ const Tab: React.FC<TabProps> = ({ title, image, icon, onClick }) => {
           )}
         </div>
       )}
-      <div>
-        <p className="text-gray-400">{title}</p>
-      </div>
+      {title && (
+        <div>
+          <p className="text-gray-400 whitespace-nowrap">{title}</p>
+        </div>
+      )}
     </button>
   );
 };
