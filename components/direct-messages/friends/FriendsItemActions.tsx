@@ -32,14 +32,14 @@ const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({ href }) => {
   }
 
   return (
-    <div className="flex gap-[8px] items-center" onClick={handleToggleActions}>
+    <div className="flex gap-[8px] items-center">
       <div>
         <Link href={href}>
           <Tab icon={<Chat style={{ color: "#f3f3f3" }} />} />
         </Link>
       </div>
       <div className="relative">
-        <div className="friend_options">
+        <div className="friend_options" onClick={handleToggleActions}>
           <Tab icon={<MoreVert style={{ color: "#f3f3f3" }} />} />
         </div>
         {isOpenedActions && (

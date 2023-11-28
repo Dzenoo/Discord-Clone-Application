@@ -13,9 +13,7 @@ export default function DirectMessagesLayout({
         <DirectMessagesSidebar />
       </div>
       <div className="basis-full grow">{children}</div>
-      <div className="basis-1/2">
-        <ActiveNowSidebar />
-      </div>
+      <ActiveNowSidebar />
     </div>
   );
 }
