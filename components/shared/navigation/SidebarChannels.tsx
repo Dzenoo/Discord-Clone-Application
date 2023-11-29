@@ -38,7 +38,7 @@ const SidebarChannels: React.FC = () => {
       <div className="flex flex-col gap-3">
         <div className="border-b pb-3 border-gray-400">
           <SidebarItem
-            href={`/direct-messages/userId`}
+            href={`/123`}
             icon={<Chat style={{ color: "#fff" }} />}
             title="Direct Messages"
           />

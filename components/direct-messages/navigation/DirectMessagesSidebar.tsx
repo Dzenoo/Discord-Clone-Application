@@ -16,7 +16,7 @@ const DirectMessagesSidebar: React.FC = () => {
         </div>
         <div className="mt-3 flex flex-col gap-3">
           <LinkHref
-            href="/direct-messages/123"
+            href="/123"
             icon={<Chat style={{ color: "#fff" }} />}
             title="Friends"
           />
