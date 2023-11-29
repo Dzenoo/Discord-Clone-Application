@@ -61,7 +61,7 @@ const DirectMessagesProfile: React.FC = () => {
             <p className="text-xs text-gray-300">dz3n00</p>
           </div>
           <div className="py-3 border-b border-gray-600">
-            <h2 className="text-xs text-gray-300 uppercase font-bold">
+            <h2 className="text-gray-300 section_subtitle">
               Chatcord member since
             </h2>
             <p className="mt-3 text-xs text-gray-300">Jun 11 2022</p>

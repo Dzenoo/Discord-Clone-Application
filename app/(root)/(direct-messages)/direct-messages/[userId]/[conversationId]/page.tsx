@@ -1,7 +1,7 @@
+import ChatForm from "@/components/chat/ChatForm";
 import ConversationChat from "@/components/direct-messages/conversation/ConversationChat";
 import ConversationInformation from "@/components/direct-messages/conversation/ConversationInformation";
 import ConversationTopBar from "@/components/direct-messages/conversation/ConversationTopBar";
-import React from "react";
 
 const Conversation = () => {
   return (
@@ -13,9 +13,12 @@ const Conversation = () => {
         <div className="basis-full grow">
           <ConversationChat />
         </div>
-        <div className="basis-96 min-h-[96vh]">
+        <div className="basis-96 min-h-[90vh]">
           <ConversationInformation />
         </div>
+      </div>
+      <div className="p-3 sticky bottom-0">
+        <ChatForm />
       </div>
     </div>
   );

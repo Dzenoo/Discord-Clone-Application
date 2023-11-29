@@ -81,7 +81,7 @@ const SignupForm: React.FC = () => {
         />
       </div>
       <div>
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button variant="primary" type="submit" disabled={!formState.isValid}>
           Continue
         </Button>
       </div>

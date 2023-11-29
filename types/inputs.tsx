@@ -8,14 +8,22 @@ export enum InputElement {
 export interface InputProps {
   elementType: InputElement;
   id: string;
-  type: "text" | "password" | "email" | "date" | "time" | "number" | "checkbox";
+  type:
+    | "text"
+    | "password"
+    | "email"
+    | "date"
+    | "time"
+    | "number"
+    | "checkbox"
+    | "file";
   placeholder: string;
   value?: string;
   label?: string;
   helperText?: string;
   validators: ValidatorPropertiesTypes[];
   onInputChange: any;
-  initialValidity: boolean;
+  initialValidity?: boolean;
 }
 
 export interface InputReducerActionTypes {

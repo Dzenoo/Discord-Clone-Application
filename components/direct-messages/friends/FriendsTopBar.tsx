@@ -30,11 +30,7 @@ const FriendsTopBar: React.FC = () => {
         </ul>
       </div>
       <div>
-        <input
-          type="text"
-          placeholder="Search"
-          className="p-[6px] rounded-md bg-[#2b2b2b] text-white w-full"
-        />
+        <input type="text" placeholder="Search" className="inputs" />
       </div>
     </div>
   );

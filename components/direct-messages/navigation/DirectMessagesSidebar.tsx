@@ -12,14 +12,11 @@ const DirectMessagesSidebar: React.FC = () => {
     <nav className="p-3 min-h-screen bg-[#222222] overflow-hidden">
       <div>
         <div className="border-b pb-4 border-gray-700">
-          <input
-            className="p-[4px] rounded-md bg-[#2b2b2b] text-white w-full"
-            placeholder="Find a conversation"
-          />
+          <input className="inputs" placeholder="Find a conversation" />
         </div>
         <div className="mt-3 flex flex-col gap-3">
           <LinkHref
-            href="/friends"
+            href="/direct-messages/123"
             icon={<Chat style={{ color: "#fff" }} />}
             title="Friends"
           />
@@ -29,9 +26,7 @@ const DirectMessagesSidebar: React.FC = () => {
       </div>
       <div className="pt-3 flex flex-col gap-3">
         <div className="flex justify-between items-center">
-          <h2 className="uppercase text-xs font-bold text-gray-300">
-            Direct Messages
-          </h2>
+          <h2 className="section_subtitle text-gray-300">Direct Messages</h2>
         </div>
         <ul className="overflow-y-scroll h-[370px]">
           {DirectMessagesData.map(({ id, href, title, image }: LinkProps) => (

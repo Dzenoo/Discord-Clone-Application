@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const ActiveNowSidebar: React.FC = () => {
   const pathname = usePathname();
-  if (pathname !== "/direct-messages/userId") return null;
+  if (pathname !== "/direct-messages/123") return null;
 
   return (
     <nav className="p-6 min-h-screen bg-[#222222] overflow-hidden basis-1/2">
