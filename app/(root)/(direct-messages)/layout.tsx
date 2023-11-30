@@ -9,7 +9,7 @@ export default function DirectMessagesLayout({
 }) {
   return (
     <div className="flex">
-      <div className="basis-[30em]">
+      <div className="basis-[30em] max-w-[240px] w-full">
         <DirectMessagesSidebar />
       </div>
       <div className="basis-full grow">{children}</div>

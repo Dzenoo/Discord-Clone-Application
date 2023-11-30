@@ -17,7 +17,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         <img
           src={image}
           alt={title}
-          className="w-14 h-14 object-cover rounded-full cursor-pointer  hover:rounded-3xl"
+          className="w-14 h-14 object-cover rounded-full cursor-pointer hover:rounded-3xl"
         />
         <p className="sidebar_title">{title}</p>
       </Link>
@@ -61,7 +61,7 @@ const SidebarChannels: React.FC = () => {
           title="Add a Server"
         />
         <SidebarItem
-          href={`/explore-channels`}
+          href={`/channels`}
           icon={<Explore style={{ color: "#23a559" }} />}
           title="Explore Public Servers"
         />

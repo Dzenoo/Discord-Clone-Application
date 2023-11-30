@@ -43,7 +43,7 @@ body {
 }
 
 .sidebar_title {
-  @apply p-[6px] rounded-md bg-[#191919] left-[4.7rem] text-white font-bold hidden whitespace-nowrap absolute z-30;
+  @apply p-[6px] rounded-md bg-[#191919] left-[4.9rem] text-white font-bold hidden whitespace-nowrap absolute z-30;
   animation: opacity 0.3s;
 }
 

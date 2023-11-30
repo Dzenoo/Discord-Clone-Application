@@ -25,7 +25,10 @@ const ChatItem: React.FC<ChatItemProps> = ({
     true
   );
   const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
-  const createdDate = new Date(date).toLocaleDateString("en-US");
+  const createdDate = new Date(date).toLocaleDateString("en-US", {
+    minute: "numeric",
+    hour: "numeric",
+  });
 
   function toggleEdit(): void {
     setIsEditing((prevEdit) => !prevEdit);

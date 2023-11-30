@@ -3,9 +3,9 @@ import { Chat } from "@mui/icons-material";
 import { Speed } from "@mui/icons-material";
 import { Shop } from "@mui/icons-material";
 import type { LinkProps } from "@/types/link";
-import DirectMessagesProfile from "./DirectMessagesProfile";
 import LinkHref from "@/components/shared/ui/Link";
 import Tab from "@/components/shared/ui/Tab";
+import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
 
 const DirectMessagesSidebar: React.FC = () => {
   return (
@@ -34,7 +34,7 @@ const DirectMessagesSidebar: React.FC = () => {
           ))}
         </ul>
       </div>
-      <DirectMessagesProfile />
+      <ManageProfileBar />
     </nav>
   );
 };

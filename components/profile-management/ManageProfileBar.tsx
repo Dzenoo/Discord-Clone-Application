@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Edit } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 
-const DirectMessagesProfile: React.FC = () => {
+const ManageProfileBar: React.FC = () => {
   const [isOpenedProfileCard, setIsOpenedProfileCard] = useState<
     boolean | undefined
   >(false);
@@ -83,4 +83,4 @@ const DirectMessagesProfile: React.FC = () => {
   );
 };
 
-export default DirectMessagesProfile;
+export default ManageProfileBar;

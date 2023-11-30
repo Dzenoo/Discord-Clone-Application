@@ -5,20 +5,20 @@ import ConversationTopBar from "@/components/direct-messages/conversation/Conver
 
 const Conversation = () => {
   return (
-    <div>
-      <div>
-        <ConversationTopBar />
-      </div>
-      <div className="flex">
-        <div className="basis-full grow">
+    <div className="flex">
+      <div className="basis-full grow flex flex-col">
+        <div>
+          <ConversationTopBar />
+        </div>
+        <div>
           <ConversationChat />
         </div>
-        <div className="basis-96 min-h-[90vh]">
-          <ConversationInformation />
+        <div className="p-3 sticky bottom-0 right-0">
+          <ChatForm />
         </div>
       </div>
-      <div className="p-3 sticky bottom-0">
-        <ChatForm />
+      <div className="basis-96 min-h-[90vh]">
+        <ConversationInformation />
       </div>
     </div>
   );
