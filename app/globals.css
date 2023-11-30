@@ -72,6 +72,10 @@ body {
   animation: opacity 0.3s;
 }
 
+.animate_fadeIn {
+  animation: fadeIn 0.3s;
+}
+
 /* KEYFRAMES */
 
 @keyframes opacity {
@@ -80,5 +84,16 @@ body {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(4em);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0em);
   }
 }
