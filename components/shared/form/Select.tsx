@@ -22,7 +22,12 @@ const reducer = (
   }
 };
 
-const Select: React.FC<SelectPropsTypes> = ({ options, id, onInputChange }) => {
+const Select: React.FC<SelectPropsTypes> = ({
+  options,
+  id,
+  onInputChange,
+  label,
+}) => {
   const [state, dispatch] = useReducer(
     reducer,
     useMemo(
@@ -43,17 +48,25 @@ const Select: React.FC<SelectPropsTypes> = ({ options, id, onInputChange }) => {
   }, []);
 
   return (
-    <select
-      id={id}
-      onChange={selectChangeHandler}
-      className="p-3 rounded-md w-full bg-[#2b2b2b] text-white transition-opacity border border-gray-400"
-    >
-      {options.map((option: { id: string; value: string; label: string }) => (
-        <option key={option.id} value={option.value} className="">
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <div>
+      <label
+        htmlFor={id}
+        className="mb-3 text-xs font-bold uppercase text-gray-300"
+      >
+        {label}
+      </label>
+      <select
+        id={id}
+        onChange={selectChangeHandler}
+        className="p-3 rounded-md w-full mt-3 bg-[#2b2b2b] text-white transition-opacity border border-gray-400"
+      >
+        {options.map((option: { id: string; value: string; label: string }) => (
+          <option key={option.id} value={option.value} className="">
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 };
 

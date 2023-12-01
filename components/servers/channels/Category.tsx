@@ -5,6 +5,7 @@ import useDialog from "@/library/hooks/useDialog";
 import type { CategoryProps } from "@/types/channels";
 import { Add, Settings, Tag, VolumeUp } from "@mui/icons-material";
 import Link from "next/link";
+import CreateChannelsForm from "./CreateChannelsForm";
 
 const Category: React.FC<CategoryProps> = ({ channels, id, title }) => {
   const { dialogs, closeDialog, openDialog } = useDialog({
@@ -19,7 +20,7 @@ const Category: React.FC<CategoryProps> = ({ channels, id, title }) => {
         isOpen={dialogs.add_channels.isOpen}
         closeDialog={() => closeDialog("add_channels")}
       >
-        Add Channels Text
+        <CreateChannelsForm />
       </Dialog>
       <div className="flex justify-between items-center">
         <div>

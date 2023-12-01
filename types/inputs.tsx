@@ -8,15 +8,7 @@ export enum InputElement {
 export interface InputProps {
   elementType: InputElement;
   id: string;
-  type:
-    | "text"
-    | "password"
-    | "email"
-    | "date"
-    | "time"
-    | "number"
-    | "checkbox"
-    | "file";
+  type: "text" | "password" | "email" | "date" | "time" | "number";
   placeholder: string;
   value?: string;
   label?: string;

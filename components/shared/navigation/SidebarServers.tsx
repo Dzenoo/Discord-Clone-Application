@@ -103,7 +103,7 @@ const SidebarServers: React.FC = () => {
           />
         </div>
         <SidebarItem
-          href={`/channels`}
+          href={`/explore-servers`}
           icon={<Explore style={{ color: "#23a559" }} />}
           title="Explore Public Servers"
         />

@@ -6,6 +6,7 @@ export interface SelectPropsTypes {
   }[];
   id: string;
   onInputChange: any;
+  label?: string;
 }
 
 export interface SelectReducerActionTypes {
