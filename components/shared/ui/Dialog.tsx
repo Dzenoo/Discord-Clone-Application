@@ -9,10 +9,10 @@ const Dialog: React.FC<DialogProps> = ({ isOpen, closeDialog, children }) => {
         isOpen ? "block" : "hidden"
       }`}
     >
-      <div className="dialog bg-[#2b2b2b] p-3 rounded-md shadow-md animate_fadeIn">
+      <div className="dialog bg-[#2b2b2b] p-3 rounded-md shadow-md animate_fadeIn flex flex-col gap-3">
         <div>{children}</div>
         <div>
-          <Button type="button" variant="primary" onClick={closeDialog}>
+          <Button type="button" variant="secondary" onClick={closeDialog}>
             Close
           </Button>
         </div>

@@ -7,6 +7,13 @@ import { Explore } from "@mui/icons-material";
 import Link from "next/link";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../ui/Dialog";
+import Input from "../form/Input";
+import { InputElement } from "@/types/inputs";
+import {
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+} from "@/library/validators/Validators";
+import CreateServerForm from "@/components/servers/server-management/CreateServerForm";
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
   href,
@@ -76,7 +83,7 @@ const SidebarServers: React.FC = () => {
         isOpen={dialogs.add_servers.isOpen}
         closeDialog={() => closeDialog("add_servers")}
       >
-        Add Server
+        <CreateServerForm />
       </Dialog>
       <div className="flex flex-col gap-3">
         <div className="border-b pb-3 border-gray-400">

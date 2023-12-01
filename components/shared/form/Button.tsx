@@ -9,7 +9,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   enum ButtonVariant {
     primary = "bg-[#4857f4] hover:bg-[#3b47d8] font-bold",
-    secondary = "bg-[#45da5b] hover:bg-[#45da5bcd] font-bold",
+    secondary = "bg-transparent border hover:bg-[#3b3b3b] font-bold",
     danger = "bg-[#f04747] hover:bg-[#f04747dc] font-bold",
   }
 
