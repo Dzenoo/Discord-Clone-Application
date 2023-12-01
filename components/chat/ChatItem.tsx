@@ -30,6 +30,8 @@ const ChatItem: React.FC<ChatItemProps> = ({
     hour: "numeric",
   });
 
+  const isMentioned = content.includes("@cilindar");
+
   function toggleEdit(): void {
     setIsEditing((prevEdit) => !prevEdit);
   }
@@ -39,7 +41,11 @@ const ChatItem: React.FC<ChatItemProps> = ({
   }
 
   return (
-    <div className="p-3 rounded-md flex justify-between items-start gap-3 transition-colors bg-transparent hover:bg-[#2b2b2b]">
+    <div
+      className={`p-3 rounded-md flex justify-between items-start gap-3 transition-colors bg-transparent hover:bg-[#2b2b2b] ${
+        isMentioned && " border-yellow-600 border"
+      }`}
+    >
       <div className="flex items-start gap-3">
         <div>
           <img

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import SidebarChannels from "@/components/shared/navigation/SidebarChannels";
+import SidebarServers from "@/components/shared/navigation/SidebarServers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "This is a Discord Clone Application built with Next.js, Typesscript and Tailwind CSS",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex`}>
-        <SidebarChannels />
+        <SidebarServers />
         <main className="w-full">{children}</main>
       </body>
     </html>

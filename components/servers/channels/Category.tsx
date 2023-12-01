@@ -11,7 +11,7 @@ const Category: React.FC<CategoryProps> = ({ channels, id, title }) => {
     add_channels: { isOpen: false },
   });
 
-  console.log(id);
+  console.log(navigator.onLine);
 
   return (
     <div>
