@@ -2,40 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 import { Edit } from "@mui/icons-material";
-import { useEffect, useState } from "react";
 
 const ManageProfileBar: React.FC = () => {
-  const [isOpenedProfileCard, setIsOpenedProfileCard] = useState<
-    boolean | undefined
-  >(false);
-
-  useEffect(() => {
-    const body = document.querySelector("body")! as HTMLBodyElement;
-
-    body.addEventListener("click", handleExitProfileCard);
-
-    return () => {
-      body.removeEventListener("click", handleExitProfileCard);
-    };
-  }, [isOpenedProfileCard]);
-
-  function handleExitProfileCard(): void {
-    setIsOpenedProfileCard(false);
-  }
-
-  function handleToggleProfileCard(): void {
-    setIsOpenedProfileCard((prevState) => !prevState);
-  }
+  const { isOpened, handleToggle } = useToggleOverlay();
 
   return (
     <div
       className="p-3 rounded-md bg-[#191919] bottom-0 flex items-center gap-3 cursor-pointer transition-all relative hover:bg-[#313339]"
-      onClick={handleToggleProfileCard}
+      onClick={handleToggle}
     >
       <div
         className={`absolute bottom-[4.3rem] right-0 left-0 shadow-md bg-[#222222] rounded-md h-fit max-w-3xl w-full animate_opacity ${
-          isOpenedProfileCard ? "block" : "hidden"
+          isOpened ? "block" : "hidden"
         }`}
       >
         <div className="h-12 bg-blue-600 rounded-t">

@@ -1,9 +1,15 @@
 import type { TabProps } from "@/types/tab";
 
-const Tab: React.FC<TabProps> = ({ title, image, icon, onClick }) => {
+const Tab: React.FC<TabProps> = ({
+  title,
+  image,
+  icon,
+  onClick,
+  classNames,
+}) => {
   return (
     <button
-      className="flex gap-3 items-center p-[7px] rounded-md transition-all hover:bg-[#313339]"
+      className={`flex gap-3 items-center p-[7px] rounded-md transition-all hover:bg-[#313339] ${classNames}`}
       onClick={onClick}
     >
       {(image || icon) && (
