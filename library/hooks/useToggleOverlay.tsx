@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 const reducer = (
   state: { isOpened: boolean },
@@ -7,7 +7,7 @@ const reducer = (
 ) => {
   switch (action.type) {
     case "toggle":
-      return { isOpened: state.isOpened ? false : true };
+      return { isOpened: !state.isOpened };
     case "close":
       return { isOpened: false };
     default:
@@ -26,7 +26,7 @@ const useToggleOverlay = () => {
     return () => {
       body.removeEventListener("click", handleExit);
     };
-  }, [state.isOpened]);
+  }, []);
 
   function handleExit(): void {
     dispatch({ type: "close" });
