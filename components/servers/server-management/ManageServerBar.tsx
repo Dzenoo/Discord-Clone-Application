@@ -8,6 +8,7 @@ import Tab from "@/components/shared/ui/Tab";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "@/components/shared/ui/Dialog";
 import InviteToServerForm from "./InviteToServerForm";
+import CreateCategoryForm from "../channels/CreateCategoryForm";
 
 const ManageServerBar = () => {
   const { isOpened, handleToggle } = useToggleOverlay();
@@ -32,7 +33,7 @@ const ManageServerBar = () => {
         isOpen={dialogs.create_category.isOpen}
         closeDialog={() => closeDialog("create_category")}
       >
-        Create Category
+        <CreateCategoryForm />
       </Dialog>
       <div className="flex justify-between items-center">
         <div>
@@ -63,7 +64,7 @@ const ManageServerBar = () => {
           />
         </div>
         <div>
-          <Link href={"/settings"}>
+          <Link href={"/servers/123/settings"}>
             <Tab
               title="Server Settings"
               icon={<Settings style={{ color: "gray" }} />}

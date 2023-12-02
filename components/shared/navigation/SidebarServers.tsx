@@ -7,12 +7,6 @@ import { Explore } from "@mui/icons-material";
 import Link from "next/link";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../ui/Dialog";
-import Input from "../form/Input";
-import { InputElement } from "@/types/inputs";
-import {
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE,
-} from "@/library/validators/Validators";
 import CreateServerForm from "@/components/servers/server-management/CreateServerForm";
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -71,7 +65,7 @@ const SidebarServers: React.FC = () => {
 
   const renderChannels = (channels: SidebarItemProps[]) => (
     <ul className="flex flex-col gap-3">
-      {channels.map((sidebarItem) => (
+      {channels.map((sidebarItem: SidebarItemProps) => (
         <SidebarItem key={sidebarItem.href} {...sidebarItem} />
       ))}
     </ul>
