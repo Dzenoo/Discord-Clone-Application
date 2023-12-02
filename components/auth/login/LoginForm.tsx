@@ -8,6 +8,10 @@ import {
   VALIDATOR_MINLENGTH,
 } from "@/library/validators/Validators";
 import { InputElement } from "@/types/inputs";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { FormEvent } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginForm: React.FC = () => {
   const { formState, inputChangeHandler } = useForm(
@@ -23,9 +27,38 @@ const LoginForm: React.FC = () => {
     },
     false
   );
+  const router = useRouter();
+
+  async function loginAction(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!formState.isValid) return;
+
+    try {
+      const result = await signIn("credentials", {
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      if (result?.ok) {
+        router.push("/123");
+      }
+    } catch (error) {
+      toast.error("Invalid email or password. Please try again.");
+    }
+  }
 
   return (
-    <form className="p-3 flex flex-col gap-8 w-[400px] max-md:w-fit">
+    <form
+      className="p-3 flex flex-col gap-8 w-[400px] max-md:w-fit"
+      onSubmit={loginAction}
+    >
+      <ToastContainer />
       <div className="flex flex-col gap-6">
         <Input
           elementType={InputElement.INPUT}

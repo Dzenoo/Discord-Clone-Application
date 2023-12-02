@@ -2,12 +2,15 @@
 
 import Button from "@/components/shared/form/Button";
 import Input from "@/components/shared/form/Input";
+import { signup } from "@/library/actions/user.actions";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
 } from "@/library/validators/Validators";
 import { InputElement } from "@/types/inputs";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 const SignupForm: React.FC = () => {
   const { formState, inputChangeHandler } = useForm(
@@ -31,9 +34,35 @@ const SignupForm: React.FC = () => {
     },
     false
   );
+  const { name, email, username, password } = formState.inputs;
+  const router = useRouter();
+
+  async function signupAction(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!formState.isValid) return;
+
+    try {
+      const response = await signup(
+        name.value,
+        email.value,
+        username.value,
+        password.value
+      );
+
+      if (response.message === "User created.") {
+        router.push("/login");
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-    <form className="p-3 flex flex-col gap-8 w-full">
+    <form className="p-3 flex flex-col gap-8 w-full" onSubmit={signupAction}>
+      <ToastContainer />
       <div className="flex flex-col gap-6">
         <Input
           elementType={InputElement.INPUT}
