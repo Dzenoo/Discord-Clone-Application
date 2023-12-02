@@ -8,6 +8,8 @@ import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
 import Button from "../shared/form/Button";
 import useForm from "@/library/hooks/useForm";
 import Input from "../shared/form/Input";
+import useDialog from "@/library/hooks/useDialog";
+import Dialog from "../shared/ui/Dialog";
 
 const ChatItem: React.FC<ChatItemProps> = ({
   userImage,
@@ -15,6 +17,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   content,
   date,
 }) => {
+  const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
   const { formState, inputChangeHandler } = useForm(
     {
       content: {
@@ -24,7 +27,11 @@ const ChatItem: React.FC<ChatItemProps> = ({
     },
     true
   );
-  const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
+  const { dialogs, openDialog, closeDialog } = useDialog({
+    delete_message: {
+      isOpen: false,
+    },
+  });
   const createdDate = new Date(date).toLocaleDateString("en-US", {
     minute: "numeric",
     hour: "numeric",
@@ -64,6 +71,26 @@ const ChatItem: React.FC<ChatItemProps> = ({
             </div>
           </div>
           <div className="max-w-xl">
+            <Dialog
+              isOpen={dialogs.delete_message.isOpen}
+              closeDialog={() => closeDialog("delete_message")}
+            >
+              <div>
+                <div>
+                  <h2 className="text-xl text-white font-bold">
+                    Delete Message
+                  </h2>
+                  <p className="text-gray-400 font-thin">
+                    Are you sure you want to delete this message?
+                  </p>
+                </div>
+                <div className="py-3 flex justify-end items-end">
+                  <Button variant="danger" type="button">
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            </Dialog>
             {isEditing ? (
               <Input
                 elementType={InputElement.INPUT}
@@ -107,7 +134,10 @@ const ChatItem: React.FC<ChatItemProps> = ({
               <Edit style={{ color: "gray" }} />
             </button>
           )}
-          <button className="p-[3px] cursor-pointer bg-[#2b2b2b] rounded-md transition hover:bg-[#121212]">
+          <button
+            className="p-[3px] cursor-pointer bg-[#2b2b2b] rounded-md transition hover:bg-[#121212]"
+            onClick={() => openDialog("delete_message")}
+          >
             <Delete style={{ color: "gray" }} />
           </button>
         </div>

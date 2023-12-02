@@ -7,6 +7,7 @@ import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 import Tab from "@/components/shared/ui/Tab";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "@/components/shared/ui/Dialog";
+import InviteToServerForm from "./InviteToServerForm";
 
 const ManageServerBar = () => {
   const { isOpened, handleToggle } = useToggleOverlay();
@@ -20,12 +21,12 @@ const ManageServerBar = () => {
   });
 
   return (
-    <div className="p-3 shadow-md transition-all hover:bg-[#313339] cursor-pointer relative">
+    <div className="p-3 shadow-md transition-all hover:bg-[#313339] relative">
       <Dialog
         isOpen={dialogs.invite_people.isOpen}
         closeDialog={() => closeDialog("invite_people")}
       >
-        Invite People
+        <InviteToServerForm />
       </Dialog>
       <Dialog
         isOpen={dialogs.create_category.isOpen}
