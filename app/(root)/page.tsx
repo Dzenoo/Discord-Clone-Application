@@ -1,10 +1,15 @@
-"use client";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
-const NotFoundPage = () => {
-  const router = useRouter();
+const NotFoundPage = async () => {
+  const session: any = await getServerSession(authOptions);
 
-  router.push("/123");
+  if (session) {
+    redirect(`/${session.user.id}`);
+  } else {
+    redirect("/login");
+  }
 };
 
 export default NotFoundPage;
