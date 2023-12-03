@@ -5,7 +5,11 @@ const reducer = (
   state: ValidatorState,
   action:
     | { type: "CHANGE"; inputId: string; value: string; isValid: boolean }
-    | { type: "RESTART" }
+    | {
+        type: "RESTART";
+        inputs: { [key: string]: InitialInputsTypes };
+        formIsValid: boolean;
+      }
 ) => {
   switch (action.type) {
     case "CHANGE": {
@@ -30,17 +34,9 @@ const reducer = (
       };
     }
     case "RESTART": {
-      const resetInputs: { [key: string]: InitialInputsTypes } = {};
-      for (const inputId in state.inputs) {
-        resetInputs[inputId] = {
-          value: "",
-          isValid: false,
-        };
-      }
       return {
-        ...state,
-        inputs: resetInputs,
-        isValid: false,
+        inputs: action.inputs,
+        isValid: action.formIsValid,
       };
     }
     default:
@@ -64,9 +60,19 @@ const useForm = (
     []
   );
 
-  const restartForm = useCallback(() => {
-    dispatch({ type: "RESTART" });
-  }, []);
+  const restartForm = useCallback(
+    (
+      inputData: { [key: string]: InitialInputsTypes },
+      formValidity: boolean
+    ) => {
+      dispatch({
+        type: "RESTART",
+        inputs: inputData,
+        formIsValid: formValidity,
+      });
+    },
+    []
+  );
 
   return { formState, inputChangeHandler, restartForm };
 };

@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({
   initialValidity,
 }) => {
   const [state, dispatch] = useReducer(reducer, {
-    value: value || "",
+    value: "",
     isTouched: false,
     isValid: initialValidity || false,
   });

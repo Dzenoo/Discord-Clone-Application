@@ -54,9 +54,22 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
       );
 
       if (response.message === "Server created successfully.") {
-        // closeDialog(dialogId);
-        restartForm();
-        // router.push(`/servers/${response.serverId}`);
+        restartForm(
+          {
+            ...formState.inputs,
+            server_name: {
+              value: "",
+              isValid: false,
+            },
+            server_image: {
+              value: "",
+              isValid: false,
+            },
+          },
+          false
+        );
+        closeDialog(dialogId);
+        router.push(`/servers/${response.serverId}`);
       }
     } catch (error) {
       console.log(error);
@@ -93,7 +106,6 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
               label="Server Name"
               onInputChange={inputChangeHandler}
               helperText="Please enter a valid server name."
-              initialValidity={false}
               value={formState.inputs.server_name.value}
             />
           </div>
