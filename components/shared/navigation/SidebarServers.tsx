@@ -77,7 +77,7 @@ const SidebarServers: React.FC = () => {
         isOpen={dialogs.add_servers.isOpen}
         closeDialog={() => closeDialog("add_servers")}
       >
-        <CreateServerForm />
+        <CreateServerForm closeDialog={closeDialog} dialogId={"add_servers"} />
       </Dialog>
       <div className="flex flex-col gap-3">
         <div className="border-b pb-3 border-gray-400">

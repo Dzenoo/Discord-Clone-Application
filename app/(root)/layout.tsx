@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import SidebarServers from "@/components/shared/navigation/SidebarServers";
+import AuthProvider from "@/context/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +19,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex`}>
-        <SidebarServers />
-        <main className="w-full">{children}</main>
-      </body>
+      <AuthProvider>
+        <body className={`${inter.className} flex`}>
+          <SidebarServers />
+          <main className="w-full">{children}</main>
+        </body>
+      </AuthProvider>
     </html>
   );
 }

@@ -3,7 +3,9 @@ import { useCallback, useReducer } from "react";
 
 const reducer = (
   state: ValidatorState,
-  action: { type: "CHANGE"; inputId: string; value: string; isValid: boolean }
+  action:
+    | { type: "CHANGE"; inputId: string; value: string; isValid: boolean }
+    | { type: "RESTART" }
 ) => {
   switch (action.type) {
     case "CHANGE": {
@@ -27,6 +29,20 @@ const reducer = (
         isValid: formIsValid,
       };
     }
+    case "RESTART": {
+      const resetInputs: { [key: string]: InitialInputsTypes } = {};
+      for (const inputId in state.inputs) {
+        resetInputs[inputId] = {
+          value: "",
+          isValid: false,
+        };
+      }
+      return {
+        ...state,
+        inputs: resetInputs,
+        isValid: false,
+      };
+    }
     default:
       return state;
   }
@@ -48,7 +64,11 @@ const useForm = (
     []
   );
 
-  return { formState, inputChangeHandler };
+  const restartForm = useCallback(() => {
+    dispatch({ type: "RESTART" });
+  }, []);
+
+  return { formState, inputChangeHandler, restartForm };
 };
 
 export default useForm;

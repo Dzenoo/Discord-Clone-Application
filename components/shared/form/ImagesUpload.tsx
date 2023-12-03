@@ -1,73 +1,72 @@
 "use client";
 import { ImageUploadProps } from "@/types/image-upload";
-import { useRef, useState, useEffect } from "react";
+import { ChangeEvent, useRef } from "react";
+import { AddAPhoto } from "@mui/icons-material";
 
-const ImagesUpload: React.FC<ImageUploadProps> = ({ id, onInputChange }) => {
-  const filePickerRef = useRef<any | null>(null);
-  const [file, setFile] = useState<string | any | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | any | undefined>();
-  const [isValid, setIsValid] = useState<boolean | null>(false);
+const ImagesUpload: React.FC<ImageUploadProps> = ({
+  id,
+  onInputChange,
+  imagePreview,
+}) => {
+  const inputImageRef = useRef<HTMLInputElement>(null);
+  let isValid: boolean = false;
 
-  useEffect(() => {
-    if (!file) {
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.includes("image")) {
+      alert("Please upload an image!");
       return;
     }
 
-    const fileReader: FileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewUrl(fileReader.result);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      const result = reader.result as string;
+      isValid = true;
+      onInputChange(id, result, isValid);
     };
-    fileReader.readAsDataURL(file);
-  }, [file]);
-
-  const pickedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let pickedFile;
-    let fileIsValid = isValid;
-
-    if (event.target.files && event.target.files.length === 1) {
-      pickedFile = event.target.files[0];
-      setFile(pickedFile);
-      fileIsValid = true;
-    } else {
-      fileIsValid = false;
-    }
-
-    onInputChange(id, pickedFile, fileIsValid);
   };
 
-  const pickImageHandler = () => {
-    filePickerRef.current.click();
-  };
+  function handleImageUpload() {
+    inputImageRef.current?.click();
+  }
 
   return (
-    <div className="form-control">
+    <div className="flex justify-center items-center">
       <input
-        id={id}
-        ref={filePickerRef}
-        style={{ display: "none" }}
+        id="image"
         type="file"
-        accept=".jpg,.png,.jpeg"
-        onChange={pickedHandler}
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => handleChangeImage(e)}
+        ref={inputImageRef}
       />
-      <div className="flex justify-center items-center">
-        <div className="w-36 h-36 rounded-full object-cover">
-          {previewUrl && (
-            <img
-              src={previewUrl}
-              alt="Prewiew"
-              className="w-36 h-36 rounded-full object-cover"
-            />
-          )}
-          {!previewUrl && (
-            <div
-              className="w-36 h-36 rounded-full border border-blue-700 flex justify-center items-center text-white cursor-pointer transition-colors hover:bg-blue-700 hover:text-white"
-              onClick={pickImageHandler}
-            >
-              Add Image Here
-            </div>
-          )}
+      {!imagePreview && (
+        <div
+          className="w-36 h-36 bg-blue-700 rounded-full cursor-pointer flex flex-col gap-3 justify-center items-center"
+          onClick={handleImageUpload}
+        >
+          <div>
+            <AddAPhoto style={{ color: "#fff" }} />
+          </div>
+          <div>
+            <h2 className="uppercase text-xs text-white font-bold">Upload</h2>
+          </div>
         </div>
-      </div>
+      )}
+      {imagePreview && (
+        <img
+          src={imagePreview}
+          alt="image"
+          className="w-36 h-36 object-cover rounded-full"
+          onClick={handleImageUpload}
+        />
+      )}
     </div>
   );
 };

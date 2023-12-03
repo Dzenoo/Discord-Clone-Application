@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import AuthProvider from "@/context/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Chatcord",
@@ -15,7 +16,9 @@ export default function AuthLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <AuthProvider>
+        <body>{children}</body>
+      </AuthProvider>
     </html>
   );
 }
