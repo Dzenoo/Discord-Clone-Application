@@ -56,3 +56,19 @@ export async function signup(
     console.log(error);
   }
 }
+
+export async function fetchUser(userId: string): Promise<any> {
+  try {
+    await connectToDb();
+
+    const user = await User.findById(userId).populate("servers");
+
+    if (!user) {
+      return { message: "No user found." };
+    }
+
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}

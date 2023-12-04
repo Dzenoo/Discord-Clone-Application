@@ -1,21 +1,3 @@
-export const SidebarChannelsData = [
-  {
-    href: `/servers/123/123`,
-    image: `/images/machine-mining.jpg`,
-    title: `Server 1`,
-  },
-  {
-    href: `/servers/123/123`,
-    image: `/images/machine-mining.jpg`,
-    title: `Server 2`,
-  },
-  {
-    href: `/servers/123/123`,
-    image: `/images/machine-mining.jpg`,
-    title: `Server 3`,
-  },
-];
-
 export const DirectMessagesData = [
   {
     id: "1",

@@ -1,10 +1,13 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 const ActiveNowSidebar: React.FC = () => {
+  const { data } = useSession();
   const pathname = usePathname();
-  if (pathname !== "/123") return null;
+  // @ts-ignore
+  if (pathname !== `/${data?.user.id}`) return null;
 
   return (
     <nav className="p-6 min-h-screen bg-[#222222] overflow-hidden basis-1/2">
