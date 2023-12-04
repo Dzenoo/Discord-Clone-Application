@@ -1,9 +1,23 @@
 import mongoose, { Schema } from "mongoose";
 
-export interface ServerTypes {
+interface RoleType {
+  name: "Admin" | "Moderator" | "Member";
+  members: mongoose.Types.ObjectId[];
+}
+
+export interface ChannelType {
+  name: string;
+  type: "text" | "voice";
+  messages: mongoose.Types.ObjectId[];
+}
+
+export interface ServerTypes extends Document {
   name: string;
   image: string;
-  creatorId: mongoose.Schema.Types.ObjectId;
+  creatorId: mongoose.Types.ObjectId;
+  roles: RoleType[];
+  channels: ChannelType[];
+  members: mongoose.Types.ObjectId[];
 }
 
 const ServerSchema: Schema = new Schema<ServerTypes>({
@@ -17,6 +31,24 @@ const ServerSchema: Schema = new Schema<ServerTypes>({
     ref: "User",
     required: [true, "Creator is not valid"],
   },
+  roles: [
+    {
+      name: {
+        type: String,
+        enum: ["Admin", "Moderator", "Member"],
+        required: true,
+      },
+      members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    },
+  ],
+  channels: [
+    {
+      name: { type: String, required: true },
+      type: { type: String, enum: ["text", "voice"], required: true },
+      messages: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
+    },
+  ],
+  members: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });
 
 const Server =
