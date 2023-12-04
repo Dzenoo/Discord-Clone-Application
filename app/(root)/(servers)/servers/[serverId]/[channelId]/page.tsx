@@ -1,8 +1,8 @@
 import ChatForm from "@/components/chat/ChatForm";
 import ServersDetailsChat from "@/components/servers/details/navigation/ServersDetailsChat";
-import ServersDetailsInformations from "@/components/servers/details/navigation/ServersDetailsInformations";
-import ServersDetailsSidebar from "@/components/servers/details/navigation/ServersDetailsSidebar";
 import ServersDetailsTopBar from "@/components/servers/details/navigation/ServersDetailsTopBar";
+import ServersDetailsSidebar from "@/components/servers/details/navigation/ServersDetailsSidebar";
+import ServersDetailsInformations from "@/components/servers/details/navigation/ServersDetailsInformations";
 
 const ServerChannel = ({
   params: { serverId, channelId },

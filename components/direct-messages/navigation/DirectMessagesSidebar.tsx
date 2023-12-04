@@ -2,8 +2,7 @@ import { DirectMessagesData } from "@/data";
 import { Chat } from "@mui/icons-material";
 import { Speed } from "@mui/icons-material";
 import { Shop } from "@mui/icons-material";
-import type { LinkProps } from "@/types/link";
-import LinkHref from "@/components/shared/ui/Link";
+import LinkHref, { LinkProps } from "@/components/shared/ui/Link";
 import Tab from "@/components/shared/ui/Tab";
 import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
 

@@ -1,5 +1,8 @@
-import type { FriendItemProps, FriendsListProps } from "@/types/friends";
-import FriendsItem from "./FriendsItem";
+import FriendsItem, { FriendItemProps } from "./FriendsItem";
+
+export interface FriendsListProps {
+  friends: FriendItemProps[];
+}
 
 const FriendsList: React.FC<FriendsListProps> = ({ friends }) => {
   return (

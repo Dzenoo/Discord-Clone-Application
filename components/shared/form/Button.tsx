@@ -1,4 +1,10 @@
-import { ButtonProps } from "@/types/button";
+export interface ButtonProps {
+  type: "button" | "submit";
+  onClick?: () => void;
+  disabled?: boolean;
+  children: React.ReactNode;
+  variant: "primary" | "secondary" | "danger";
+}
 
 const Button: React.FC<ButtonProps> = ({
   onClick,

@@ -2,10 +2,19 @@
 
 import Dialog from "@/components/shared/ui/Dialog";
 import useDialog from "@/library/hooks/useDialog";
-import type { CategoryProps } from "@/types/channels";
 import { Add, Settings, Tag, VolumeUp } from "@mui/icons-material";
 import Link from "next/link";
 import CreateChannelsForm from "./CreateChannelsForm";
+
+export interface CategoryProps {
+  channels: {
+    id: string;
+    title: string;
+    type: "text" | "voice";
+  }[];
+  id: string;
+  title: string;
+}
 
 const Category: React.FC<CategoryProps> = ({ channels, id, title }) => {
   const { dialogs, closeDialog, openDialog } = useDialog({

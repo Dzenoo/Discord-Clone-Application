@@ -1,8 +1,7 @@
 "use client";
 
 import useForm from "@/library/hooks/useForm";
-import Input from "../shared/form/Input";
-import { InputElement } from "@/types/inputs";
+import Input, { InputElement } from "../shared/form/Input";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
 
 const ChatForm: React.FC = () => {

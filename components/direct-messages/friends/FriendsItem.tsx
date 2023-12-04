@@ -1,5 +1,10 @@
-import type { FriendItemProps } from "@/types/friends";
 import FriendsItemActions from "./FriendsItemActions";
+
+export interface FriendItemProps {
+  image: string;
+  title: string;
+  href: string;
+}
 
 const FriendsItem: React.FC<FriendItemProps> = ({ title, href, image }) => {
   return (

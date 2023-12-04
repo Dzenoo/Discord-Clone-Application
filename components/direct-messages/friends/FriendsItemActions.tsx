@@ -2,9 +2,12 @@
 import Tab from "@/components/shared/ui/Tab";
 import Link from "next/link";
 import Button from "@/components/shared/form/Button";
-import type { FriendsItemActionsProps } from "@/types/friends";
 import { Chat, MoreVert } from "@mui/icons-material";
 import useToggleOverlay from "@/library/hooks/useToggleOverlay";
+
+export interface FriendsItemActionsProps {
+  href: string;
+}
 
 const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({ href }) => {
   const { isOpened, handleToggle } = useToggleOverlay();

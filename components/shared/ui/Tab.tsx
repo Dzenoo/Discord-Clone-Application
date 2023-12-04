@@ -1,4 +1,10 @@
-import type { TabProps } from "@/types/tab";
+export interface TabProps {
+  image?: string;
+  icon?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  title?: string;
+  classNames?: string;
+}
 
 const Tab: React.FC<TabProps> = ({
   title,

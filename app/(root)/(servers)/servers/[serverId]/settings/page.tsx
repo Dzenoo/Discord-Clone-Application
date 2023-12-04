@@ -1,4 +1,4 @@
-const ServerSettings: React.FC = () => {
+const ServerSettings = () => {
   return <div>ServerSettings</div>;
 };
 

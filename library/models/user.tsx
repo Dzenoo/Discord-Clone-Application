@@ -1,5 +1,11 @@
 import mongoose, { Schema } from "mongoose";
-import type { UserTypes } from "@/types/user";
+
+export interface UserTypes {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+}
 
 const UserSchema: Schema = new Schema<UserTypes>({
   name: { type: String, required: [true, "Name is not valid"] },

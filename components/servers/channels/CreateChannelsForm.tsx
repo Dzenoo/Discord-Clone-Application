@@ -1,13 +1,12 @@
 "use client";
 import Button from "@/components/shared/form/Button";
-import Input from "@/components/shared/form/Input";
+import Input, { InputElement } from "@/components/shared/form/Input";
 import Select from "@/components/shared/form/Select";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "@/library/validators/Validators";
-import { InputElement } from "@/types/inputs";
 
 const CreateChannelsForm: React.FC = () => {
   const { formState, inputChangeHandler } = useForm(

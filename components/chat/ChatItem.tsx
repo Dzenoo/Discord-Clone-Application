@@ -1,15 +1,20 @@
 "use client";
 
-import type { ChatItemProps } from "@/types/chat";
 import { useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import { InputElement } from "@/types/inputs";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
 import Button from "../shared/form/Button";
 import useForm from "@/library/hooks/useForm";
-import Input from "../shared/form/Input";
+import Input, { InputElement } from "../shared/form/Input";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../shared/ui/Dialog";
+
+export interface ChatItemProps {
+  userImage: string;
+  username: string;
+  content: string;
+  date: string;
+}
 
 const ChatItem: React.FC<ChatItemProps> = ({
   userImage,

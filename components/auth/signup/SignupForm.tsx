@@ -1,14 +1,13 @@
 "use client";
 
 import Button from "@/components/shared/form/Button";
-import Input from "@/components/shared/form/Input";
+import Input, { InputElement } from "@/components/shared/form/Input";
 import { signup } from "@/library/actions/user.actions";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
 } from "@/library/validators/Validators";
-import { InputElement } from "@/types/inputs";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 

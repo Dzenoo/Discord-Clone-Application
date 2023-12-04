@@ -1,5 +1,10 @@
-import { ServerTypes } from "@/types/servers";
 import mongoose, { Schema } from "mongoose";
+
+export interface ServerTypes {
+  name: string;
+  image: string;
+  creatorId: mongoose.Schema.Types.ObjectId;
+}
 
 const ServerSchema: Schema = new Schema<ServerTypes>({
   name: { type: String, required: [true, "Name is not valid"] },

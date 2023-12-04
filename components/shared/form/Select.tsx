@@ -1,10 +1,26 @@
 import { VALIDATOR_REQUIRE, validate } from "@/library/validators/Validators";
-import type {
-  SelectPropsTypes,
-  SelectReducerActionTypes,
-  SelectReducerStateTypes,
-} from "@/types/select";
 import { useCallback, useEffect, useMemo, useReducer } from "react";
+
+export interface SelectPropsTypes {
+  options: {
+    id: string;
+    value: string;
+    label: string;
+  }[];
+  id: string;
+  onInputChange: any;
+  label?: string;
+}
+
+export interface SelectReducerActionTypes {
+  type: "SELECT_CHANGE";
+  value: string;
+}
+
+export interface SelectReducerStateTypes {
+  value: string;
+  isValid: boolean;
+}
 
 const reducer = (
   state: SelectReducerStateTypes,

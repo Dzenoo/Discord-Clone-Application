@@ -1,5 +1,12 @@
-import type { LinkProps } from "@/types/link";
 import Link from "next/link";
+
+export interface LinkProps {
+  href: string;
+  image?: string;
+  icon?: React.ReactNode;
+  title: string;
+  id?: string;
+}
 
 const LinkHref: React.FC<LinkProps> = ({ href, image, icon, title }) => {
   return (

@@ -1,5 +1,17 @@
-// Importing the ValidatorPropertiesTypes interface from the validation file
-import type { ValidatorPropertiesTypes } from "@/types/validators";
+export type ValidatorPropertiesTypes = {
+  type: string;
+  val?: number;
+};
+
+export type InitialInputsTypes = {
+  value: string;
+  isValid: boolean;
+};
+
+export type ValidatorState = {
+  inputs: { [key: string]: InitialInputsTypes };
+  isValid: boolean;
+};
 
 // Enum for the different types of validators
 enum ValidatorTypes {

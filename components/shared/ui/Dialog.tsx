@@ -1,6 +1,11 @@
 "use client";
-import { DialogProps } from "@/types/dialog";
 import Button from "../form/Button";
+
+export interface DialogProps {
+  isOpen: boolean;
+  closeDialog: () => void;
+  children: React.ReactNode;
+}
 
 const Dialog: React.FC<DialogProps> = ({ isOpen, closeDialog, children }) => {
   return (

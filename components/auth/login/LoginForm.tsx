@@ -1,13 +1,12 @@
 "use client";
 
 import Button from "@/components/shared/form/Button";
-import Input from "@/components/shared/form/Input";
+import Input, { InputElement } from "@/components/shared/form/Input";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
 } from "@/library/validators/Validators";
-import { InputElement } from "@/types/inputs";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";

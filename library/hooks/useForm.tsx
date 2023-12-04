@@ -1,5 +1,5 @@
-import { InitialInputsTypes, ValidatorState } from "@/types/validators";
 import { useCallback, useReducer } from "react";
+import { InitialInputsTypes, ValidatorState } from "../validators/Validators";
 
 const reducer = (
   state: ValidatorState,

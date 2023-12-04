@@ -1,7 +1,13 @@
 "use client";
-import { ImageUploadProps } from "@/types/image-upload";
+
 import { ChangeEvent, useRef } from "react";
 import { AddAPhoto } from "@mui/icons-material";
+
+export interface ImageUploadProps {
+  id: string;
+  onInputChange: any;
+  imagePreview: string;
+}
 
 const ImagesUpload: React.FC<ImageUploadProps> = ({
   id,

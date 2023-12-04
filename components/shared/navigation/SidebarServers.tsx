@@ -1,5 +1,4 @@
 "use client";
-import type { SidebarItemProps } from "@/types/navigation-channels";
 import { SidebarChannelsData } from "@/data";
 import { Chat } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
@@ -8,6 +7,13 @@ import Link from "next/link";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../ui/Dialog";
 import CreateServerForm from "@/components/servers/server-management/CreateServerForm";
+
+export interface SidebarItemProps {
+  href?: string;
+  title: string;
+  image?: string;
+  icon?: JSX.Element;
+}
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
   href,

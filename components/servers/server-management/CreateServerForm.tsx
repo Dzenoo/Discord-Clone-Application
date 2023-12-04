@@ -10,9 +10,13 @@ import {
   VALIDATOR_REQUIRE,
 } from "@/library/validators/Validators";
 import { InputElement } from "@/types/inputs";
-import { CreateServerFormTypes } from "@/types/servers";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
+export interface CreateServerFormTypes {
+  dialogId: string;
+  closeDialog: (dialogId: string) => void;
+}
 
 const CreateServerForm: React.FC<CreateServerFormTypes> = ({
   dialogId,
