@@ -9,6 +9,7 @@ import {
   validate,
 } from "../validators/Validators";
 import { revalidatePath } from "next/cache";
+import User from "../models/user";
 
 export async function createServer(
   serverName: string,
@@ -19,8 +20,8 @@ export async function createServer(
   try {
     await connectToDb();
 
-    if (!serverImage || !serverName) {
-      return { message: "Please enter a valid server name and image." };
+    if (!serverImage || !serverName || !userId) {
+      return { message: "Please enter a valid server name, image, and userId" };
     }
 
     const isServerNameValid = validate(serverName, [
@@ -34,19 +35,47 @@ export async function createServer(
 
     const uploadedImage = await uploadImage(serverImage);
 
+    const roles = {
+      name: "Admin",
+      members: [userId],
+    };
+
+    const channels = {
+      name: "General",
+      type: "text",
+      messages: [],
+    };
+
+    const members = [userId];
+
     const createdServer = await Server.create({
       name: serverName,
       image: uploadedImage.url,
       creatorId: userId,
+      roles: [roles],
+      channels: [channels],
+      members,
+    });
+
+    await User.findByIdAndUpdate(userId, {
+      $push: {
+        servers: createdServer._id,
+        roles: {
+          serverId: createdServer._id,
+          roleId: createdServer.roles[0]._id,
+        },
+      },
     });
 
     const serverId = createdServer._id;
+    const channelId = createdServer.channels[0]._id;
 
     revalidatePath(path);
 
     return {
       message: "Server created successfully.",
       serverId,
+      channelId,
     };
   } catch (error) {
     console.log(error);

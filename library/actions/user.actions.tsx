@@ -41,10 +41,14 @@ export async function signup(
     const hashedPassword = await hashPassword(password);
 
     await User.create({
-      name: name,
-      email: email,
-      username: username,
+      name,
+      email,
+      username,
       password: hashedPassword,
+      directMessages: [],
+      friends: [],
+      servers: [],
+      roles: [],
     });
 
     return { message: "User created." };

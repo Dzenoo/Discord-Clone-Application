@@ -50,6 +50,7 @@ const UserSchema: Schema = new Schema<UserTypes>({
   servers: [{ type: mongoose.Types.ObjectId, ref: "Server" }],
   roles: [
     {
+      _id: false,
       serverId: {
         type: mongoose.Types.ObjectId,
         required: true,

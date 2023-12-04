@@ -2,14 +2,13 @@
 
 import Button from "@/components/shared/form/Button";
 import ImagesUpload from "@/components/shared/form/ImagesUpload";
-import Input from "@/components/shared/form/Input";
+import Input, { InputElement } from "@/components/shared/form/Input";
 import { createServer } from "@/library/actions/servers.actions";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "@/library/validators/Validators";
-import { InputElement } from "@/types/inputs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -48,6 +47,7 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
       const response: {
         message: string;
         serverId: string;
+        channelId: string;
       } = await createServer(
         formState.inputs.server_name.value,
         formState.inputs.server_image.value,
@@ -73,7 +73,7 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
           false
         );
         closeDialog(dialogId);
-        router.push(`/servers/${response.serverId}`);
+        router.push(`/servers/${response.serverId}/${response.channelId}`);
       }
     } catch (error) {
       console.log(error);
