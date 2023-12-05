@@ -14,6 +14,7 @@ export interface UserTypes extends Document {
   name: string;
   email: string;
   username: string;
+  image: string;
   password: string;
   directMessages?: DirectMessageType[];
   friends?: mongoose.Types.ObjectId[];
@@ -33,6 +34,11 @@ const UserSchema: Schema = new Schema<UserTypes>(
       type: String,
       required: [true, "Username is not valid"],
       unique: true,
+    },
+    image: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dzwb60tk1/image/upload/v1701812367/v3lldpxutpahtv0pon3j.png",
     },
     password: { type: String, required: [true, "Password is not valid"] },
     directMessages: [

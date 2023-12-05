@@ -41,3 +41,9 @@ export function getChannel(
 
   return channel;
 }
+
+export function formatCreatedDate(date: string) {
+  const createdDate = new Date(date).toLocaleDateString("en-US");
+
+  return createdDate;
+}

@@ -19,7 +19,7 @@ const ManageServerBar: React.FC<ManageServerBarTypes> = ({
   serverName,
   serverId,
 }) => {
-  const { isOpened, handleToggle } = useToggleOverlay();
+  const { isOpened, handleToggle, overlayRef } = useToggleOverlay();
   const { dialogs, openDialog, closeDialog } = useDialog({
     invite_people: {
       isOpen: false,
@@ -67,6 +67,7 @@ const ManageServerBar: React.FC<ManageServerBarTypes> = ({
             ? "block bg-[#191919] absolute top-16 right-3 left-3 p-3 rounded-md shadow-md animate_opacity"
             : "hidden"
         }`}
+        ref={overlayRef}
       >
         <div onClick={() => openDialog("invite_people")}>
           <Tab

@@ -1,8 +1,13 @@
+import { UserTypes } from "./users";
+
 export interface ServerChannel {
   _id: string;
   name: string;
   type: "text" | "voice";
-  messages: string[];
+  messages: {
+    from: UserTypes;
+    content: string;
+  }[];
 }
 
 export interface ServersCategory {

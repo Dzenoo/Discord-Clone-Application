@@ -2,21 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 import { Edit } from "@mui/icons-material";
+import { formatCreatedDate } from "@/library/functions";
+import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 
 interface ManageProfileBarTypes {
   username: string;
   name: string;
+  image: string;
   userId: string;
+  createdDate: string;
 }
 
 const ManageProfileBar: React.FC<ManageProfileBarTypes> = ({
   username,
   name,
+  image,
   userId,
+  createdDate,
 }) => {
-  const { isOpened, handleToggle } = useToggleOverlay();
+  const { isOpened, handleToggle, overlayRef } = useToggleOverlay();
+  const date = formatCreatedDate(createdDate);
 
   return (
     <div
@@ -27,11 +33,12 @@ const ManageProfileBar: React.FC<ManageProfileBarTypes> = ({
         className={`absolute bottom-[4.3rem] right-0 left-0 shadow-md bg-[#222222] rounded-md h-fit max-w-3xl w-full animate_opacity ${
           isOpened ? "block" : "hidden"
         }`}
+        ref={overlayRef}
       >
         <div className="h-12 bg-blue-600 rounded-t">
           <Image
-            src="/images/machine-mining.jpg"
-            alt="profile_image"
+            src={image}
+            alt={name}
             className="rounded-full w-20 h-20 border-4 border-gray-900 relative left-3 top-3"
             width={100}
             height={100}
@@ -54,16 +61,12 @@ const ManageProfileBar: React.FC<ManageProfileBarTypes> = ({
             <h2 className="text-gray-300 section_subtitle">
               Chatcord member since
             </h2>
-            <p className="mt-3 text-xs text-gray-300">Jun 11 2022</p>
+            <p className="mt-3 text-xs text-gray-300">{date}</p>
           </div>
         </div>
       </div>
       <div>
-        <img
-          src="/images/machine-mining.jpg"
-          alt="img"
-          className="w-9 h-9 rounded-full"
-        />
+        <img src={image} alt={username} className="w-9 h-9 rounded-full" />
       </div>
       <div>
         <h2 className="text-white">{username}</h2>

@@ -42,7 +42,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
     hour: "numeric",
   });
 
-  const isMentioned = content.includes("@cilindar");
+  const isMentioned = content.includes(username);
 
   function toggleEdit(): void {
     setIsEditing((prevEdit) => !prevEdit);
@@ -61,8 +61,8 @@ const ChatItem: React.FC<ChatItemProps> = ({
       <div className="flex items-start gap-3">
         <div>
           <img
-            src={"/images/machine-mining.jpg"}
-            alt="Cilindar"
+            src={userImage}
+            alt={"userImage"}
             className="w-10 h-10 rounded-full"
           />
         </div>

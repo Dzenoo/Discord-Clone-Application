@@ -1,15 +1,10 @@
 "use client";
-import { useEffect, useReducer } from "react";
+import { useReducer, useEffect, useRef } from "react";
 
-const reducer = (
-  state: { isOpened: boolean },
-  action: { type: "toggle" | "close" }
-) => {
+const reducer = (state: { isOpened: boolean }, action: { type: "toggle" }) => {
   switch (action.type) {
     case "toggle":
       return { isOpened: !state.isOpened };
-    case "close":
-      return { isOpened: false };
     default:
       throw new Error();
   }
@@ -17,24 +12,32 @@ const reducer = (
 
 const useToggleOverlay = () => {
   const [state, dispatch] = useReducer(reducer, { isOpened: false });
+  const overlayRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   document.addEventListener("click", handleExit);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        overlayRef.current &&
+        !overlayRef.current.contains(event.target as Node)
+      ) {
+        dispatch({ type: "toggle" });
+      }
+    };
 
-  //   return () => {
-  //     document.removeEventListener("click", handleExit);
-  //   };
-  // }, []);
+    if (state.isOpened) {
+      document.addEventListener("click", handleClickOutside);
+    }
 
-  function handleExit(): void {
-    dispatch({ type: "close" });
-  }
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [state.isOpened]);
 
   function handleToggle(): void {
     dispatch({ type: "toggle" });
   }
 
-  return { isOpened: state.isOpened, handleToggle };
+  return { isOpened: state.isOpened, handleToggle, overlayRef };
 };
 
 export default useToggleOverlay;

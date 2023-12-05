@@ -45,6 +45,8 @@ const DirectMessagesSidebar: React.FC = async () => {
         username={user.username}
         name={user.name}
         userId={user._id}
+        image={user.image}
+        createdDate={user.createdAt}
       />
     </nav>
   );

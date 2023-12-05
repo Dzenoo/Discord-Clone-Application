@@ -6,6 +6,9 @@ const nextConfig = {
     },
     serverComponentsExternalPackages: ["cloudinary"],
   },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
 };
 
 module.exports = nextConfig;

@@ -2,13 +2,18 @@ import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
 import Category from "../../channels/Category";
 import ManageServerBar from "../../server-management/ManageServerBar";
 import { ServersCategory } from "@/types/servers";
-import { UserTypes } from "@/types/users";
 
 interface ServersDetailSidebarTypes {
   serverName: string;
   serverId: string;
   categories: ServersCategory[];
-  user: UserTypes;
+  user: {
+    _id: string;
+    username: string;
+    name: string;
+    image: string;
+    createdAt: string;
+  };
 }
 
 const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
@@ -36,6 +41,8 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
           username={user?.username}
           name={user?.name}
           userId={user?._id}
+          image={user?.image}
+          createdDate={user?.createdAt}
         />
       </div>
     </div>

@@ -60,7 +60,7 @@ const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
                   {channel.name}
                 </h2>
               </div>
-              <div className="flex gap-[6px] items-center z-30">
+              <div className="flex gap-[6px] items-center">
                 <div onClick={() => handleChannelClick("server")}>
                   <Settings style={{ color: "#fff", fontSize: "16px" }} />
                 </div>

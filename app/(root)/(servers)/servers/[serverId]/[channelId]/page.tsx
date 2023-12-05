@@ -9,7 +9,6 @@ import { ServerItem } from "@/types/servers";
 import { fetchUser } from "@/library/actions/user.actions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import Server from "@/library/models/server";
 import { getChannel } from "@/library/functions";
 
 const ServerChannel = async ({
@@ -42,6 +41,8 @@ const ServerChannel = async ({
             _id: fetchedUser?._id,
             username: fetchedUser?.username,
             name: fetchedUser?.name,
+            image: fetchedUser?.image,
+            createdAt: fetchedUser?.createdAt,
           }}
         />
       </div>
@@ -50,7 +51,7 @@ const ServerChannel = async ({
           <ServersDetailsTopBar name={channel?.name} />
         </div>
         <div>
-          <ServersDetailsChat />
+          <ServersDetailsChat messages={channel?.messages} />
         </div>
         <div className="p-3 sticky bottom-0 right-0">
           <ChatForm />
