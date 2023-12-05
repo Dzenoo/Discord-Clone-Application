@@ -1,3 +1,16 @@
+export interface ServerChannel {
+  _id: string;
+  name: string;
+  type: "text" | "voice";
+  messages: string[];
+}
+
+export interface ServersCategory {
+  channels: ServerChannel[];
+  _id: string;
+  name: string;
+}
+
 export interface ServerItem {
   _id: string;
   name: string;
@@ -7,28 +20,6 @@ export interface ServerItem {
     name: "Admin" | "Moderator" | "Member";
     members: string[];
   };
-  categories: [
-    {
-      _id: string;
-      name: string;
-      channels: {
-        _id: string;
-        name: string;
-        type: "text" | "voice";
-        messages: string[];
-      }[];
-    }
-  ];
+  categories: ServersCategory[];
   members: string[];
-}
-
-export interface ServersCategory {
-  channels: {
-    _id: string;
-    name: string;
-    type: "text" | "voice";
-    messages: string[];
-  }[];
-  _id: string;
-  name: string;
 }

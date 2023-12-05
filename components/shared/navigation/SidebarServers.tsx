@@ -76,9 +76,9 @@ const SidebarServers: React.FC<SidebarServersTypes> = ({ servers, userId }) => {
 
   const renderServers = (servers: ServerItem[]) => (
     <ul className="flex flex-col gap-3">
-      {servers?.map((serverItem: ServerItem) => (
+      {servers?.map((serverItem: ServerItem, ind: number) => (
         <SidebarItem
-          key={serverItem.name}
+          key={`server_${ind}`}
           href={`/servers/${serverItem._id}/${serverItem.categories[0].channels[0]._id}`}
           name={serverItem.name}
           image={serverItem.image}

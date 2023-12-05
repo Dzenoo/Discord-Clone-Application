@@ -9,6 +9,8 @@ import { ServerItem } from "@/types/servers";
 import { fetchUser } from "@/library/actions/user.actions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import Server from "@/library/models/server";
+import { getChannel } from "@/library/functions";
 
 const ServerChannel = async ({
   params: { serverId, channelId },
@@ -23,6 +25,7 @@ const ServerChannel = async ({
   // @ts-ignore
   const fetchedUser = await fetchUser(session?.user?.id);
   const server: ServerItem = JSON.parse(JSON.stringify(fetchedServer));
+  const channel = getChannel(server?.categories, channelId);
 
   if (!fetchedServer || !fetchedUser) {
     notFound();
@@ -44,7 +47,7 @@ const ServerChannel = async ({
       </div>
       <div className="basis-full grow flex flex-col justify-between">
         <div>
-          <ServersDetailsTopBar />
+          <ServersDetailsTopBar name={channel?.name} />
         </div>
         <div>
           <ServersDetailsChat />

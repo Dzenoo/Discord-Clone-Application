@@ -6,6 +6,7 @@ import Link from "next/link";
 import CreateChannelsForm from "./CreateChannelsForm";
 import { Add, Settings, Tag, VolumeUp } from "@mui/icons-material";
 import type { ServersCategory } from "@/types/servers";
+import { useRouter } from "next/navigation";
 
 interface CategoryProps {
   category: ServersCategory;
@@ -16,6 +17,11 @@ const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
   const { dialogs, closeDialog, openDialog } = useDialog({
     add_channels: { isOpen: false },
   });
+  const router = useRouter();
+
+  function handleChannelClick(channelId: string): void {
+    router.push(`/settings-channels`);
+  }
 
   return (
     <div>
@@ -36,7 +42,7 @@ const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
         </div>
       </div>
       <div className="pt-[3px]">
-        {category?.channels.map((channel) => (
+        {category.channels.map((channel) => (
           <Link href={`/servers/${serverId}/${channel._id}`}>
             <div
               key={channel._id}
@@ -55,10 +61,8 @@ const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
                 </h2>
               </div>
               <div className="flex gap-[6px] items-center z-30">
-                <div>
-                  <Link href={`/settings-channels`}>
-                    <Settings style={{ color: "#fff", fontSize: "16px" }} />
-                  </Link>
+                <div onClick={() => handleChannelClick("server")}>
+                  <Settings style={{ color: "#fff", fontSize: "16px" }} />
                 </div>
               </div>
             </div>

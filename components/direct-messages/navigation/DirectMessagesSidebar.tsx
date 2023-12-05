@@ -5,8 +5,16 @@ import { Shop } from "@mui/icons-material";
 import LinkHref, { LinkProps } from "@/components/shared/ui/Link";
 import Tab from "@/components/shared/ui/Tab";
 import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { fetchUser } from "@/library/actions/user.actions";
 
-const DirectMessagesSidebar: React.FC = () => {
+const DirectMessagesSidebar: React.FC = async () => {
+  const session = await getServerSession(authOptions);
+  // @ts-ignore
+  const userId = session?.user?.id;
+  const user = await fetchUser(userId);
+
   return (
     <nav className="p-3 min-h-screen bg-[#222222] overflow-hidden">
       <div>
@@ -33,7 +41,11 @@ const DirectMessagesSidebar: React.FC = () => {
           ))}
         </ul>
       </div>
-      <ManageProfileBar />
+      <ManageProfileBar
+        username={user.username}
+        name={user.name}
+        userId={user._id}
+      />
     </nav>
   );
 };

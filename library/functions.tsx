@@ -1,3 +1,4 @@
+import { ServersCategory, ServerChannel } from "@/types/servers";
 import bcrypt from "bcryptjs";
 
 export async function hashPassword(password: string): Promise<string> {
@@ -22,4 +23,21 @@ export async function uploadImage(imagePath: string): Promise<any> {
   } catch (error) {
     console.log(error);
   }
+}
+
+export function getChannel(
+  categories: ServersCategory[],
+  channelId: string
+): ServerChannel {
+  let channel = {} as ServerChannel;
+  for (const category of categories) {
+    const categoryChannel = category.channels.find(
+      (channel: ServerChannel) => channel._id === channelId
+    );
+    if (categoryChannel) {
+      channel = categoryChannel;
+    }
+  }
+
+  return channel;
 }
