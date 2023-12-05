@@ -40,10 +40,15 @@ export async function createServer(
       members: [userId],
     };
 
-    const channels = {
-      name: "General",
-      type: "text",
-      messages: [],
+    const categories = {
+      name: "Text Channels",
+      channels: [
+        {
+          name: "general",
+          type: "text",
+          messages: [],
+        },
+      ],
     };
 
     const members = [userId];
@@ -53,7 +58,7 @@ export async function createServer(
       image: uploadedImage.url,
       creatorId: userId,
       roles: [roles],
-      channels: [channels],
+      categories: [categories],
       members,
     });
 
@@ -68,7 +73,7 @@ export async function createServer(
     });
 
     const serverId = createdServer._id;
-    const channelId = createdServer.channels[0]._id;
+    const channelId = createdServer.categories[0].channels[0]._id;
 
     revalidatePath(path);
 
@@ -77,6 +82,26 @@ export async function createServer(
       serverId,
       channelId,
     };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function fetchServerById(serverId: string): Promise<any> {
+  try {
+    await connectToDb();
+
+    const server = await Server.findById(serverId).populate({
+      path: "members",
+      model: User,
+      select: "name _id username",
+    });
+
+    if (!server) {
+      return { message: "Server not found." };
+    }
+
+    return server;
   } catch (error) {
     console.log(error);
   }

@@ -18,15 +18,13 @@ const reducer = (
 const useToggleOverlay = () => {
   const [state, dispatch] = useReducer(reducer, { isOpened: false });
 
-  useEffect(() => {
-    const body = document.querySelector("body")! as HTMLBodyElement;
+  // useEffect(() => {
+  //   document.addEventListener("click", handleExit);
 
-    body.addEventListener("click", handleExit);
-
-    return () => {
-      body.removeEventListener("click", handleExit);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("click", handleExit);
+  //   };
+  // }, []);
 
   function handleExit(): void {
     dispatch({ type: "close" });

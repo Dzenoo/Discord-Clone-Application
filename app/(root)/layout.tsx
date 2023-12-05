@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { fetchUser } from "@/library/actions/user.actions";
+import { redirect } from "next/navigation";
+import { ServerItem } from "@/types/servers";
 import SidebarServers from "@/components/shared/navigation/SidebarServers";
 import AuthProvider from "@/context/AuthProvider";
 import "../globals.css";
@@ -22,9 +24,11 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions);
   // @ts-ignore
-  const userId = session?.user?.id;
+  const userId: string = session?.user?.id;
+  if (!userId) redirect("/login");
+
   const user = await fetchUser(userId);
-  const servers = JSON.parse(JSON.stringify(user?.servers));
+  const servers: ServerItem[] = JSON.parse(JSON.stringify(user?.servers));
 
   return (
     <html lang="en">

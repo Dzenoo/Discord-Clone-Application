@@ -5,7 +5,17 @@ import Link from "next/link";
 import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 import { Edit } from "@mui/icons-material";
 
-const ManageProfileBar: React.FC = () => {
+interface ManageProfileBarTypes {
+  username: string;
+  name: string;
+  userId: string;
+}
+
+const ManageProfileBar: React.FC<ManageProfileBarTypes> = ({
+  username,
+  name,
+  userId,
+}) => {
   const { isOpened, handleToggle } = useToggleOverlay();
 
   return (
@@ -27,7 +37,7 @@ const ManageProfileBar: React.FC = () => {
             height={100}
           />
           <Link
-            href="/userId"
+            href={`/profile/${userId}/edit`}
             className="absolute right-[3px] top-[3px] bg-blue-900 rounded-full p-[6px]"
           >
             <Edit fontSize="medium" style={{ color: "#fff", fontSize: "24px" }}>
@@ -37,8 +47,8 @@ const ManageProfileBar: React.FC = () => {
         </div>
         <div className="bg-[#191919] rounded-md mt-16 mb-3 mx-3 p-3">
           <div className="border-b border-gray-600 pb-3">
-            <h2 className="text-white">dz3n00</h2>
-            <p className="text-xs text-gray-300">dz3n00</p>
+            <h2 className="text-white">{username}</h2>
+            <p className="text-xs text-gray-300">{name}</p>
           </div>
           <div className="py-3 border-b border-gray-600">
             <h2 className="text-gray-300 section_subtitle">
@@ -56,8 +66,8 @@ const ManageProfileBar: React.FC = () => {
         />
       </div>
       <div>
-        <h2 className="text-white">dz3n00</h2>
-        <p className="text-xs text-gray-300">dz3n00</p>
+        <h2 className="text-white">{username}</h2>
+        <p className="text-xs text-gray-300">{name}</p>
       </div>
     </div>
   );

@@ -10,7 +10,15 @@ import Dialog from "@/components/shared/ui/Dialog";
 import InviteToServerForm from "./InviteToServerForm";
 import CreateCategoryForm from "../channels/CreateCategoryForm";
 
-const ManageServerBar = () => {
+interface ManageServerBarTypes {
+  serverName: string;
+  serverId: string;
+}
+
+const ManageServerBar: React.FC<ManageServerBarTypes> = ({
+  serverName,
+  serverId,
+}) => {
   const { isOpened, handleToggle } = useToggleOverlay();
   const { dialogs, openDialog, closeDialog } = useDialog({
     invite_people: {
@@ -22,7 +30,10 @@ const ManageServerBar = () => {
   });
 
   return (
-    <div className="p-3 shadow-md transition-all hover:bg-[#313339] relative">
+    <div
+      className="p-3 shadow-md transition-all hover:bg-[#313339] relative cursor-pointer"
+      onClick={handleToggle}
+    >
       <Dialog
         isOpen={dialogs.invite_people.isOpen}
         closeDialog={() => closeDialog("invite_people")}
@@ -37,14 +48,15 @@ const ManageServerBar = () => {
       </Dialog>
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-white font-bold">Server Name</h2>
+          <h2 className="text-white font-bold">{serverName}</h2>
         </div>
-        <div onClick={handleToggle}>
+        <div>
           <KeyboardArrowDownIcon
             style={{
               padding: "6px",
               borderRadius: "60px",
               background: "gray",
+              transform: isOpened ? "rotate(180deg)" : "rotate(0deg)",
             }}
           />
         </div>
@@ -64,7 +76,7 @@ const ManageServerBar = () => {
           />
         </div>
         <div>
-          <Link href={"/servers/123/settings"}>
+          <Link href={`/servers/${serverId}/settings`}>
             <Tab
               title="Server Settings"
               icon={<Settings style={{ color: "gray" }} />}

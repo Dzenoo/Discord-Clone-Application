@@ -16,40 +16,51 @@ export interface ServerTypes extends Document {
   image: string;
   creatorId: mongoose.Types.ObjectId;
   roles: RoleType[];
-  channels: ChannelType[];
+  categories: {
+    name: string;
+    channels: ChannelType[];
+  };
   members: mongoose.Types.ObjectId[];
 }
 
-const ServerSchema: Schema = new Schema<ServerTypes>({
-  name: { type: String, required: [true, "Name is not valid"] },
-  image: {
-    type: String,
-    required: [true, "Image is not valid"],
-  },
-  creatorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "Creator is not valid"],
-  },
-  roles: [
-    {
-      name: {
-        type: String,
-        enum: ["Admin", "Moderator", "Member"],
-        required: true,
+const ServerSchema: Schema = new Schema<ServerTypes>(
+  {
+    name: { type: String, required: [true, "Name is not valid"] },
+    image: {
+      type: String,
+      required: [true, "Image is not valid"],
+    },
+    creatorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Creator is not valid"],
+    },
+    roles: [
+      {
+        name: {
+          type: String,
+          enum: ["Admin", "Moderator", "Member"],
+          required: true,
+        },
+        members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
       },
-      members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    },
-  ],
-  channels: [
-    {
-      name: { type: String, required: true },
-      type: { type: String, enum: ["text", "voice"], required: true },
-      messages: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
-    },
-  ],
-  members: [{ type: mongoose.Types.ObjectId, ref: "User" }],
-});
+    ],
+    categories: [
+      {
+        name: { type: String, required: true },
+        channels: [
+          {
+            name: { type: String, required: true },
+            type: { type: String, enum: ["text", "voice"], required: true },
+            messages: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
+          },
+        ],
+      },
+    ],
+    members: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+  },
+  { timestamps: true }
+);
 
 const Server =
   mongoose.models.Server || mongoose.model<ServerTypes>("Server", ServerSchema);

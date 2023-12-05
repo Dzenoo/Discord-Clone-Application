@@ -8,6 +8,7 @@ import {
 } from "../validators/Validators";
 import User from "../models/user";
 import { hashPassword } from "../functions";
+import Server from "../models/server";
 
 export async function signup(
   name: string,
@@ -61,7 +62,12 @@ export async function fetchUser(userId: string): Promise<any> {
   try {
     await connectToDb();
 
-    const user = await User.findById(userId).populate("servers");
+    const user = await User.findById(userId)
+      .populate({
+        path: "servers",
+        model: Server,
+      })
+      .select("-password");
 
     if (!user) {
       return { message: "No user found." };

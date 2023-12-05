@@ -2,12 +2,13 @@
 import { Chat } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
 import { Explore } from "@mui/icons-material";
+import type { ServerItem } from "@/types/servers";
 import Link from "next/link";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../ui/Dialog";
 import CreateServerForm from "@/components/servers/server-management/CreateServerForm";
 
-export interface SidebarItemProps {
+interface SidebarItemProps {
   href?: string;
   name: string;
   image?: string;
@@ -63,30 +64,12 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   }
 };
 
-export interface ServerItem {
-  _id: string;
-  name: string;
-  image: string;
-  creatorId: string;
-  roles: {
-    name: "Admin" | "Moderator" | "Member";
-    members: string[];
-  };
-  channels: {
-    _id: string;
-    name: string;
-    type: "text" | "voice";
-    messages: string[];
-  }[];
-  members: string[];
-}
-
-interface SidebarServers {
+interface SidebarServersTypes {
   servers: ServerItem[];
   userId: string;
 }
 
-const SidebarServers: React.FC<SidebarServers> = ({ servers, userId }) => {
+const SidebarServers: React.FC<SidebarServersTypes> = ({ servers, userId }) => {
   const { dialogs, closeDialog, openDialog } = useDialog({
     add_servers: { isOpen: false },
   });
@@ -96,7 +79,7 @@ const SidebarServers: React.FC<SidebarServers> = ({ servers, userId }) => {
       {servers?.map((serverItem: ServerItem) => (
         <SidebarItem
           key={serverItem.name}
-          href={`/servers/${serverItem._id}/${serverItem.channels[0]._id}`}
+          href={`/servers/${serverItem._id}/${serverItem.categories[0].channels[0]._id}`}
           name={serverItem.name}
           image={serverItem.image}
         />
