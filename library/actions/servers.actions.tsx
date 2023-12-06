@@ -10,6 +10,7 @@ import {
 } from "../validators/Validators";
 import { revalidatePath } from "next/cache";
 import User from "../models/user";
+import Message from "../models/message";
 
 export async function createServer(
   serverName: string,
@@ -91,17 +92,68 @@ export async function fetchServerById(serverId: string): Promise<any> {
   try {
     await connectToDb();
 
-    const server = await Server.findById(serverId).populate({
-      path: "members",
-      model: User,
-      select: "name _id username",
-    });
+    const server = await Server.findById(serverId)
+      .populate({
+        path: "members",
+        model: User,
+        select: "name _id username image",
+      })
+      .populate({
+        path: "categories.channels.messages",
+        model: Message,
+        populate: {
+          path: "from",
+          model: User,
+          select: "name _id username image",
+        },
+      });
 
     if (!server) {
       return { message: "Server not found." };
     }
 
     return server;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createMessage(
+  serverId: string,
+  channelId: string,
+  message: string,
+  userId: string,
+  path: string
+): Promise<any> {
+  try {
+    await connectToDb();
+
+    const server = await Server.findById(serverId);
+
+    if (!server) {
+      return { message: "Server not found." };
+    }
+
+    for (let i = 0; i < server.categories.length; i++) {
+      const category = server.categories[i];
+
+      for (let j = 0; j < category.channels.length; j++) {
+        const channel = category.channels[j];
+
+        if (channel._id.toString() === channelId) {
+          const newMessage = await Message.create({
+            from: userId,
+            content: message,
+          });
+
+          channel.messages.push(newMessage._id);
+        }
+      }
+    }
+    revalidatePath(path);
+    await server.save();
+
+    return { message: "Message sent successfully." };
   } catch (error) {
     console.log(error);
   }

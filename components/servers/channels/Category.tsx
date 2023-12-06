@@ -5,7 +5,7 @@ import useDialog from "@/library/hooks/useDialog";
 import Link from "next/link";
 import CreateChannelsForm from "./CreateChannelsForm";
 import { Add, Settings, Tag, VolumeUp } from "@mui/icons-material";
-import type { ServersCategory } from "@/types/servers";
+import type { ServerChannel, ServersCategory } from "@/types/servers";
 import { useRouter } from "next/navigation";
 
 interface CategoryProps {
@@ -14,10 +14,10 @@ interface CategoryProps {
 }
 
 const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
+  const router = useRouter();
   const { dialogs, closeDialog, openDialog } = useDialog({
     add_channels: { isOpen: false },
   });
-  const router = useRouter();
 
   function handleChannelClick(channelId: string): void {
     router.push(`/settings-channels`);
@@ -42,22 +42,22 @@ const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
         </div>
       </div>
       <div className="pt-[3px]">
-        {category.channels.map((channel) => (
-          <Link href={`/servers/${serverId}/${channel._id}`}>
+        {category.channels.map(({ _id, type, name }: ServerChannel) => (
+          <Link href={`/servers/${serverId}/${_id}`}>
             <div
-              key={channel._id}
+              key={`channel_${_id}`}
               className="p-[0.3em] rounded-md flex justify-between items-center cursor-pointer transition-all hover:bg-[#313339]"
             >
               <div className="flex items-center gap-[6px]">
                 <div>
-                  {channel.type === "text" ? (
+                  {type === "text" ? (
                     <Tag style={{ color: "gray", fontSize: "24px" }} />
                   ) : (
                     <VolumeUp style={{ color: "gray", fontSize: "24px" }} />
                   )}
                 </div>
                 <h2 className="text-xs text-white font-bold truncate">
-                  {channel.name}
+                  {name}
                 </h2>
               </div>
               <div className="flex gap-[6px] items-center">

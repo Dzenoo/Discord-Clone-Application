@@ -62,14 +62,14 @@ const ChatItem: React.FC<ChatItemProps> = ({
         <div>
           <img
             src={userImage}
-            alt={"userImage"}
+            alt={username}
             className="w-10 h-10 rounded-full"
           />
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-[6px]">
             <div>
-              <h2 className="text-white font-bold">Cilindar</h2>
+              <h2 className="text-white font-bold">{username}</h2>
             </div>
             <div>
               <p className="text-xs text-gray-400">{createdDate}</p>

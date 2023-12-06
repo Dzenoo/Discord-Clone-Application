@@ -9,4 +9,5 @@ export interface UserTypes {
   friends?: string[];
   servers?: string[];
   roles?: string[];
+  createdAt: string;
 }

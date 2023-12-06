@@ -1,11 +1,8 @@
-import { UserTypes } from "@/types/users";
 import ChatItem from "./ChatItem";
+import { MessageItem } from "@/types/servers";
 
 interface ChatListProps {
-  messages: {
-    from: UserTypes;
-    content: string;
-  }[];
+  messages: MessageItem[];
 }
 
 const ChatList: React.FC<ChatListProps> = ({ messages }) => {
@@ -16,23 +13,15 @@ const ChatList: React.FC<ChatListProps> = ({ messages }) => {
           <p className="text-gray-300">No messages yet</p>
         </div>
       )}
-      {messages?.map(
-        (
-          message: {
-            from: UserTypes;
-            content: string;
-          },
-          ind: number
-        ) => (
-          <ChatItem
-            key={ind}
-            userImage={message.from?.image}
-            username={message.from?.username}
-            content={message.content}
-            date={"2023-12-05T21:43:14.334+00:00"}
-          />
-        )
-      )}
+      {messages?.map((message: MessageItem, ind: number) => (
+        <ChatItem
+          key={ind}
+          userImage={message.from?.image}
+          username={message.from?.username}
+          content={message.content}
+          date={message.createdAt}
+        />
+      ))}
     </div>
   );
 };

@@ -1,11 +1,8 @@
 import ChatList from "@/components/chat/ChatList";
-import { UserTypes } from "@/types/users";
+import { MessageItem } from "@/types/servers";
 
 interface ServersDetailsChatTypes {
-  messages: {
-    from: UserTypes;
-    content: string;
-  }[];
+  messages: MessageItem[];
 }
 
 const ServersDetailsChat: React.FC<ServersDetailsChatTypes> = ({

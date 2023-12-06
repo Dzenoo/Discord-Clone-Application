@@ -27,7 +27,7 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
       <div>
         <ManageServerBar serverName={serverName} serverId={serverId} />
         <div className="p-3 flex flex-col gap-6">
-          {categories?.map((category) => (
+          {categories?.map((category: ServersCategory) => (
             <Category
               key={`category_${category._id}`}
               category={category}

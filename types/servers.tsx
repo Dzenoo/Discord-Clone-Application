@@ -4,10 +4,7 @@ export interface ServerChannel {
   _id: string;
   name: string;
   type: "text" | "voice";
-  messages: {
-    from: UserTypes;
-    content: string;
-  }[];
+  messages: MessageItem[];
 }
 
 export interface ServersCategory {
@@ -26,5 +23,12 @@ export interface ServerItem {
     members: string[];
   };
   categories: ServersCategory[];
-  members: string[];
+  members: UserTypes[];
+}
+
+export interface MessageItem {
+  _id?: string;
+  from: UserTypes;
+  content: string;
+  createdAt: string;
 }

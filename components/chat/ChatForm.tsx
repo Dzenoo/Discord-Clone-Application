@@ -3,8 +3,18 @@
 import useForm from "@/library/hooks/useForm";
 import Input, { InputElement } from "../shared/form/Input";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
+import { useSession } from "next-auth/react";
+import { createMessage } from "@/library/actions/servers.actions";
 
-const ChatForm: React.FC = () => {
+interface ChatFormTypes {
+  serverId: string;
+  channelId: string;
+}
+
+const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
+  const { data } = useSession();
+  // @ts-ignore
+  const userId = data?.user?.id;
   const { formState, inputChangeHandler } = useForm(
     {
       content: {
@@ -15,10 +25,20 @@ const ChatForm: React.FC = () => {
     false
   );
 
-  function submitHandler(event: React.KeyboardEvent<HTMLFormElement>): void {
+  async function submitHandler(
+    event: React.KeyboardEvent<HTMLFormElement>
+  ): Promise<void> {
     event.preventDefault();
 
-    console.log(formState.inputs);
+    if (formState.isValid === false) return;
+
+    await createMessage(
+      serverId,
+      channelId,
+      formState.inputs.content.value,
+      userId,
+      `/servers/${serverId}/${channelId}`
+    );
   }
 
   return (

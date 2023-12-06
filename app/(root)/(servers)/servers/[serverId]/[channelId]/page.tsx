@@ -5,11 +5,15 @@ import ServersDetailsSidebar from "@/components/servers/details/navigation/Serve
 import ServersDetailsInformations from "@/components/servers/details/navigation/ServersDetailsInformations";
 import { fetchServerById } from "@/library/actions/servers.actions";
 import { notFound } from "next/navigation";
-import { ServerItem } from "@/types/servers";
+import {
+  ServerChannel as ServerChannelPropsTypes,
+  ServerItem,
+} from "@/types/servers";
 import { fetchUser } from "@/library/actions/user.actions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { getChannel } from "@/library/functions";
+import { UserTypes } from "@/types/users";
 
 const ServerChannel = async ({
   params: { serverId, channelId },
@@ -22,9 +26,12 @@ const ServerChannel = async ({
   const session = await getServerSession(authOptions);
   const fetchedServer: ServerItem = await fetchServerById(serverId);
   // @ts-ignore
-  const fetchedUser = await fetchUser(session?.user?.id);
+  const fetchedUser: UserTypes = await fetchUser(session?.user?.id);
   const server: ServerItem = JSON.parse(JSON.stringify(fetchedServer));
-  const channel = getChannel(server?.categories, channelId);
+  const channel: ServerChannelPropsTypes = getChannel(
+    server?.categories,
+    channelId
+  );
 
   if (!fetchedServer || !fetchedUser) {
     notFound();
@@ -54,11 +61,11 @@ const ServerChannel = async ({
           <ServersDetailsChat messages={channel?.messages} />
         </div>
         <div className="p-3 sticky bottom-0 right-0">
-          <ChatForm />
+          <ChatForm serverId={serverId} channelId={channelId} />
         </div>
       </div>
       <div className="basis-[30em] max-w-[240px] w-full">
-        <ServersDetailsInformations />
+        <ServersDetailsInformations members={server?.members} />
       </div>
     </div>
   );
