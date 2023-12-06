@@ -1,19 +1,19 @@
-import { DirectMessagesData } from "@/data";
 import { Chat } from "@mui/icons-material";
 import { Speed } from "@mui/icons-material";
 import { Shop } from "@mui/icons-material";
-import LinkHref, { LinkProps } from "@/components/shared/ui/Link";
 import Tab from "@/components/shared/ui/Tab";
 import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
+import LinkHref from "@/components/shared/ui/Link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { fetchUser } from "@/library/actions/user.actions";
+import { DirectMessageType, UserTypes } from "@/types/users";
 
 const DirectMessagesSidebar: React.FC = async () => {
   const session = await getServerSession(authOptions);
   // @ts-ignore
-  const userId = session?.user?.id;
-  const user = await fetchUser(userId);
+  const userIdAuth = session?.user?.id;
+  const user: UserTypes = await fetchUser(userIdAuth);
 
   return (
     <nav className="p-3 min-h-screen bg-[#222222] overflow-hidden">
@@ -23,7 +23,7 @@ const DirectMessagesSidebar: React.FC = async () => {
         </div>
         <div className="mt-3 flex flex-col gap-3">
           <LinkHref
-            href="/123"
+            href={`/${userIdAuth}`}
             icon={<Chat style={{ color: "#fff" }} />}
             title="Friends"
           />
@@ -36,9 +36,21 @@ const DirectMessagesSidebar: React.FC = async () => {
           <h2 className="section_subtitle text-gray-300">Direct Messages</h2>
         </div>
         <ul className="overflow-y-scroll h-[370px]">
-          {DirectMessagesData.map(({ id, href, title, image }: LinkProps) => (
-            <LinkHref href={href} title={title} key={id} image={image} />
-          ))}
+          {user.directMessages.length === 0 && (
+            <div className="flex flex-col items-center justify-center">
+              <h2 className="text-gray-300 text-xs">No messages yet.</h2>
+            </div>
+          )}
+          {user?.directMessages.map(
+            (directMessages: DirectMessageType, ind: number) => (
+              <LinkHref
+                key={ind}
+                href={`/${userIdAuth}/direct-messages}`}
+                title={directMessages?.user.username}
+                image={directMessages?.user.image}
+              />
+            )
+          )}
         </ul>
       </div>
       <ManageProfileBar

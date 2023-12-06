@@ -1,10 +1,11 @@
 import FriendsItem, { FriendItemProps } from "./FriendsItem";
 
 export interface FriendsListProps {
+  userId: string;
   friends: FriendItemProps[];
 }
 
-const FriendsList: React.FC<FriendsListProps> = ({ friends }) => {
+const FriendsList: React.FC<FriendsListProps> = ({ userId, friends }) => {
   return (
     <div className="">
       <div className="py-4">
@@ -16,8 +17,14 @@ const FriendsList: React.FC<FriendsListProps> = ({ friends }) => {
         {friends.length === 0 && (
           <p className="text-white text-center">No friends found</p>
         )}
-        {friends.map(({ title, image, href }: FriendItemProps, ind) => (
-          <FriendsItem key={ind} image={image} title={title} href={href} />
+        {friends.map(({ username, image, _id }: FriendItemProps, ind) => (
+          <FriendsItem
+            key={ind}
+            image={image}
+            username={username}
+            _id={_id}
+            userId={userId}
+          />
         ))}
       </div>
     </div>

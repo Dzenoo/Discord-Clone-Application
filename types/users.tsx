@@ -1,3 +1,5 @@
+import { MessageItem, ServerItem } from "./servers";
+
 export interface UserTypes {
   _id: string;
   username: string;
@@ -5,9 +7,18 @@ export interface UserTypes {
   image: string;
   email?: string;
   password?: string;
-  directMessages?: string[];
-  friends?: string[];
-  servers?: string[];
+  directMessages: DirectMessageType[];
+  friends: {
+    _id: string;
+    username: string;
+    image: string;
+  }[];
+  servers?: ServerItem[];
   roles?: string[];
   createdAt: string;
+}
+
+export interface DirectMessageType {
+  user: UserTypes;
+  messages: MessageItem[];
 }

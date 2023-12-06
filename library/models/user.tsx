@@ -1,9 +1,5 @@
+import { DirectMessageType } from "@/types/users";
 import mongoose, { Document, Schema } from "mongoose";
-
-interface DirectMessageType {
-  userId: mongoose.Types.ObjectId;
-  messages: mongoose.Types.ObjectId[];
-}
 
 interface RoleType {
   serverId: mongoose.Types.ObjectId;

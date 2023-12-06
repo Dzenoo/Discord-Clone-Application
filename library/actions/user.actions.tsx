@@ -9,6 +9,7 @@ import {
 import User from "../models/user";
 import { hashPassword } from "../functions";
 import Server from "../models/server";
+import { revalidatePath } from "next/cache";
 
 export async function signup(
   name: string,
@@ -67,6 +68,13 @@ export async function fetchUser(userId: string): Promise<any> {
         path: "servers",
         model: Server,
       })
+      .populate("directMessages.userId")
+      .populate("directMessages.messages")
+      .populate({
+        path: "friends",
+        model: User,
+        select: "-password",
+      })
       .select("-password");
 
     if (!user) {
@@ -74,6 +82,40 @@ export async function fetchUser(userId: string): Promise<any> {
     }
 
     return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function addFriend(
+  userId: string,
+  friendUsername: string,
+  path: string
+): Promise<any> {
+  try {
+    await connectToDb();
+
+    const friend = await User.findOneAndUpdate(
+      { username: friendUsername },
+      {
+        $push: { friends: userId },
+      }
+    );
+
+    const user = await User.findByIdAndUpdate(userId, {
+      $push: { friends: friend?._id },
+    });
+
+    if (!user || !friend) {
+      return { message: "No user found." };
+    }
+
+    if (user.friends.includes(friend._id)) {
+      return { message: "Friend already added." };
+    }
+
+    revalidatePath(path);
+    return { message: "Friend added." };
   } catch (error) {
     console.log(error);
   }
