@@ -9,11 +9,18 @@ import type { ServerChannel, ServersCategory } from "@/types/servers";
 import { useRouter } from "next/navigation";
 
 interface CategoryProps {
+  categoryId: string;
   category: ServersCategory;
   serverId: string;
+  channelId: string;
 }
 
-const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
+const Category: React.FC<CategoryProps> = ({
+  categoryId,
+  category,
+  serverId,
+  channelId,
+}) => {
   const router = useRouter();
   const { dialogs, closeDialog, openDialog } = useDialog({
     add_channels: { isOpen: false },
@@ -29,7 +36,12 @@ const Category: React.FC<CategoryProps> = ({ category, serverId }) => {
         isOpen={dialogs.add_channels.isOpen}
         closeDialog={() => closeDialog("add_channels")}
       >
-        <CreateChannelsForm />
+        <CreateChannelsForm
+          categoryId={categoryId}
+          serverId={serverId}
+          channelId={channelId}
+          closeDialog={closeDialog}
+        />
       </Dialog>
       <div className="flex justify-between items-center">
         <div>

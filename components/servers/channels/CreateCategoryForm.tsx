@@ -2,13 +2,24 @@
 
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
+import { createCategory } from "@/library/actions/servers.actions";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "@/library/validators/Validators";
 
-const CreateCategoryForm: React.FC = () => {
+interface CreateCategoryFormTypes {
+  serverId: string;
+  channelId: string;
+  closeDialog: (dialogId: string) => void;
+}
+
+const CreateCategoryForm: React.FC<CreateCategoryFormTypes> = ({
+  serverId,
+  channelId,
+  closeDialog,
+}) => {
   const { formState, inputChangeHandler } = useForm(
     {
       category_name: {
@@ -19,12 +30,31 @@ const CreateCategoryForm: React.FC = () => {
     false
   );
 
+  async function createCategoryHandler(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (!formState.isValid) return;
+
+    try {
+      const response = await createCategory(
+        serverId,
+        formState.inputs.category_name.value,
+        `/servers/${serverId}/${channelId}`
+      );
+      if (response.message === "Category created successfully.") {
+        closeDialog("create_category");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="py-3 flex flex-col gap-6 w-96">
       <div>
         <h2 className="text-xl text-white font-bold">Create Category</h2>
       </div>
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={createCategoryHandler}>
         <div>
           <Input
             elementType={InputElement.INPUT}

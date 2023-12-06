@@ -43,6 +43,7 @@ const ServerChannel = async ({
         <ServersDetailsSidebar
           serverName={server?.name}
           serverId={serverId}
+          channelId={channelId}
           categories={server?.categories}
           user={{
             _id: fetchedUser?._id,

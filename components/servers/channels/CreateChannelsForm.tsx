@@ -2,13 +2,26 @@
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
 import Select from "@/components/shared/form/Select";
+import { createChannel } from "@/library/actions/servers.actions";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "@/library/validators/Validators";
 
-const CreateChannelsForm: React.FC = () => {
+interface CreateChannelsFormTypes {
+  categoryId: string;
+  serverId: string;
+  channelId: string;
+  closeDialog: (dialogId: string) => void;
+}
+
+const CreateChannelsForm: React.FC<CreateChannelsFormTypes> = ({
+  categoryId,
+  serverId,
+  channelId,
+  closeDialog,
+}) => {
   const { formState, inputChangeHandler } = useForm(
     {
       channel_type: {
@@ -23,13 +36,35 @@ const CreateChannelsForm: React.FC = () => {
     false
   );
 
+  async function createChannelHandler(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (!formState.isValid) return;
+
+    try {
+      const response = await createChannel(
+        serverId,
+        categoryId,
+        formState.inputs.channel_name.value,
+        formState.inputs.channel_type.value,
+        `/servers/${serverId}/${channelId}`
+      );
+
+      if (response.message === "Channel created successfully.") {
+        closeDialog("add_channels");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="py-3 flex flex-col gap-6 w-96">
       <div>
         <h2 className="text-xl text-white font-bold">Create Channel</h2>
         <p className="text-xs text-gray-400">In Category Text Channels</p>
       </div>
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={createChannelHandler}>
         <div>
           <Select
             id="channel_type"

@@ -1,10 +1,15 @@
 "use client";
 import { useReducer, useEffect, useRef } from "react";
 
-const reducer = (state: { isOpened: boolean }, action: { type: "toggle" }) => {
+const reducer = (
+  state: { isOpened: boolean },
+  action: { type: "toggle" | "close" }
+) => {
   switch (action.type) {
     case "toggle":
       return { isOpened: !state.isOpened };
+    case "close":
+      return { isOpened: false };
     default:
       throw new Error();
   }
@@ -20,7 +25,7 @@ const useToggleOverlay = () => {
         overlayRef.current &&
         !overlayRef.current.contains(event.target as Node)
       ) {
-        dispatch({ type: "toggle" });
+        dispatch({ type: "close" });
       }
     };
 

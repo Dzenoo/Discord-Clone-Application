@@ -158,3 +158,70 @@ export async function createMessage(
     console.log(error);
   }
 }
+
+export async function createCategory(
+  serverId: string,
+  categoryName: string,
+  path: string
+): Promise<any> {
+  try {
+    await connectToDb();
+
+    const server = await Server.findByIdAndUpdate(serverId, {
+      $push: {
+        categories: {
+          name: categoryName,
+          channels: [],
+        },
+      },
+    });
+
+    if (!server) {
+      return { message: "Server not found." };
+    }
+
+    revalidatePath(path);
+
+    return { message: "Category created successfully." };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createChannel(
+  serverId: string,
+  categoryId: string,
+  channelName: string,
+  channelType: string,
+  path: string
+): Promise<any> {
+  try {
+    await connectToDb();
+
+    const server = await Server.findById(serverId);
+
+    if (!server) {
+      return { message: "Server not found." };
+    }
+
+    for (let i = 0; i < server.categories.length; i++) {
+      const category = server.categories[i];
+
+      if (category._id.toString() === categoryId) {
+        category.channels.push({
+          name: channelName,
+          type: channelType,
+          messages: [],
+        });
+      }
+    }
+
+    revalidatePath(path);
+
+    await server.save();
+
+    return { message: "Channel created successfully." };
+  } catch (error) {
+    console.log(error);
+  }
+}

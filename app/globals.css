@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#262626] overflow-y-hidden h-screen;
+  @apply bg-[#262626] overflow-y-hidden overflow-x-scroll h-screen;
 }
 
 img,

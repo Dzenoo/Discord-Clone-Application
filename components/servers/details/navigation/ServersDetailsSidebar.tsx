@@ -6,6 +6,7 @@ import { ServersCategory } from "@/types/servers";
 interface ServersDetailSidebarTypes {
   serverName: string;
   serverId: string;
+  channelId: string;
   categories: ServersCategory[];
   user: {
     _id: string;
@@ -19,19 +20,26 @@ interface ServersDetailSidebarTypes {
 const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
   serverName,
   serverId,
+  channelId,
   categories,
   user,
 }) => {
   return (
     <div className="min-h-screen bg-[#222222] overflow-hidden flex flex-col justify-between">
       <div>
-        <ManageServerBar serverName={serverName} serverId={serverId} />
+        <ManageServerBar
+          serverName={serverName}
+          serverId={serverId}
+          channelId={channelId}
+        />
         <div className="p-3 flex flex-col gap-6">
           {categories?.map((category: ServersCategory) => (
             <Category
+              categoryId={category._id}
               key={`category_${category._id}`}
               category={category}
               serverId={serverId}
+              channelId={channelId}
             />
           ))}
         </div>
