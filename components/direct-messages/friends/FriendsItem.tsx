@@ -38,7 +38,7 @@ const FriendsItem: React.FC<FriendItemProps & FriendsItemPropsAdditional> = ({
           </div>
         </div>
       </div>
-      <FriendsItemActions href={`${userId}/direct-messages`} />
+      <FriendsItemActions userId={userId} friendId={_id} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import ChatForm from "@/components/chat/ChatForm";
+import ChatForm from "@/components/servers/channels/ChatForm";
 import ServersDetailsChat from "@/components/servers/details/navigation/ServersDetailsChat";
 import ServersDetailsTopBar from "@/components/servers/details/navigation/ServersDetailsTopBar";
 import ServersDetailsSidebar from "@/components/servers/details/navigation/ServersDetailsSidebar";

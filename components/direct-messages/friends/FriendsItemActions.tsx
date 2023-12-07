@@ -4,20 +4,34 @@ import Link from "next/link";
 import Button from "@/components/shared/form/Button";
 import { Chat, MoreVert } from "@mui/icons-material";
 import useToggleOverlay from "@/library/hooks/useToggleOverlay";
+import { createMessagesDirect } from "@/library/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 export interface FriendsItemActionsProps {
-  href: string;
+  userId: string;
+  friendId: string;
 }
 
-const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({ href }) => {
+const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({
+  userId,
+  friendId,
+}) => {
   const { isOpened, handleToggle, overlayRef } = useToggleOverlay();
+  const router = useRouter();
+
+  async function handleCreateDirect() {
+    const response = await createMessagesDirect(userId, friendId);
+
+    router.push(`${userId}/${friendId}`);
+  }
 
   return (
     <div className="flex gap-[8px] items-center">
       <div>
-        <Link href={href}>
-          <Tab icon={<Chat style={{ color: "#f3f3f3" }} />} />
-        </Link>
+        <Tab
+          icon={<Chat style={{ color: "#f3f3f3" }} />}
+          onClick={handleCreateDirect}
+        />
       </div>
       <div className="relative">
         <div className="friend_options" onClick={handleToggle}>

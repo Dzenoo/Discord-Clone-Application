@@ -1,15 +1,27 @@
 import ChatList from "@/components/chat/ChatList";
-import Button from "@/components/shared/form/Button";
+import { MessageItem } from "@/types/servers";
 import Image from "next/image";
 
-const ConversationChat: React.FC = () => {
+interface ConversationChatProps {
+  username: string;
+  image: string;
+  name: string;
+  messages?: MessageItem[];
+}
+
+const ConversationChat: React.FC<ConversationChatProps> = ({
+  username,
+  image,
+  name,
+  messages,
+}) => {
   return (
     <div className="p-3 py-6 h-[90vh] overflow-y-scroll">
       <div>
         <div>
           <Image
-            src="/images/machine-mining.jpg"
-            alt="profile_image"
+            src={image}
+            alt={`user_${username}`}
             className="rounded-full w-24 h-24"
             width={100}
             height={100}
@@ -17,29 +29,17 @@ const ConversationChat: React.FC = () => {
         </div>
         <div className="py-3 flex items-center gap-8">
           <div>
-            <h2 className="text-white text-xl font-bold">Cilindar</h2>
-            <p className="text-lg text-gray-300">cilindar</p>
-          </div>
-          <div className="flex gap-3">
-            <div>
-              <Button type="button" variant="primary">
-                Add friend
-              </Button>
-            </div>
-            <div>
-              <Button type="button" variant="danger">
-                Block
-              </Button>
-            </div>
+            <h2 className="text-white text-xl font-bold">{name}</h2>
+            <p className="text-lg text-gray-300">{username}</p>
           </div>
         </div>
         <div>
           <p className="text-gray-400">
-            This is your chat and conversation with cilindar.
+            This is your chat and conversation with {username}.
           </p>
         </div>
       </div>
-      <ChatList />
+      <ChatList messages={messages!} />
     </div>
   );
 };

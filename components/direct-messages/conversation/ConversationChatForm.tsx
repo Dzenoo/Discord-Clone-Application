@@ -1,20 +1,20 @@
 "use client";
-
 import useForm from "@/library/hooks/useForm";
-import Input, { InputElement } from "../shared/form/Input";
+import Input, { InputElement } from "../../shared/form/Input";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
-import { useSession } from "next-auth/react";
-import { createMessage } from "@/library/actions/servers.actions";
+import { createMessagesForDirect } from "@/library/actions/user.actions";
 
-interface ChatFormTypes {
-  serverId: string;
-  channelId: string;
+interface ConversationChatFormTypes {
+  friendId: string;
+  friendUsername: string;
+  userId: string;
 }
 
-const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
-  const { data } = useSession();
-  // @ts-ignore
-  const userId = data?.user?.id;
+const ConversationChatForm: React.FC<ConversationChatFormTypes> = ({
+  userId,
+  friendId,
+  friendUsername,
+}) => {
   const { formState, inputChangeHandler } = useForm(
     {
       content: {
@@ -24,6 +24,7 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
     },
     false
   );
+  console.log(formState.inputs.content.value);
 
   async function submitHandler(
     event: React.KeyboardEvent<HTMLFormElement>
@@ -32,12 +33,11 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
 
     if (formState.isValid === false) return;
 
-    await createMessage(
-      serverId,
-      channelId,
-      formState.inputs.content.value,
+    await createMessagesForDirect(
       userId,
-      `/servers/${serverId}/${channelId}`
+      friendId,
+      formState.inputs.content.value,
+      `/${userId}/${friendId}`
     );
   }
 
@@ -48,7 +48,7 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
           elementType={InputElement.INPUT}
           id={"content"}
           type={"text"}
-          placeholder={`Message ${"@Cilindar"}`}
+          placeholder={`Message ${friendUsername}`}
           validators={[VALIDATOR_REQUIRE()]}
           onInputChange={inputChangeHandler}
           value={formState.inputs.content.value}
@@ -58,4 +58,4 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
   );
 };
 
-export default ChatForm;
+export default ConversationChatForm;

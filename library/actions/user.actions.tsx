@@ -10,6 +10,7 @@ import User from "../models/user";
 import { hashPassword } from "../functions";
 import Server from "../models/server";
 import { revalidatePath } from "next/cache";
+import Message from "../models/message";
 
 export async function signup(
   name: string,
@@ -68,12 +69,18 @@ export async function fetchUser(userId: string): Promise<any> {
         path: "servers",
         model: Server,
       })
-      .populate("directMessages.userId")
-      .populate("directMessages.messages")
       .populate({
         path: "friends",
         model: User,
         select: "-password",
+      })
+      .populate({
+        path: "directMessages",
+        populate: {
+          path: "userId",
+          model: User,
+          select: "-password",
+        },
       })
       .select("-password");
 
@@ -95,27 +102,111 @@ export async function addFriend(
   try {
     await connectToDb();
 
-    const friend = await User.findOneAndUpdate(
-      { username: friendUsername },
-      {
-        $push: { friends: userId },
-      }
-    );
+    const friend = await User.findOne({ username: friendUsername });
 
-    const user = await User.findByIdAndUpdate(userId, {
-      $push: { friends: friend?._id },
-    });
+    const user = await User.findById(userId);
 
     if (!user || !friend) {
       return { message: "No user found." };
     }
 
-    if (user.friends.includes(friend._id)) {
+    if (
+      user.friends.includes(friend._id) ||
+      friend.friends.includes(user._id)
+    ) {
       return { message: "Friend already added." };
     }
 
+    user.friends.push(friend._id);
+    friend.friends.push(user._id);
+
+    await user.save();
+    await friend.save();
+
     revalidatePath(path);
     return { message: "Friend added." };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createMessagesDirect(userId: string, friendId: string) {
+  try {
+    await connectToDb();
+
+    const user = await User.findById(userId);
+    const friend = await User.findById(friendId);
+
+    if (!user || !friend) {
+      return { message: "No user found." };
+    }
+
+    const directMessages = user.directMessages.find(
+      (directMessage: any) =>
+        directMessage.userId.toString() === friend._id.toString()
+    );
+
+    if (directMessages) {
+      return { message: "Direct messages already exists." };
+    }
+
+    const directMessagesUser = {
+      userId: friend._id,
+      messages: [],
+    };
+
+    const directMessagesFriend = {
+      userId: user._id,
+      messages: [],
+    };
+
+    user.directMessages.push(directMessagesUser);
+    friend.directMessages.push(directMessagesFriend);
+
+    await user.save();
+    await friend.save();
+
+    return { message: "Direct messages created." };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createMessagesForDirect(
+  userId: string,
+  friendId: string,
+  message: string,
+  path: string
+) {
+  try {
+    await connectToDb();
+
+    const user = await User.findById(userId);
+    const friend = await User.findById(friendId);
+
+    if (!user || !friend) {
+      return { message: "No user found." };
+    }
+
+    const directMessages = user.directMessages.find(
+      (directMessage: any) => directMessage.userId === friend._id
+    );
+
+    if (!directMessages) {
+      return { message: "Direct messages not found." };
+    }
+
+    const newMessage = await Message.create({
+      from: userId,
+      content: message,
+    });
+
+    directMessages.messages.push(newMessage._id);
+
+    await user.save();
+
+    revalidatePath(path);
+    return { message: "Message sent." };
   } catch (error) {
     console.log(error);
   }

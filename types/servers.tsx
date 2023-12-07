@@ -14,7 +14,7 @@ export interface ServersCategory {
 }
 
 export interface ServerItem {
-  _id: string;
+  _id: string | number | any;
   name: string;
   image: string;
   creatorId: string;
@@ -27,7 +27,7 @@ export interface ServerItem {
 }
 
 export interface MessageItem {
-  _id?: string;
+  _id: string;
   from: UserTypes;
   content: string;
   createdAt: string;

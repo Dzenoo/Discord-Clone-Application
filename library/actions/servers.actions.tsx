@@ -118,7 +118,7 @@ export async function fetchServerById(serverId: string): Promise<any> {
   }
 }
 
-export async function createMessage(
+export async function createMessageServer(
   serverId: string,
   channelId: string,
   message: string,
@@ -136,16 +136,13 @@ export async function createMessage(
 
     for (let i = 0; i < server.categories.length; i++) {
       const category = server.categories[i];
-
       for (let j = 0; j < category.channels.length; j++) {
         const channel = category.channels[j];
-
         if (channel._id.toString() === channelId) {
           const newMessage = await Message.create({
             from: userId,
             content: message,
           });
-
           channel.messages.push(newMessage._id);
         }
       }

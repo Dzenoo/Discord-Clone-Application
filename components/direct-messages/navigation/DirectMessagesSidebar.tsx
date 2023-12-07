@@ -45,9 +45,9 @@ const DirectMessagesSidebar: React.FC = async () => {
             (directMessages: DirectMessageType, ind: number) => (
               <LinkHref
                 key={ind}
-                href={`/${userIdAuth}/direct-messages}`}
-                title={directMessages?.user.username}
-                image={directMessages?.user.image}
+                href={`/${userIdAuth}/${directMessages?.userId._id}`}
+                title={directMessages?.userId.username}
+                image={directMessages?.userId.image}
               />
             )
           )}
