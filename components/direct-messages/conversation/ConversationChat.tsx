@@ -7,6 +7,7 @@ interface ConversationChatProps {
   image: string;
   name: string;
   messages?: MessageItem[];
+  friendId?: string;
 }
 
 const ConversationChat: React.FC<ConversationChatProps> = ({
@@ -14,6 +15,7 @@ const ConversationChat: React.FC<ConversationChatProps> = ({
   image,
   name,
   messages,
+  friendId,
 }) => {
   return (
     <div className="p-3 py-6 h-[90vh] overflow-y-scroll">
@@ -39,7 +41,7 @@ const ConversationChat: React.FC<ConversationChatProps> = ({
           </p>
         </div>
       </div>
-      <ChatList messages={messages!} />
+      <ChatList messages={messages!} friendId={friendId} />
     </div>
   );
 };

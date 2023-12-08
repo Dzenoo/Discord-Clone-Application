@@ -3,9 +3,10 @@ import { MessageItem } from "@/types/servers";
 
 interface ChatListProps {
   messages: MessageItem[];
+  friendId?: string;
 }
 
-const ChatList: React.FC<ChatListProps> = ({ messages }) => {
+const ChatList: React.FC<ChatListProps> = ({ messages, friendId }) => {
   return (
     <div className="py-8">
       {messages?.length === 0 && (
@@ -16,10 +17,13 @@ const ChatList: React.FC<ChatListProps> = ({ messages }) => {
       {messages?.map((message: MessageItem, ind: number) => (
         <ChatItem
           key={ind}
+          userId={message?.from?._id}
           userImage={message.from?.image}
           username={message.from?.username}
+          messageId={message._id}
           content={message.content}
           date={message.createdAt}
+          friendId={friendId}
         />
       ))}
     </div>

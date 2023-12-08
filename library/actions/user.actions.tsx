@@ -231,3 +231,48 @@ export async function createMessagesForDirect(
     console.log(error);
   }
 }
+
+export async function deleteDirectMessage(
+  userId: string,
+  friendId: string,
+  messageId: string,
+  path: string
+) {
+  try {
+    await connectToDb();
+
+    const user = await User.findById(userId);
+    const friend = await User.findById(friendId);
+
+    if (!user || !friend) {
+      return { message: "No user found." };
+    }
+
+    const directMessagesUser = user.directMessages.find(
+      (directMessage: any) =>
+        directMessage.userId.toString() === friend._id.toString()
+    );
+
+    const directMessagesFriend = friend.directMessages.find(
+      (directMessage: any) =>
+        directMessage.userId.toString() === user._id.toString()
+    );
+
+    if (!directMessagesUser || !directMessagesFriend) {
+      return { message: "Direct messages not found." };
+    }
+
+    directMessagesUser.messages.pull(messageId);
+    directMessagesFriend.messages.pull(messageId);
+
+    await user.save();
+    await friend.save();
+
+    await Message.findByIdAndDelete(messageId);
+
+    revalidatePath(path);
+    return { message: "Message deleted." };
+  } catch (error) {
+    console.log(error);
+  }
+}

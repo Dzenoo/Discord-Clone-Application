@@ -41,6 +41,7 @@ const Conversation = async ({ params }: { params: { friendId: string } }) => {
             image={friend?.image}
             name={friend?.name}
             messages={directMessages?.messages}
+            friendId={params?.friendId}
           />
         </div>
         <div className="p-3 sticky bottom-0 right-0">

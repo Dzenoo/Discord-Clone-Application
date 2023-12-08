@@ -1,5 +1,4 @@
 import { MessageItem, ServerItem } from "./servers";
-
 export interface UserTypes {
   _id: string;
   username: string;

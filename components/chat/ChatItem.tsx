@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
+import { useSession } from "next-auth/react";
+import { deleteDirectMessage } from "@/library/actions/user.actions";
 import Button from "../shared/form/Button";
 import useForm from "@/library/hooks/useForm";
 import Input, { InputElement } from "../shared/form/Input";
@@ -10,17 +12,23 @@ import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../shared/ui/Dialog";
 
 export interface ChatItemProps {
+  userId: string;
   userImage: string;
   username: string;
+  messageId: string;
   content: string;
   date: string;
+  friendId?: string;
 }
 
 const ChatItem: React.FC<ChatItemProps> = ({
+  userId,
   userImage,
   username,
+  messageId,
   content,
   date,
+  friendId,
 }) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
   const { formState, inputChangeHandler } = useForm(
@@ -37,19 +45,45 @@ const ChatItem: React.FC<ChatItemProps> = ({
       isOpen: false,
     },
   });
-  const createdDate = new Date(date).toLocaleDateString("en-US", {
+  const { data } = useSession();
+  // @ts-ignore
+  const userIdAuth: string = data?.user?.id;
+
+  const createdDate: string = new Date(date).toLocaleDateString("en-US", {
     minute: "numeric",
     hour: "numeric",
   });
 
-  const isMentioned = content.includes(username);
+  const isMentioned: boolean = content.includes(username);
+  const isOwner: boolean = userId === userIdAuth;
 
   function toggleEdit(): void {
-    setIsEditing((prevEdit) => !prevEdit);
+    setIsEditing((prevEdit: boolean | undefined) => !prevEdit);
   }
 
   function cancelEdit(): void {
     setIsEditing(false);
+  }
+
+  async function deleteMessageHandler() {
+    try {
+      if (friendId !== undefined) {
+        const response = await deleteDirectMessage(
+          userIdAuth,
+          friendId,
+          messageId,
+          `/${userIdAuth}/${friendId}`
+        );
+
+        if (response!.message === "Message deleted.") {
+          closeDialog("delete_message");
+        }
+      } else {
+        // DELETE MESSAGE FOR SERVER
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -90,7 +124,11 @@ const ChatItem: React.FC<ChatItemProps> = ({
                   </p>
                 </div>
                 <div className="py-3 flex justify-end items-end">
-                  <Button variant="danger" type="button">
+                  <Button
+                    variant="danger"
+                    type="button"
+                    onClick={deleteMessageHandler}
+                  >
                     Delete
                   </Button>
                 </div>
@@ -113,40 +151,42 @@ const ChatItem: React.FC<ChatItemProps> = ({
           </div>
         </div>
       </div>
-      <div>
-        <div className="flex gap-3 items-center">
-          {isEditing ? (
-            <div className="flex gap-3 items-center">
-              <Button
-                variant="primary"
-                type="button"
-                disabled={!formState.isValid}
-              >
-                Save
-              </Button>
+      {isOwner && (
+        <div>
+          <div className="flex gap-3 items-center">
+            {isEditing ? (
+              <div className="flex gap-3 items-center">
+                <Button
+                  variant="primary"
+                  type="button"
+                  disabled={!formState.isValid}
+                >
+                  Save
+                </Button>
+                <button
+                  className="p-3 rounded-md text-[13px] text-white outline outline-2 outline-gray-600"
+                  onClick={cancelEdit}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
               <button
-                className="p-3 rounded-md text-[13px] text-white outline outline-2 outline-gray-600"
-                onClick={cancelEdit}
+                className="p-[3px] cursor-pointer bg-[#2b2b2b] rounded-md transition hover:bg-[#121212]"
+                onClick={toggleEdit}
               >
-                Cancel
+                <Edit style={{ color: "gray" }} />
               </button>
-            </div>
-          ) : (
+            )}
             <button
               className="p-[3px] cursor-pointer bg-[#2b2b2b] rounded-md transition hover:bg-[#121212]"
-              onClick={toggleEdit}
+              onClick={() => openDialog("delete_message")}
             >
-              <Edit style={{ color: "gray" }} />
+              <Delete style={{ color: "gray" }} />
             </button>
-          )}
-          <button
-            className="p-[3px] cursor-pointer bg-[#2b2b2b] rounded-md transition hover:bg-[#121212]"
-            onClick={() => openDialog("delete_message")}
-          >
-            <Delete style={{ color: "gray" }} />
-          </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
