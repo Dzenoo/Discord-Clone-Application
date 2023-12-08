@@ -18,7 +18,7 @@ const ConversationChat: React.FC<ConversationChatProps> = ({
   friendId,
 }) => {
   return (
-    <div className="p-3 py-6 h-[90vh] overflow-y-scroll">
+    <div className="p-3 py-6 h-[80vh] overflow-y-scroll">
       <div>
         <div>
           <Image

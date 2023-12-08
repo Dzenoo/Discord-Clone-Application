@@ -1,8 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import {
-  createMessagesDirect,
-  fetchUser,
-} from "@/library/actions/user.actions";
+import { fetchUser } from "@/library/actions/user.actions";
 import { ServerItem } from "@/types/servers";
 import { DirectMessageType, FriendsItem, UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
@@ -14,20 +11,21 @@ import ConversationChatForm from "@/components/direct-messages/conversation/Conv
 const Conversation = async ({ params }: { params: { friendId: string } }) => {
   const session = await getServerSession(authOptions);
   // @ts-ignore
-  const userIdAuth = session?.user?.id;
+  const userIdAuth: string = session?.user?.id;
   const user: UserTypes = await fetchUser(userIdAuth);
   const friend: UserTypes = await fetchUser(params.friendId);
 
-  const mutualServers = user?.servers?.filter((server: ServerItem) =>
-    friend?.servers?.includes(server._id)
+  const mutualServers: ServerItem[] | undefined = user?.servers?.filter(
+    (server: ServerItem) => friend?.servers?.includes(server._id)
   );
-  const mutualFriends = user?.friends?.filter((friend: FriendsItem) =>
-    friend?.friends?.includes(friend?._id)
+  const mutualFriends: FriendsItem[] = user?.friends?.filter(
+    (friend: FriendsItem) => friend?.friends?.includes(friend?._id)
   );
-  const directMessages = user?.directMessages?.find(
-    (directMessage: DirectMessageType) =>
-      directMessage.userId._id.toString() === friend?._id.toString()
-  );
+  const directMessages: DirectMessageType | undefined =
+    user?.directMessages?.find(
+      (directMessage: DirectMessageType) =>
+        directMessage.userId._id.toString() === friend?._id.toString()
+    );
 
   return (
     <div className="flex">
