@@ -1,3 +1,4 @@
+import { DirectMessageType } from "@/types/users";
 import mongoose, { Schema } from "mongoose";
 
 interface RoleType {
@@ -6,9 +7,10 @@ interface RoleType {
 }
 
 export interface ChannelType {
+  _id: string;
   name: string;
   type: "text" | "voice";
-  messages: mongoose.Types.ObjectId[];
+  messages: DirectMessageType[];
 }
 
 export interface ServerTypes extends Document {
@@ -17,9 +19,10 @@ export interface ServerTypes extends Document {
   creatorId: mongoose.Types.ObjectId;
   roles: RoleType[];
   categories: {
+    _id: string;
     name: string;
     channels: ChannelType[];
-  };
+  }[];
   members: mongoose.Types.ObjectId[];
 }
 

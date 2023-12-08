@@ -1,16 +1,20 @@
 "use server";
 
+import User from "../models/user";
+import Server from "../models/server";
+import Message from "../models/message";
 import { connectToDb } from "../mongoose";
+import { hashPassword } from "../functions";
+import { revalidatePath } from "next/cache";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   validate,
 } from "../validators/Validators";
-import User from "../models/user";
-import { hashPassword } from "../functions";
-import Server from "../models/server";
-import { revalidatePath } from "next/cache";
-import Message from "../models/message";
+import {
+  findDirectMessages,
+  findUserById,
+} from "./functions/functions.actions";
 
 export async function signup(
   name: string,
@@ -115,8 +119,7 @@ export async function addFriend(
     await connectToDb();
 
     const friend = await User.findOne({ username: friendUsername });
-
-    const user = await User.findById(userId);
+    const user = await findUserById(userId);
 
     if (!user || !friend) {
       return { message: "No user found." };
@@ -146,34 +149,32 @@ export async function createMessagesDirect(userId: string, friendId: string) {
   try {
     await connectToDb();
 
-    const user = await User.findById(userId);
-    const friend = await User.findById(friendId);
+    const user = await findUserById(userId);
+    const friend = await findUserById(friendId);
 
     if (!user || !friend) {
       return { message: "No user found." };
     }
 
-    const directMessages = user.directMessages.find(
-      (directMessage: any) =>
-        directMessage.userId.toString() === friend._id.toString()
-    );
+    const directMessagesUser = await findDirectMessages(userId, friendId);
+    const directMessagesFriend = await findDirectMessages(friendId, userId);
 
-    if (directMessages) {
-      return { message: "Direct messages already exists." };
+    if (directMessagesUser || directMessagesFriend) {
+      return { message: "Direct messages already exist." };
     }
 
-    const directMessagesUser = {
+    const directMessagesUserData = {
       userId: friend._id,
       messages: [],
     };
 
-    const directMessagesFriend = {
+    const directMessagesFriendData = {
       userId: user._id,
       messages: [],
     };
 
-    user.directMessages.push(directMessagesUser);
-    friend.directMessages.push(directMessagesFriend);
+    user.directMessages.push(directMessagesUserData);
+    friend.directMessages.push(directMessagesFriendData);
 
     await user.save();
     await friend.save();
@@ -241,22 +242,15 @@ export async function deleteDirectMessage(
   try {
     await connectToDb();
 
-    const user = await User.findById(userId);
-    const friend = await User.findById(friendId);
+    const user = await findUserById(userId);
+    const friend = await findUserById(friendId);
 
     if (!user || !friend) {
       return { message: "No user found." };
     }
 
-    const directMessagesUser = user.directMessages.find(
-      (directMessage: any) =>
-        directMessage.userId.toString() === friend._id.toString()
-    );
-
-    const directMessagesFriend = friend.directMessages.find(
-      (directMessage: any) =>
-        directMessage.userId.toString() === user._id.toString()
-    );
+    const directMessagesUser = await findDirectMessages(userId, friendId);
+    const directMessagesFriend = await findDirectMessages(friendId, userId);
 
     if (!directMessagesUser || !directMessagesFriend) {
       return { message: "Direct messages not found." };
@@ -272,6 +266,29 @@ export async function deleteDirectMessage(
 
     revalidatePath(path);
     return { message: "Message deleted." };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function editMessage(
+  messageId: string,
+  messageEdited: string,
+  path: string
+) {
+  try {
+    await connectToDb();
+
+    const message = await Message.findByIdAndUpdate(messageId, {
+      content: messageEdited,
+    });
+
+    if (!message) {
+      return { message: "Message not found." };
+    }
+
+    revalidatePath(path);
+    return { message: "Message edited." };
   } catch (error) {
     console.log(error);
   }

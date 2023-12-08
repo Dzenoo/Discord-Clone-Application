@@ -4,12 +4,17 @@ import { useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
 import { useSession } from "next-auth/react";
-import { deleteDirectMessage } from "@/library/actions/user.actions";
+import {
+  deleteDirectMessage,
+  editMessage,
+} from "@/library/actions/user.actions";
 import Button from "../shared/form/Button";
 import useForm from "@/library/hooks/useForm";
 import Input, { InputElement } from "../shared/form/Input";
 import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../shared/ui/Dialog";
+import { deleteMessageServer } from "@/library/actions/servers.actions";
+import { getUserAuthId } from "@/library/functions";
 
 export interface ChatItemProps {
   userId: string;
@@ -19,6 +24,8 @@ export interface ChatItemProps {
   content: string;
   date: string;
   friendId?: string;
+  serverId?: string;
+  channelId?: string;
 }
 
 const ChatItem: React.FC<ChatItemProps> = ({
@@ -29,6 +36,8 @@ const ChatItem: React.FC<ChatItemProps> = ({
   content,
   date,
   friendId,
+  serverId,
+  channelId,
 }) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
   const { formState, inputChangeHandler } = useForm(
@@ -45,9 +54,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
       isOpen: false,
     },
   });
-  const { data } = useSession();
-  // @ts-ignore
-  const userIdAuth: string = data?.user?.id;
+  const userIdAuth = getUserAuthId();
 
   const createdDate: string = new Date(date).toLocaleDateString("en-US", {
     minute: "numeric",
@@ -56,6 +63,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
 
   const isMentioned: boolean = content.includes(username);
   const isOwner: boolean = userId === userIdAuth;
+  const isValidToEdit = formState.inputs.content.value !== content;
 
   function toggleEdit(): void {
     setIsEditing((prevEdit: boolean | undefined) => !prevEdit);
@@ -79,7 +87,32 @@ const ChatItem: React.FC<ChatItemProps> = ({
           closeDialog("delete_message");
         }
       } else {
-        // DELETE MESSAGE FOR SERVER
+        const response = await deleteMessageServer(
+          serverId!,
+          channelId!,
+          messageId,
+          `/servers/${serverId}/${channelId}}`
+        );
+        console.log(friendId);
+        if (response!.message === "Message deleted.") {
+          closeDialog("delete_message");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function editMessageHandler() {
+    try {
+      const response = await editMessage(
+        messageId,
+        formState.inputs.content.value,
+        friendId ? `/${userIdAuth}/${friendId}` : `/servers/${userIdAuth}`
+      );
+
+      if (response!.message === "Message edited.") {
+        setIsEditing(false);
       }
     } catch (error) {
       console.log(error);
@@ -159,7 +192,8 @@ const ChatItem: React.FC<ChatItemProps> = ({
                 <Button
                   variant="primary"
                   type="button"
-                  disabled={!formState.isValid}
+                  disabled={!formState.isValid || !isValidToEdit}
+                  onClick={editMessageHandler}
                 >
                   Save
                 </Button>

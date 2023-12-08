@@ -1,5 +1,6 @@
 import { ServersCategory, ServerChannel } from "@/types/servers";
 import bcrypt from "bcryptjs";
+import { useSession } from "next-auth/react";
 
 export async function hashPassword(password: string): Promise<string> {
   return await bcrypt.hash(password, 12);
@@ -46,4 +47,12 @@ export function formatCreatedDate(date: string) {
   const createdDate = new Date(date).toLocaleDateString("en-US");
 
   return createdDate;
+}
+
+export function getUserAuthId() {
+  const { data } = useSession();
+  // @ts-ignore
+  const userId: string = data?.user.id;
+
+  return userId;
 }

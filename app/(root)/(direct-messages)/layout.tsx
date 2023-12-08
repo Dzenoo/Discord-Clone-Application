@@ -1,5 +1,6 @@
 import DirectMessagesSidebar from "@/components/direct-messages/navigation/DirectMessagesSidebar";
 import ActiveNowSidebar from "@/components/direct-messages/navigation/ActiveNowSidebar";
+import "react-toastify/dist/ReactToastify.css";
 import "../../globals.css";
 
 export default function DirectMessagesLayout({

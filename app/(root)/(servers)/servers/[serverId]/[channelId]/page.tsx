@@ -59,7 +59,11 @@ const ServerChannel = async ({
           <ServersDetailsTopBar name={channel?.name} />
         </div>
         <div>
-          <ServersDetailsChat messages={channel?.messages} />
+          <ServersDetailsChat
+            messages={channel?.messages}
+            serverId={serverId}
+            channelId={channelId}
+          />
         </div>
         <div className="p-3 sticky bottom-0 right-0">
           <ChatForm serverId={serverId} channelId={channelId} />

@@ -1,7 +1,8 @@
 "use client";
-import { Chat } from "@mui/icons-material";
+import { Chat, Logout } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
 import { Explore } from "@mui/icons-material";
+import { signOut } from "next-auth/react";
 import type { ServerItem } from "@/types/servers";
 import Link from "next/link";
 import useDialog from "@/library/hooks/useDialog";
@@ -87,6 +88,10 @@ const SidebarServers: React.FC<SidebarServersTypes> = ({ servers, userId }) => {
     </ul>
   );
 
+  function logout(): void {
+    signOut();
+  }
+
   return (
     <nav className="p-3 bg-[#191919] w-fit min-h-screen overflow-y-scroll flex flex-col justify-between gap-3">
       <Dialog
@@ -106,6 +111,12 @@ const SidebarServers: React.FC<SidebarServersTypes> = ({ servers, userId }) => {
         {renderServers(servers)}
       </div>
       <div className="flex flex-col gap-3">
+        <div onClick={logout}>
+          <SidebarItem
+            icon={<Logout style={{ color: "#23a559" }} />}
+            name="Logout"
+          />
+        </div>
         <div onClick={() => openDialog("add_servers")}>
           <SidebarItem
             icon={<Add style={{ color: "#23a559" }} />}

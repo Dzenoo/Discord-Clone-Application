@@ -7,6 +7,7 @@ interface RoleType {
 }
 
 export interface UserTypes extends Document {
+  _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   username: string;

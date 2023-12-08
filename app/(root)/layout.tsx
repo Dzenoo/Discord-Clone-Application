@@ -8,6 +8,7 @@ import { ServerItem } from "@/types/servers";
 import SidebarServers from "@/components/shared/navigation/SidebarServers";
 import AuthProvider from "@/context/AuthProvider";
 import "../globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

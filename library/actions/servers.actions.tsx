@@ -1,16 +1,20 @@
 "use server";
 
 import Server from "../models/server";
-import { uploadImage } from "../functions";
-import { connectToDb } from "../mongoose";
-import {
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE,
-  validate,
-} from "../validators/Validators";
-import { revalidatePath } from "next/cache";
 import User from "../models/user";
 import Message from "../models/message";
+import { uploadImage } from "../functions";
+import { connectToDb } from "../mongoose";
+import { revalidatePath } from "next/cache";
+import {
+  createCategories,
+  createRoles,
+  findCategoryById,
+  findChannelById,
+  findServerById,
+  updateUser,
+  validateServerInputs,
+} from "./functions/functions.actions";
 
 export async function createServer(
   serverName: string,
@@ -21,37 +25,20 @@ export async function createServer(
   try {
     await connectToDb();
 
-    if (!serverImage || !serverName || !userId) {
-      return { message: "Please enter a valid server name, image, and userId" };
-    }
+    const { isValid, errorMessage } = await validateServerInputs(
+      serverName,
+      serverImage,
+      userId
+    );
 
-    const isServerNameValid = validate(serverName, [
-      VALIDATOR_REQUIRE(),
-      VALIDATOR_MINLENGTH(3),
-    ]);
-
-    if (!isServerNameValid) {
-      return { message: "Please enter a valid server name." };
+    if (!isValid) {
+      return { message: errorMessage };
     }
 
     const uploadedImage = await uploadImage(serverImage);
 
-    const roles = {
-      name: "Admin",
-      members: [userId],
-    };
-
-    const categories = {
-      name: "Text Channels",
-      channels: [
-        {
-          name: "general",
-          type: "text",
-          messages: [],
-        },
-      ],
-    };
-
+    const roles = await createRoles(userId);
+    const categories = await createCategories();
     const members = [userId];
 
     const createdServer = await Server.create({
@@ -63,15 +50,7 @@ export async function createServer(
       members,
     });
 
-    await User.findByIdAndUpdate(userId, {
-      $push: {
-        servers: createdServer._id,
-        roles: {
-          serverId: createdServer._id,
-          roleId: createdServer.roles[0]._id,
-        },
-      },
-    });
+    await updateUser(userId, createdServer);
 
     const serverId = createdServer._id;
     const channelId = createdServer.categories[0].channels[0]._id;
@@ -128,29 +107,60 @@ export async function createMessageServer(
   try {
     await connectToDb();
 
-    const server = await Server.findById(serverId);
+    const server = await findServerById(serverId);
+    const channelInfo = await findChannelById(serverId, channelId);
 
-    if (!server) {
-      return { message: "Server not found." };
+    if (!channelInfo || !server) {
+      return { message: "Server or channel is not found." };
     }
 
-    for (let i = 0; i < server.categories.length; i++) {
-      const category = server.categories[i];
-      for (let j = 0; j < category.channels.length; j++) {
-        const channel = category.channels[j];
-        if (channel._id.toString() === channelId) {
-          const newMessage = await Message.create({
-            from: userId,
-            content: message,
-          });
-          channel.messages.push(newMessage._id);
-        }
-      }
-    }
+    const newMessage = await Message.create({
+      from: userId,
+      content: message,
+    });
+
+    const { categoryIndex, channelIndex } = channelInfo;
+
+    server.categories[categoryIndex].channels[channelIndex].messages.push(
+      newMessage._id
+    );
+
     revalidatePath(path);
     await server.save();
 
     return { message: "Message sent successfully." };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteMessageServer(
+  serverId: string,
+  channelId: string,
+  messageId: string,
+  path: string
+) {
+  try {
+    await connectToDb();
+
+    await Message.findByIdAndDelete(messageId);
+
+    const server = await findServerById(serverId);
+    const channelInfo = await findChannelById(serverId, channelId);
+
+    if (!channelInfo || !server) {
+      return { message: "Server or channel is not found." };
+    }
+
+    const { categoryIndex, channelIndex } = channelInfo;
+
+    server.categories[categoryIndex].channels[channelIndex].messages.pull(
+      messageId
+    );
+    await server.save();
+
+    revalidatePath(path);
+    return { message: "Message deleted." };
   } catch (error) {
     console.log(error);
   }
@@ -173,7 +183,7 @@ export async function createCategory(
       },
     });
 
-    if (!server) {
+    if (!server || !serverId || !categoryName) {
       return { message: "Server not found." };
     }
 
@@ -195,26 +205,27 @@ export async function createChannel(
   try {
     await connectToDb();
 
-    const server = await Server.findById(serverId);
+    const server = await findServerById(serverId);
 
     if (!server) {
       return { message: "Server not found." };
     }
 
-    for (let i = 0; i < server.categories.length; i++) {
-      const category = server.categories[i];
+    const category = await findCategoryById(serverId, categoryId);
 
-      if (category._id.toString() === categoryId) {
-        category.channels.push({
-          name: channelName,
-          type: channelType,
-          messages: [],
-        });
-      }
+    if (!category) {
+      return { message: "Category not found." };
     }
 
-    revalidatePath(path);
+    const { categoryIndex, categoryObject } = category;
 
+    server.categories[categoryIndex].channels.push({
+      name: channelName,
+      type: channelType,
+      messages: [],
+    });
+
+    revalidatePath(path);
     await server.save();
 
     return { message: "Channel created successfully." };

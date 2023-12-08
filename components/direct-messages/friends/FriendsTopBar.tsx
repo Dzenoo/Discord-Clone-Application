@@ -3,13 +3,35 @@ import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
 import useForm from "@/library/hooks/useForm";
 import Tab from "@/components/shared/ui/Tab";
-import { FriendsTopBarData } from "@/data";
 import { Chat } from "@mui/icons-material";
 import { useState } from "react";
 import { addFriend } from "@/library/actions/user.actions";
-import { useSession } from "next-auth/react";
+import { ToastContainer, toast } from "react-toastify";
+import { getUserAuthId } from "@/library/functions";
 
 type CurrentTopBar = "online" | "blocked" | "add-friend" | "";
+
+export const FriendsTopBarData: {
+  id: string;
+  filter: CurrentTopBar;
+  title: string;
+}[] = [
+  {
+    id: "b0",
+    title: "All",
+    filter: "",
+  },
+  {
+    id: "b1",
+    title: "Online",
+    filter: "online",
+  },
+  {
+    id: "b3",
+    title: "Add Friend",
+    filter: "add-friend",
+  },
+];
 
 const FriendsTopBar: React.FC = () => {
   const { formState, inputChangeHandler } = useForm(
@@ -22,9 +44,7 @@ const FriendsTopBar: React.FC = () => {
     false
   );
   const [currentTab, setcurrentTab] = useState<CurrentTopBar>("");
-  const { data } = useSession();
-  // @ts-ignore
-  const userId = data?.user.id;
+  const userId = getUserAuthId();
 
   function handleTabClick(title: CurrentTopBar) {
     setcurrentTab(title);
@@ -43,79 +63,92 @@ const FriendsTopBar: React.FC = () => {
         formState.inputs.add_friend.value,
         `/${userId}`
       );
+
+      if (response.message === "Friend added.") {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex gap-6 items-center">
-        <div className="flex gap-3 items-center border-r pr-3">
-          <div>
-            <Chat style={{ color: "#fff" }} />
+    <>
+      <ToastContainer />
+      <div className="flex flex-col gap-6">
+        <div className="flex gap-6 items-center">
+          <div className="flex gap-3 items-center border-r pr-3">
+            <div>
+              <Chat style={{ color: "#fff" }} />
+            </div>
+            <div>
+              <h2 className="text-lg text-white">Friends</h2>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg text-white">Friends</h2>
-          </div>
+          <ul className="flex gap-3 items-center">
+            {FriendsTopBarData.map(({ id, filter, title }) => {
+              if (filter === "add-friend") {
+                return (
+                  <Button
+                    key={id}
+                    variant="primary"
+                    type="button"
+                    onClick={() => handleTabClick(filter)}
+                  >
+                    Add Friend
+                  </Button>
+                );
+              } else {
+                return (
+                  <Tab
+                    key={id}
+                    title={title}
+                    onClick={() => handleTabClick(filter)}
+                  />
+                );
+              }
+            })}
+          </ul>
         </div>
-        <ul className="flex gap-3 items-center">
-          {FriendsTopBarData.map(({ id, filter, title }) => {
-            if (filter === "add-friend") {
-              return (
-                <Button
-                  variant="primary"
-                  type="button"
-                  onClick={() => handleTabClick(filter)}
-                >
+        {currentTab === "add-friend" ? (
+          <div className="pb-7 flex flex-col gap-3">
+            <div>
+              <h2 className="text-lg text-white">Add Friend</h2>
+              <p className="text-xs text-gray-400">
+                You can add friends with their Discord username
+              </p>
+            </div>
+            <form
+              className="flex items-center gap-3"
+              onSubmit={addFriendHandler}
+            >
+              <div className="basis-full">
+                <Input
+                  elementType={InputElement.INPUT}
+                  id={"add_friend"}
+                  type={"text"}
+                  placeholder={"Enter username"}
+                  validators={[]}
+                  onInputChange={inputChangeHandler}
+                  initialValidity={true}
+                />
+              </div>
+              <div className="basis-40 mt-3">
+                <Button variant="primary" type="submit">
                   Add Friend
                 </Button>
-              );
-            } else {
-              return (
-                <Tab
-                  key={id}
-                  title={title}
-                  onClick={() => handleTabClick(filter)}
-                />
-              );
-            }
-          })}
-        </ul>
-      </div>
-      {currentTab === "add-friend" ? (
-        <div className="pb-7 flex flex-col gap-3">
-          <div>
-            <h2 className="text-lg text-white">Add Friend</h2>
-            <p className="text-xs text-gray-400">
-              You can add friends with their Discord username
-            </p>
+              </div>
+            </form>
           </div>
-          <form className="flex items-center gap-3" onSubmit={addFriendHandler}>
-            <div className="basis-full">
-              <Input
-                elementType={InputElement.INPUT}
-                id={"add_friend"}
-                type={"text"}
-                placeholder={"Enter username"}
-                validators={[]}
-                onInputChange={inputChangeHandler}
-                initialValidity={true}
-              />
-            </div>
-            <div className="basis-40 mt-3">
-              <Button variant="primary" type="submit">
-                Add Friend
-              </Button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        <div>
-          <input type="text" placeholder="Search" className="inputs" />
-        </div>
-      )}
-    </div>
+        ) : (
+          <div>
+            <input type="text" placeholder="Search" className="inputs" />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

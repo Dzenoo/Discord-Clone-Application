@@ -55,11 +55,8 @@ const Category: React.FC<CategoryProps> = ({
       </div>
       <div className="pt-[3px]">
         {category.channels.map(({ _id, type, name }: ServerChannel) => (
-          <Link href={`/servers/${serverId}/${_id}`}>
-            <div
-              key={`channel_${_id}`}
-              className="p-[0.3em] rounded-md flex justify-between items-center cursor-pointer transition-all hover:bg-[#313339]"
-            >
+          <Link href={`/servers/${serverId}/${_id}`} key={`channel_${_id}`}>
+            <div className="p-[0.3em] rounded-md flex justify-between items-center cursor-pointer transition-all hover:bg-[#313339]">
               <div className="flex items-center gap-[6px]">
                 <div>
                   {type === "text" ? (
