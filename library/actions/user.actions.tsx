@@ -79,7 +79,19 @@ export async function fetchUser(userId: string): Promise<any> {
         populate: {
           path: "userId",
           model: User,
-          select: "-password",
+          select: "name username image _id",
+        },
+      })
+      .populate({
+        path: "directMessages",
+        populate: {
+          path: "messages",
+          model: Message,
+          populate: {
+            path: "from",
+            model: User,
+            select: "name username image _id",
+          },
         },
       })
       .select("-password");
@@ -188,11 +200,17 @@ export async function createMessagesForDirect(
       return { message: "No user found." };
     }
 
-    const directMessages = user.directMessages.find(
-      (directMessage: any) => directMessage.userId === friend._id
+    const directMessagesUser = user.directMessages.find(
+      (directMessage: any) =>
+        directMessage.userId.toString() === friend._id.toString()
     );
 
-    if (!directMessages) {
+    const directMessagesFriend = friend.directMessages.find(
+      (directMessage: any) =>
+        directMessage.userId.toString() === user._id.toString()
+    );
+
+    if (!directMessagesUser || !directMessagesFriend) {
       return { message: "Direct messages not found." };
     }
 
@@ -201,9 +219,11 @@ export async function createMessagesForDirect(
       content: message,
     });
 
-    directMessages.messages.push(newMessage._id);
+    directMessagesUser.messages.push(newMessage._id);
+    directMessagesFriend.messages.push(newMessage._id);
 
     await user.save();
+    await friend.save();
 
     revalidatePath(path);
     return { message: "Message sent." };

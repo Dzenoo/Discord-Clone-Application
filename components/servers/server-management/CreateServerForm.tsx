@@ -60,7 +60,6 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
       if (response.message === "Server created successfully.") {
         restartForm(
           {
-            ...formState.inputs,
             server_name: {
               value: "",
               isValid: false,

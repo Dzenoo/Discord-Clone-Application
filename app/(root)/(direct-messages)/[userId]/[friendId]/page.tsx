@@ -26,7 +26,7 @@ const Conversation = async ({ params }: { params: { friendId: string } }) => {
   );
   const directMessages = user?.directMessages?.find(
     (directMessage: DirectMessageType) =>
-      directMessage?.user?._id === friend?._id
+      directMessage.userId._id.toString() === friend?._id.toString()
   );
 
   return (

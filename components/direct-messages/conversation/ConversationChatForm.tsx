@@ -15,7 +15,7 @@ const ConversationChatForm: React.FC<ConversationChatFormTypes> = ({
   friendId,
   friendUsername,
 }) => {
-  const { formState, inputChangeHandler } = useForm(
+  const { formState, inputChangeHandler, restartForm } = useForm(
     {
       content: {
         value: "",
@@ -24,7 +24,6 @@ const ConversationChatForm: React.FC<ConversationChatFormTypes> = ({
     },
     false
   );
-  console.log(formState.inputs.content.value);
 
   async function submitHandler(
     event: React.KeyboardEvent<HTMLFormElement>
@@ -51,7 +50,6 @@ const ConversationChatForm: React.FC<ConversationChatFormTypes> = ({
           placeholder={`Message ${friendUsername}`}
           validators={[VALIDATOR_REQUIRE()]}
           onInputChange={inputChangeHandler}
-          value={formState.inputs.content.value}
         />
       </div>
     </form>
