@@ -32,7 +32,7 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
           serverId={serverId}
           channelId={channelId}
         />
-        <div className="p-3 flex flex-col gap-6">
+        <div className="p-3 flex flex-col gap-6 overflow-y-scroll h-[34em]">
           {categories?.map((category: ServersCategory) => (
             <Category
               categoryId={category._id}

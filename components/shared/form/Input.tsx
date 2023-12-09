@@ -120,9 +120,9 @@ const Input: React.FC<InputProps> = ({
     element = (
       <input
         id={id}
-        value={state.value}
         placeholder={placeholder}
         type={type}
+        defaultValue={value}
         className={`p-3 rounded-md bg-[#2b2b2b] text-white  ${
           !state.isValid && state.isTouched && "border border-red-600"
         }`}

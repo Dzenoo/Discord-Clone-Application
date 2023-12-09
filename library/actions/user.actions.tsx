@@ -44,7 +44,6 @@ export async function signup(
     if (existingEmail || existingUsername) {
       return { message: "User already exists. Please try again." };
     }
-
     const hashedPassword = await hashPassword(password);
 
     await User.create({

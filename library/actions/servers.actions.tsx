@@ -174,6 +174,8 @@ export async function createCategory(
   try {
     await connectToDb();
 
+    if (!categoryName) return { message: "Category name is required." };
+
     const server = await Server.findByIdAndUpdate(serverId, {
       $push: {
         categories: {

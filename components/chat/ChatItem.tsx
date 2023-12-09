@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
-import { useSession } from "next-auth/react";
 import {
   deleteDirectMessage,
   editMessage,
@@ -121,7 +120,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
 
   return (
     <div
-      className={`p-3 rounded-md flex justify-between items-start gap-3 transition-colors bg-transparent hover:bg-[#2b2b2b] ${
+      className={`p-3 rounded-md flex justify-between items-start gap-3 transition-colors bg-transparent hover:bg-[#1e1e1e] ${
         isMentioned && " border-yellow-600 border"
       }`}
     >

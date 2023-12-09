@@ -20,7 +20,7 @@ const CreateCategoryForm: React.FC<CreateCategoryFormTypes> = ({
   channelId,
   closeDialog,
 }) => {
-  const { formState, inputChangeHandler } = useForm(
+  const { formState, inputChangeHandler, restartForm } = useForm(
     {
       category_name: {
         value: "",
@@ -43,6 +43,16 @@ const CreateCategoryForm: React.FC<CreateCategoryFormTypes> = ({
       );
       if (response.message === "Category created successfully.") {
         closeDialog("create_category");
+        restartForm(
+          {
+            category_name: {
+              value: "",
+              isValid: false,
+            },
+          },
+          false,
+          "category"
+        );
       }
     } catch (error) {
       console.log(error);
@@ -54,7 +64,11 @@ const CreateCategoryForm: React.FC<CreateCategoryFormTypes> = ({
       <div>
         <h2 className="text-xl text-white font-bold">Create Category</h2>
       </div>
-      <form className="flex flex-col gap-6" onSubmit={createCategoryHandler}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={createCategoryHandler}
+        id="category"
+      >
         <div>
           <Input
             elementType={InputElement.INPUT}

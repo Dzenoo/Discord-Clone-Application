@@ -63,13 +63,18 @@ const useForm = (
   const restartForm = useCallback(
     (
       inputData: { [key: string]: InitialInputsTypes },
-      formValidity: boolean
+      formValidity: boolean,
+      formId?: string
     ) => {
       dispatch({
         type: "RESTART",
         inputs: inputData,
         formIsValid: formValidity,
       });
+      if (formId) {
+        const form = document.getElementById(formId)! as HTMLFormElement;
+        form.reset();
+      }
     },
     []
   );
