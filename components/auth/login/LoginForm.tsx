@@ -47,8 +47,8 @@ const LoginForm: React.FC = () => {
       if (result?.ok) {
         router.push("/");
       }
-    } catch (error) {
-      toast.error("Invalid email or password. Please try again.");
+    } catch (error: any) {
+      toast.error(error.message);
     }
   }
 

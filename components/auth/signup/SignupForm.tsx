@@ -36,7 +36,9 @@ const SignupForm: React.FC = () => {
   const { name, email, username, password } = formState.inputs;
   const router = useRouter();
 
-  async function signupAction(e: React.FormEvent<HTMLFormElement>) {
+  async function signupAction(
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
     e.preventDefault();
 
     if (!formState.isValid) return;

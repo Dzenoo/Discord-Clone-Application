@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/library/session";
 import { fetchUser } from "@/library/actions/user.actions";
 import { ServerItem } from "@/types/servers";
 import { DirectMessageType, FriendsItem, UserTypes } from "@/types/users";

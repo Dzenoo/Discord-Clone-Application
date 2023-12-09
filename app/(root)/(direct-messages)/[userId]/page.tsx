@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/library/session";
 import FriendsList from "@/components/direct-messages/friends/FriendsList";
 import FriendsTopBar from "@/components/direct-messages/friends/FriendsTopBar";
 import { fetchUser } from "@/library/actions/user.actions";

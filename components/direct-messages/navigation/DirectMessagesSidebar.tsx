@@ -5,7 +5,7 @@ import Tab from "@/components/shared/ui/Tab";
 import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
 import LinkHref from "@/components/shared/ui/Link";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/library/session";
 import { fetchUser } from "@/library/actions/user.actions";
 import { DirectMessageType, UserTypes } from "@/types/users";
 

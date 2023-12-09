@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/library/session";
 
 const NotFoundPage = async () => {
   const session: any = await getServerSession(authOptions);

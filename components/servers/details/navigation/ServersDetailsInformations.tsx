@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/library/session";
 import { UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
 import LinkHref from "@/components/shared/ui/Link";

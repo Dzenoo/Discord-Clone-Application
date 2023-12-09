@@ -123,7 +123,7 @@ const Input: React.FC<InputProps> = ({
         value={state.value}
         placeholder={placeholder}
         type={type}
-        className={`p-3 rounded-md bg-[#2b2b2b] border border-gray-400 text-white  ${
+        className={`p-3 rounded-md bg-[#2b2b2b] text-white  ${
           !state.isValid && state.isTouched && "border border-red-600"
         }`}
         onChange={changeHandler}

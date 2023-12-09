@@ -67,7 +67,7 @@ const ImagesUpload: React.FC<ImageUploadProps> = ({
       )}
       {imagePreview && (
         <img
-          src={imagePreview}
+          src={imagePreview || ""}
           alt="image"
           className="w-36 h-36 object-cover rounded-full"
           onClick={handleImageUpload}

@@ -10,7 +10,7 @@ import {
   ServerItem,
 } from "@/types/servers";
 import { fetchUser } from "@/library/actions/user.actions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/library/session";
 import { getServerSession } from "next-auth";
 import { getChannel } from "@/library/functions";
 import { UserTypes } from "@/types/users";

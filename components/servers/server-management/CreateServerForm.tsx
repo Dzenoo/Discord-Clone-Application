@@ -4,12 +4,12 @@ import Button from "@/components/shared/form/Button";
 import ImagesUpload from "@/components/shared/form/ImagesUpload";
 import Input, { InputElement } from "@/components/shared/form/Input";
 import { createServer } from "@/library/actions/servers.actions";
+import { getUserAuthId } from "@/library/functions";
 import useForm from "@/library/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "@/library/validators/Validators";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export interface CreateServerFormTypes {
@@ -22,7 +22,7 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
   closeDialog,
 }) => {
   const router = useRouter();
-  const { data } = useSession();
+  const userId = getUserAuthId();
   const { formState, inputChangeHandler, restartForm } = useForm(
     {
       server_name: {
@@ -40,8 +40,7 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
   async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // @ts-ignore
-    if (!formState.isValid || !data?.user.id) return;
+    if (!formState.isValid || !userId) return;
 
     try {
       const response: {
@@ -51,10 +50,8 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
       } = await createServer(
         formState.inputs.server_name.value,
         formState.inputs.server_image.value,
-        // @ts-ignore
-        data?.user.id,
-        // @ts-ignore
-        `/${data?.user.id}`
+        userId,
+        `/${userId}`
       );
 
       if (response.message === "Server created successfully.") {
@@ -109,7 +106,6 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
               label="Server Name"
               onInputChange={inputChangeHandler}
               helperText="Please enter a valid server name."
-              value={formState.inputs.server_name.value}
             />
           </div>
           <div>
