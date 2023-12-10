@@ -226,7 +226,7 @@ export async function createMessagesForDirect(
     await friend.save();
 
     revalidatePath(path);
-    return { message: "Message sent." };
+    return { message: "Message sent.", messageId: newMessage._id };
   } catch (error) {
     console.log(error);
   }

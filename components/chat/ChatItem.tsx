@@ -123,6 +123,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
       className={`p-3 rounded-md flex justify-between items-start gap-3 transition-colors bg-transparent hover:bg-[#1e1e1e] ${
         isMentioned && " border-yellow-600 border"
       }`}
+      id={messageId}
     >
       <div className="flex items-start gap-3">
         <div>

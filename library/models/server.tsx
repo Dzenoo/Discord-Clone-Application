@@ -53,7 +53,7 @@ const ServerSchema: Schema = new Schema<ServerTypes>(
         name: { type: String, required: true },
         channels: [
           {
-            name: { type: String, required: true },
+            name: { type: String },
             type: { type: String, enum: ["text", "voice"], required: true },
             messages: [{ type: mongoose.Types.ObjectId, ref: "Message" }],
           },

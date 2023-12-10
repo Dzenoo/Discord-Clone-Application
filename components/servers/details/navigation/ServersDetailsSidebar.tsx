@@ -22,8 +22,10 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
   serverId,
   channelId,
   categories,
-  user,
+  user: userData,
 }) => {
+  const user = JSON.parse(JSON.stringify(userData));
+
   return (
     <div className="min-h-screen bg-[#222222] overflow-hidden flex flex-col justify-between">
       <div>

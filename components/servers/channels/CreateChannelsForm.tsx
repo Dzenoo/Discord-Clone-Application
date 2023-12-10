@@ -22,7 +22,7 @@ const CreateChannelsForm: React.FC<CreateChannelsFormTypes> = ({
   channelId,
   closeDialog,
 }) => {
-  const { formState, inputChangeHandler } = useForm(
+  const { formState, inputChangeHandler, restartForm } = useForm(
     {
       channel_type: {
         value: "",
@@ -52,6 +52,20 @@ const CreateChannelsForm: React.FC<CreateChannelsFormTypes> = ({
 
       if (response.message === "Channel created successfully.") {
         closeDialog("add_channels");
+        restartForm(
+          {
+            channel_type: {
+              value: "",
+              isValid: false,
+            },
+            channel_name: {
+              value: "",
+              isValid: false,
+            },
+          },
+          false,
+          "create-channel"
+        );
       }
     } catch (error) {
       console.log(error);
@@ -64,7 +78,11 @@ const CreateChannelsForm: React.FC<CreateChannelsFormTypes> = ({
         <h2 className="text-xl text-white font-bold">Create Channel</h2>
         <p className="text-xs text-gray-400">In Category Text Channels</p>
       </div>
-      <form className="flex flex-col gap-6" onSubmit={createChannelHandler}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={createChannelHandler}
+        id="create-channel"
+      >
         <div>
           <Select
             id="channel_type"

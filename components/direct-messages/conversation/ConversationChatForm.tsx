@@ -32,16 +32,33 @@ const ConversationChatForm: React.FC<ConversationChatFormTypes> = ({
 
     if (formState.isValid === false) return;
 
-    await createMessagesForDirect(
+    const response = await createMessagesForDirect(
       userId,
       friendId,
       formState.inputs.content.value,
       `/${userId}/${friendId}`
     );
+
+    if (response?.message === "Message sent.") {
+      restartForm(
+        {
+          content: {
+            value: "",
+            isValid: false,
+          },
+        },
+        false,
+        "new-message"
+      );
+    }
   }
 
   return (
-    <form onSubmit={submitHandler} className="flex items-end gap-3">
+    <form
+      onSubmit={submitHandler}
+      className="flex items-end gap-3"
+      id="new-message"
+    >
       <div className="basis-full">
         <Input
           elementType={InputElement.INPUT}

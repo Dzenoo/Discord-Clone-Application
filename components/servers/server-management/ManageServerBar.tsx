@@ -1,7 +1,6 @@
 "use client";
 
-import { AddCircleOutline, Category, Settings } from "@mui/icons-material";
-import Link from "next/link";
+import { AddCircleOutline, Category } from "@mui/icons-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 import Tab from "@/components/shared/ui/Tab";
@@ -80,17 +79,8 @@ const ManageServerBar: React.FC<ManageServerBarTypes> = ({
             <Tab
               title="Invite People"
               icon={<AddCircleOutline style={{ color: "gray" }} />}
-              classNames="w-full"
+              classNames="w-full text-blue-700"
             />
-          </div>
-          <div>
-            <Link href={`/servers/${serverId}/settings`}>
-              <Tab
-                title="Server Settings"
-                icon={<Settings style={{ color: "gray" }} />}
-                classNames="w-full"
-              />
-            </Link>
           </div>
           <div onClick={() => openDialog("create_category")}>
             <Tab
