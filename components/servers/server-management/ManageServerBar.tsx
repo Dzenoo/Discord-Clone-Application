@@ -2,12 +2,12 @@
 
 import { AddCircleOutline, Category } from "@mui/icons-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import useToggleOverlay from "@/library/hooks/useToggleOverlay";
 import Tab from "@/components/shared/elements/Tab";
-import useDialog from "@/library/hooks/useDialog";
 import Dialog from "@/components/shared/elements/Dialog";
 import InviteToServerForm from "./InviteToServerForm";
 import CreateCategoryForm from "../channels/CreateCategoryForm";
+import useDialog from "@/lib/hooks/useDialog";
+import useToggleOverlay from "@/lib/hooks/useToggleOverlay";
 
 interface ManageServerBarTypes {
   serverName: string;

@@ -2,12 +2,12 @@
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
 import Select from "@/components/shared/form/Select";
-import { createChannel } from "@/library/actions/servers.actions";
-import useForm from "@/library/hooks/useForm";
+import { createChannel } from "@/lib/actions/servers.actions";
+import useForm from "@/lib/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
-} from "@/library/validators/Validators";
+} from "@/lib/validators/Validators";
 
 interface CreateChannelsFormTypes {
   categoryId: string;

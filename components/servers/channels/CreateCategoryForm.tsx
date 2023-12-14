@@ -2,12 +2,12 @@
 
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
-import { createCategory } from "@/library/actions/servers.actions";
-import useForm from "@/library/hooks/useForm";
+import { createCategory } from "@/lib/actions/servers.actions";
+import useForm from "@/lib/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
-} from "@/library/validators/Validators";
+} from "@/lib/validators/Validators";
 
 interface CreateCategoryFormTypes {
   serverId: string;

@@ -1,11 +1,12 @@
 "use client";
 
-import useForm from "@/library/hooks/useForm";
+import { getUserAuthId } from "@/lib/functions";
 import Input, { InputElement } from "../../shared/form/Input";
-import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
-import { createMessageServer } from "@/library/actions/servers.actions";
-import { getUserAuthId } from "@/library/functions";
+
 import { ToastContainer, toast } from "react-toastify";
+import useForm from "@/lib/hooks/useForm";
+import { createMessageServer } from "@/lib/actions/servers.actions";
+import { VALIDATOR_REQUIRE } from "@/lib/validators/Validators";
 
 interface ChatFormTypes {
   serverId: string;
@@ -48,7 +49,8 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
             isValid: false,
           },
         },
-        false
+        false,
+        "chat-servers"
       );
     });
   }
@@ -56,7 +58,11 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
   return (
     <>
       <ToastContainer />
-      <form onSubmit={submitHandler} className="flex items-end gap-3">
+      <form
+        onSubmit={submitHandler}
+        className="flex items-end gap-3"
+        id="chat-servers"
+      >
         <div className="basis-full">
           <Input
             elementType={InputElement.INPUT}
@@ -65,8 +71,6 @@ const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
             placeholder={`Message`}
             validators={[VALIDATOR_REQUIRE()]}
             onInputChange={inputChangeHandler}
-            value={formState.inputs.content.value}
-            helperText="Enter a message"
           />
         </div>
       </form>

@@ -1,8 +1,8 @@
 "use client";
-import useForm from "@/library/hooks/useForm";
+import useForm from "@/lib/hooks/useForm";
 import Input, { InputElement } from "../../shared/form/Input";
-import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
-import { createMessagesForDirect } from "@/library/actions/user.actions";
+import { createMessagesForDirect } from "@/lib/actions/user.actions";
+import { VALIDATOR_REQUIRE } from "@/lib/validators/Validators";
 
 interface ConversationChatFormTypes {
   friendId: string;

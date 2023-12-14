@@ -1,5 +1,3 @@
-import { authOptions } from "@/library/session";
-import { fetchUser } from "@/library/actions/user.actions";
 import { ServerItem } from "@/types/servers";
 import { DirectMessageType, FriendsItem, UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
@@ -7,6 +5,8 @@ import ConversationChat from "@/components/direct-messages/conversation/Conversa
 import ConversationInformation from "@/components/direct-messages/conversation/ConversationInformation";
 import ConversationTopBar from "@/components/direct-messages/conversation/ConversationTopBar";
 import ConversationChatForm from "@/components/direct-messages/conversation/ConversationChatForm";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { authOptions } from "@/lib/session";
 
 const Conversation = async ({ params }: { params: { friendId: string } }) => {
   const session = await getServerSession(authOptions);

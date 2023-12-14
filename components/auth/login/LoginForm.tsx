@@ -2,11 +2,11 @@
 
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
-import useForm from "@/library/hooks/useForm";
+import useForm from "@/lib/hooks/useForm";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
-} from "@/library/validators/Validators";
+} from "@/lib/validators/Validators";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";

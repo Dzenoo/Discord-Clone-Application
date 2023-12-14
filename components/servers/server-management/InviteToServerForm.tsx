@@ -2,7 +2,7 @@
 
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
-import useForm from "@/library/hooks/useForm";
+import useForm from "@/lib/hooks/useForm";
 
 const InviteToServerForm: React.FC = () => {
   const { formState, inputChangeHandler } = useForm(

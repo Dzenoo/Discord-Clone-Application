@@ -2,18 +2,15 @@
 
 import { useState } from "react";
 import { Delete, Edit } from "@mui/icons-material";
-import { VALIDATOR_REQUIRE } from "@/library/validators/Validators";
-import {
-  deleteDirectMessage,
-  editMessage,
-} from "@/library/actions/user.actions";
 import Button from "../shared/form/Button";
-import useForm from "@/library/hooks/useForm";
 import Input, { InputElement } from "../shared/form/Input";
-import useDialog from "@/library/hooks/useDialog";
 import Dialog from "../shared/elements/Dialog";
-import { deleteMessageServer } from "@/library/actions/servers.actions";
-import { getUserAuthId } from "@/library/functions";
+import { getUserAuthId } from "@/lib/functions";
+import useDialog from "@/lib/hooks/useDialog";
+import useForm from "@/lib/hooks/useForm";
+import { deleteMessageServer } from "@/lib/actions/servers.actions";
+import { deleteDirectMessage, editMessage } from "@/lib/actions/user.actions";
+import { VALIDATOR_REQUIRE } from "@/lib/validators/Validators";
 
 export interface ChatItemProps {
   userId: string;

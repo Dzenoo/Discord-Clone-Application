@@ -1,4 +1,4 @@
-import { VALIDATOR_REQUIRE, validate } from "@/library/validators/Validators";
+import { VALIDATOR_REQUIRE, validate } from "@/lib/validators/Validators";
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 
 export interface SelectPropsTypes {

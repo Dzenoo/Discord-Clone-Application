@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Toggle from "@/components/shared/elements/Toggle";
 import LinkHref from "@/components/shared/elements/Link";
-import { formatCreatedDate } from "@/library/functions";
 import { ServerItem } from "@/types/servers";
 import { FriendsItem, UserTypes } from "@/types/users";
+import { formatCreatedDate } from "@/lib/functions";
 
 interface ConversationInformationProps {
   username: string;

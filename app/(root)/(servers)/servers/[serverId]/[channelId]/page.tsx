@@ -3,17 +3,17 @@ import ServersDetailsChat from "@/components/servers/details/navigation/ServersD
 import ServersDetailsTopBar from "@/components/servers/details/navigation/ServersDetailsTopBar";
 import ServersDetailsSidebar from "@/components/servers/details/navigation/ServersDetailsSidebar";
 import ServersDetailsInformations from "@/components/servers/details/navigation/ServersDetailsInformations";
-import { fetchServerById } from "@/library/actions/servers.actions";
 import { notFound } from "next/navigation";
 import {
   ServerChannel as ServerChannelPropsTypes,
   ServerItem,
 } from "@/types/servers";
-import { fetchUser } from "@/library/actions/user.actions";
-import { authOptions } from "@/library/session";
 import { getServerSession } from "next-auth";
-import { getChannel } from "@/library/functions";
 import { UserTypes } from "@/types/users";
+import { getChannel } from "@/lib/functions";
+import { fetchServerById } from "@/lib/actions/servers.actions";
+import { authOptions } from "@/lib/session";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 const ServerChannel = async ({
   params: { serverId, channelId },

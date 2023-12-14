@@ -1,12 +1,12 @@
 "use client";
 
 import Dialog from "@/components/shared/elements/Dialog";
-import useDialog from "@/library/hooks/useDialog";
 import Link from "next/link";
 import CreateChannelsForm from "./CreateChannelsForm";
 import { Add, Settings, Tag, VolumeUp } from "@mui/icons-material";
 import type { ServerChannel, ServersCategory } from "@/types/servers";
 import { useRouter } from "next/navigation";
+import useDialog from "@/lib/hooks/useDialog";
 
 interface CategoryProps {
   categoryId: string;
