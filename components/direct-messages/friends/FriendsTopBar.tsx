@@ -34,7 +34,7 @@ export const FriendsTopBarData: {
 ];
 
 const FriendsTopBar: React.FC = () => {
-  const { formState, inputChangeHandler } = useForm(
+  const { formState, inputChangeHandler, restartForm } = useForm(
     {
       add_friend: {
         value: "",
@@ -54,6 +54,7 @@ const FriendsTopBar: React.FC = () => {
     event.preventDefault();
 
     if (formState.isValid === false) {
+      toast.error("Please Enter Valid Name");
       return;
     }
 
@@ -66,6 +67,16 @@ const FriendsTopBar: React.FC = () => {
 
       if (response.message === "Friend added.") {
         toast.success(response.message);
+        restartForm(
+          {
+            add_friend: {
+              value: "",
+              isValid: false,
+            },
+          },
+          false,
+          "add-friend"
+        );
       } else {
         toast.error(response.message);
       }
@@ -123,6 +134,7 @@ const FriendsTopBar: React.FC = () => {
             <form
               className="flex items-center gap-3"
               onSubmit={addFriendHandler}
+              id="add-friend"
             >
               <div className="basis-full">
                 <Input
@@ -132,11 +144,15 @@ const FriendsTopBar: React.FC = () => {
                   placeholder={"Enter username"}
                   validators={[]}
                   onInputChange={inputChangeHandler}
-                  initialValidity={true}
+                  helperText="Please enter valid username"
                 />
               </div>
               <div className="basis-40 mt-3">
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={!formState.isValid}
+                >
                   Add Friend
                 </Button>
               </div>

@@ -56,3 +56,24 @@ export function getUserAuthId() {
 
   return userId;
 }
+
+export function updateSearchParams<T extends string>(
+  type: T,
+  value: T
+): string {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.set(type, value);
+
+  const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
+
+  return newPathname;
+}
+
+export function deleteSearchParams<T extends string>(type: T): string {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.delete(type);
+
+  const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
+
+  return newPathname;
+}

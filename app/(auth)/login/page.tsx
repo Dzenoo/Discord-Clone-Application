@@ -1,7 +1,7 @@
-import { authOptions } from "@/library/session";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import LoginCard from "@/components/auth/login/LoginCard";
+import { authOptions } from "@/lib/session";
 
 const LoginPage = async () => {
   const session = await getServerSession(authOptions);

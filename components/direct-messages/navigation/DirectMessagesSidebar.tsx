@@ -1,30 +1,46 @@
+"use client";
+
 import { Chat } from "@mui/icons-material";
 import { Speed } from "@mui/icons-material";
 import { Shop } from "@mui/icons-material";
-import { getServerSession } from "next-auth";
 import { DirectMessageType, UserTypes } from "@/types/users";
-import { authOptions } from "@/lib/session";
-import { fetchUser } from "@/lib/actions/user.actions";
+import { ChangeEvent } from "react";
 import Tab from "@/components/shared/elements/Tab";
 import ManageProfileBar from "@/components/profile-management/ManageProfileBar";
 import LinkHref from "@/components/shared/elements/Link";
+import useForm from "@/lib/hooks/useForm";
 
-const DirectMessagesSidebar: React.FC = async () => {
-  const session = await getServerSession(authOptions);
-  // @ts-ignore
-  const userIdAuth = session?.user?.id;
-  const user: UserTypes = await fetchUser(userIdAuth);
+interface DirectMessagesSidebar {
+  user: UserTypes;
+}
+
+const DirectMessagesSidebar: React.FC<DirectMessagesSidebar> = ({ user }) => {
+  const { formState, inputChangeHandler } = useForm(
+    {
+      search_messages: {
+        value: "",
+        isValid: true,
+      },
+    },
+    true
+  );
 
   return (
     <nav className="p-3 min-h-screen bg-[#222222] overflow-hidden flex flex-col justify-between">
       <div>
+        <div className="border-b pb-4 border-gray-700">
+          <input
+            className="inputs"
+            placeholder="Find a conversation"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              inputChangeHandler("search_messages", e.target.value, true)
+            }
+          />
+        </div>
         <div>
-          <div className="border-b pb-4 border-gray-700">
-            <input className="inputs" placeholder="Find a conversation" />
-          </div>
           <div className="mt-3 flex flex-col gap-3">
             <LinkHref
-              href={`/${userIdAuth}`}
+              href={`/${user?._id}`}
               icon={<Chat style={{ color: "#fff" }} />}
               title="Friends"
             />
@@ -42,16 +58,20 @@ const DirectMessagesSidebar: React.FC = async () => {
                 <h2 className="text-gray-300 text-xs">No messages yet.</h2>
               </div>
             )}
-            {user?.directMessages.map(
-              (directMessages: DirectMessageType, ind: number) => (
+            {user?.directMessages
+              .filter((directMessages) =>
+                directMessages.userId.username.includes(
+                  formState.inputs.search_messages.value.toLowerCase()
+                )
+              )
+              .map((directMessages: DirectMessageType) => (
                 <LinkHref
-                  key={ind}
-                  href={`/${userIdAuth}/${directMessages?.userId._id}`}
+                  key={`messages_${directMessages.userId.toString()}`}
+                  href={`/${user?._id}/${directMessages?.userId._id}`}
                   title={directMessages?.userId.username}
                   image={directMessages?.userId.image}
                 />
-              )
-            )}
+              ))}
           </ul>
         </div>
       </div>

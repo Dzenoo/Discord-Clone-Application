@@ -19,8 +19,7 @@ const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({
   const router = useRouter();
 
   async function handleCreateDirect() {
-    const response = await createMessagesDirect(userId, friendId);
-
+    await createMessagesDirect(userId, friendId);
     router.push(`${userId}/${friendId}`);
   }
 
