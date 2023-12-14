@@ -9,7 +9,10 @@ export interface UserTypes {
   directMessages: DirectMessageType[];
   friends: FriendsItem[];
   servers?: ServerItem[];
-  roles?: string[];
+  roles?: {
+    name: "Admin" | "Moderator" | "Member";
+    members: string[];
+  }[];
   createdAt: string;
 }
 

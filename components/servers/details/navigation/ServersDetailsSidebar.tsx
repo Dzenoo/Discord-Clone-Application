@@ -8,6 +8,7 @@ interface ServersDetailSidebarTypes {
   serverId: string;
   channelId: string;
   categories: ServersCategory[];
+  isAdmin: boolean;
   user: {
     _id: string;
     username: string;
@@ -21,6 +22,7 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
   serverName,
   serverId,
   channelId,
+  isAdmin,
   categories,
   user: userData,
 }) => {
@@ -33,6 +35,7 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
           serverName={serverName}
           serverId={serverId}
           channelId={channelId}
+          isAdmin={isAdmin}
         />
         <div className="p-3 flex flex-col gap-6 overflow-y-scroll h-[34em]">
           {categories?.map((category: ServersCategory) => (
@@ -42,6 +45,7 @@ const ServersDetailsSidebar: React.FC<ServersDetailSidebarTypes> = ({
               category={category}
               serverId={serverId}
               channelId={channelId}
+              isAdmin={isAdmin}
             />
           ))}
         </div>

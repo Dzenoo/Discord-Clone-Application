@@ -16,7 +16,9 @@ const LinkHref: React.FC<LinkProps> = ({ href, image, icon, title }) => {
     >
       <div>
         {image ? (
-          <img src={image} alt={title} className="w-9 h-9 rounded-full" />
+          <div>
+            <img src={image} alt={title} className="w-9 h-9 rounded-full" />
+          </div>
         ) : (
           icon
         )}

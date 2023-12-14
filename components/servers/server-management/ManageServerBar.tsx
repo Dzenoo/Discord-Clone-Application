@@ -13,12 +13,14 @@ interface ManageServerBarTypes {
   serverName: string;
   serverId: string;
   channelId: string;
+  isAdmin: boolean;
 }
 
 const ManageServerBar: React.FC<ManageServerBarTypes> = ({
   serverName,
   serverId,
   channelId,
+  isAdmin,
 }) => {
   const { isOpened, handleToggle, overlayRef } = useToggleOverlay();
   const { dialogs, openDialog, closeDialog } = useDialog({
@@ -82,13 +84,21 @@ const ManageServerBar: React.FC<ManageServerBarTypes> = ({
               classNames="w-full text-blue-700"
             />
           </div>
-          <div onClick={() => openDialog("create_category")}>
-            <Tab
-              title="Create Category"
-              icon={<Category style={{ color: "gray" }} />}
-              classNames="w-full"
-            />
-          </div>
+          {isAdmin === true ? (
+            <div onClick={() => openDialog("create_category")}>
+              <Tab
+                title="Create Category"
+                icon={<Category style={{ color: "gray" }} />}
+                classNames="w-full"
+              />
+            </div>
+          ) : (
+            <div>
+              <p className="my-3 text-xs text-gray-400 text-center">
+                Admins can create category
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </>

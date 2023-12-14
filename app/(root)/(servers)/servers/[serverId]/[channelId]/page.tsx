@@ -10,7 +10,7 @@ import {
 } from "@/types/servers";
 import { getServerSession } from "next-auth";
 import { UserTypes } from "@/types/users";
-import { getChannel } from "@/lib/functions";
+import { getChannel, isUserAdminForServer } from "@/lib/functions";
 import { fetchServerById } from "@/lib/actions/servers.actions";
 import { authOptions } from "@/lib/session";
 import { fetchUser } from "@/lib/actions/user.actions";
@@ -32,6 +32,7 @@ const ServerChannel = async ({
     server?.categories,
     channelId
   );
+  const isUserAdmin = isUserAdminForServer(server, fetchedUser);
 
   if (!fetchedServer || !fetchedUser) {
     notFound();
@@ -44,6 +45,7 @@ const ServerChannel = async ({
           serverName={server?.name}
           serverId={serverId}
           channelId={channelId}
+          isAdmin={isUserAdmin}
           categories={server?.categories}
           user={{
             _id: fetchedUser?._id,
@@ -70,7 +72,7 @@ const ServerChannel = async ({
         </div>
       </div>
       <div className="basis-[30em] max-w-[240px] w-full">
-        <ServersDetailsInformations members={server?.members} />
+        <ServersDetailsInformations server={server} />
       </div>
     </div>
   );

@@ -3,9 +3,8 @@
 import Dialog from "@/components/shared/elements/Dialog";
 import Link from "next/link";
 import CreateChannelsForm from "./CreateChannelsForm";
-import { Add, Settings, Tag, VolumeUp } from "@mui/icons-material";
+import { Add, Tag, VolumeUp } from "@mui/icons-material";
 import type { ServerChannel, ServersCategory } from "@/types/servers";
-import { useRouter } from "next/navigation";
 import useDialog from "@/lib/hooks/useDialog";
 
 interface CategoryProps {
@@ -13,22 +12,19 @@ interface CategoryProps {
   category: ServersCategory;
   serverId: string;
   channelId: string;
+  isAdmin: boolean;
 }
 
 const Category: React.FC<CategoryProps> = ({
   categoryId,
   category,
   serverId,
+  isAdmin,
   channelId,
 }) => {
-  const router = useRouter();
   const { dialogs, closeDialog, openDialog } = useDialog({
     add_channels: { isOpen: false },
   });
-
-  function handleChannelClick(channelId: string): void {
-    router.push(`/settings-channels`);
-  }
 
   return (
     <div>
@@ -49,9 +45,11 @@ const Category: React.FC<CategoryProps> = ({
             {category?.name}
           </h2>
         </div>
-        <div onClick={() => openDialog("add_channels")}>
-          <Add style={{ cursor: "pointer", color: "#fff" }} />
-        </div>
+        {isAdmin && (
+          <div onClick={() => openDialog("add_channels")}>
+            <Add style={{ cursor: "pointer", color: "#fff" }} />
+          </div>
+        )}
       </div>
       <div className="pt-[3px]">
         {category.channels.map(({ _id, type, name }: ServerChannel) => (
@@ -68,11 +66,6 @@ const Category: React.FC<CategoryProps> = ({
                 <h2 className="text-xs text-white font-bold truncate">
                   {name}
                 </h2>
-              </div>
-              <div className="flex gap-[6px] items-center">
-                <div onClick={() => handleChannelClick("server")}>
-                  <Settings style={{ color: "#fff", fontSize: "16px" }} />
-                </div>
               </div>
             </div>
           </Link>

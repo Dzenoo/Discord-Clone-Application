@@ -2,19 +2,21 @@ import { UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
 import LinkHref from "@/components/shared/elements/Link";
 import { authOptions } from "@/lib/session";
+import { isUserAdminForServer } from "@/lib/functions";
+import { ServerItem } from "@/types/servers";
 
 interface ServersDetailsInformationsTypes {
-  members: UserTypes[];
+  server: ServerItem;
 }
 
 const ServersDetailsInformations: React.FC<
   ServersDetailsInformationsTypes
-> = async ({ members }) => {
+> = async ({ server }) => {
   const session = await getServerSession(authOptions);
   // @ts-ignore
   const userId = session?.user?.id;
 
-  const currentProfile = members?.find(
+  const currentProfile = server?.members?.find(
     (member: UserTypes) => member?._id === userId
   );
 
@@ -29,14 +31,21 @@ const ServersDetailsInformations: React.FC<
           </h2>
         </div>
         <div className="py-3">
-          {members?.map((member: UserTypes) => (
-            <LinkHref
-              key={`member_${member?._id}`}
-              href={`${isProfile ? null : `/${userId}/${member?._id} `}`}
-              image={member?.image}
-              title={member?.name}
-            />
-          ))}
+          {server?.members?.map((member: UserTypes) => {
+            const isMemberAdmin = isUserAdminForServer(server, member);
+
+            return (
+              <div>
+                <LinkHref
+                  key={`member_${member?._id}`}
+                  href={`${isProfile ? null : `/${userId}/${member?._id} `}`}
+                  image={member?.image}
+                  title={member?.name}
+                />
+                {isMemberAdmin ? "adminje" : "nije"}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div>
@@ -46,7 +55,7 @@ const ServersDetailsInformations: React.FC<
           </h2>
         </div>
         <div className="py-3">
-          {members?.map((member: UserTypes) => (
+          {server?.members?.map((member: UserTypes) => (
             <LinkHref
               key={member?._id}
               href={`${isProfile ? null : `/${userId}/${member?._id} `}`}

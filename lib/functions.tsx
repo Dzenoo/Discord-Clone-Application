@@ -1,4 +1,5 @@
-import { ServersCategory, ServerChannel } from "@/types/servers";
+import { ServersCategory, ServerChannel, ServerItem } from "@/types/servers";
+import { UserTypes } from "@/types/users";
 import bcrypt from "bcryptjs";
 import { useSession } from "next-auth/react";
 
@@ -81,4 +82,13 @@ export function deleteSearchParams<T extends string>(type: T): string {
 export function generateServerInviteLink(serverId: string) {
   const link = `${process.env.NEXT_PUBLIC_URL}/servers/invite/${serverId}`;
   return link;
+}
+
+export function isUserAdminForServer(
+  server: ServerItem,
+  user: UserTypes
+): boolean {
+  const adminRole = server.roles.find((role) => role.name === "Admin");
+  const isAdmin = adminRole?.members.includes(user._id.toString()) || false;
+  return isAdmin;
 }

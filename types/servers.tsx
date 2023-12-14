@@ -21,7 +21,7 @@ export interface ServerItem {
   roles: {
     name: "Admin" | "Moderator" | "Member";
     members: string[];
-  };
+  }[];
   categories: ServersCategory[];
   members: UserTypes[];
 }
