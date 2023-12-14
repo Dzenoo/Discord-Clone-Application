@@ -3,13 +3,13 @@
 import Button from "@/components/shared/form/Button";
 import ImagesUpload from "@/components/shared/form/ImagesUpload";
 import Input, { InputElement } from "@/components/shared/form/Input";
-import { createServer } from "@/library/actions/servers.actions";
-import { getUserAuthId } from "@/library/functions";
-import useForm from "@/library/hooks/useForm";
+import { createServer } from "@/lib/actions/servers.actions";
+import { getUserAuthId } from "@/lib/functions";
+import useForm from "@/lib/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
-} from "@/library/validators/Validators";
+} from "@/lib/validators/Validators";
 import { useRouter } from "next/navigation";
 
 export interface CreateServerFormTypes {

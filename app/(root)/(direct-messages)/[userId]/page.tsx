@@ -1,7 +1,7 @@
-import { authOptions } from "@/library/session";
 import FriendsList from "@/components/direct-messages/friends/FriendsList";
 import FriendsTopBar from "@/components/direct-messages/friends/FriendsTopBar";
-import { fetchUser } from "@/library/actions/user.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { authOptions } from "@/lib/session";
 import { UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";

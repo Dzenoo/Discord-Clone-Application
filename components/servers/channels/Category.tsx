@@ -1,6 +1,6 @@
 "use client";
 
-import Dialog from "@/components/shared/ui/Dialog";
+import Dialog from "@/components/shared/elements/Dialog";
 import useDialog from "@/library/hooks/useDialog";
 import Link from "next/link";
 import CreateChannelsForm from "./CreateChannelsForm";

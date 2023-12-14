@@ -1,13 +1,13 @@
 "use client";
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
-import useForm from "@/library/hooks/useForm";
-import Tab from "@/components/shared/ui/Tab";
+import Tab from "@/components/shared/elements/Tab";
+import { addFriend } from "@/lib/actions/user.actions";
+import { getUserAuthId } from "@/lib/functions";
+import useForm from "@/lib/hooks/useForm";
 import { Chat } from "@mui/icons-material";
 import { useState } from "react";
-import { addFriend } from "@/library/actions/user.actions";
 import { ToastContainer, toast } from "react-toastify";
-import { getUserAuthId } from "@/library/functions";
 
 type CurrentTopBar = "online" | "blocked" | "add-friend" | "";
 

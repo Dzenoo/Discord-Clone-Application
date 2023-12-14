@@ -1,12 +1,12 @@
 "use server";
 
-import Server, { ChannelType, ServerTypes } from "@/library/models/server";
-import User from "@/library/models/user";
+import Server, { ChannelType, ServerTypes } from "@/lib/models/server";
+import User from "@/lib/models/user";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
   validate,
-} from "@/library/validators/Validators";
+} from "@/lib/validators/Validators";
 
 export async function findServerById(serverId: string) {
   const server = await Server.findById(serverId);

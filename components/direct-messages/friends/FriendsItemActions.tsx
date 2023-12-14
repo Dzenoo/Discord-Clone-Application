@@ -1,11 +1,11 @@
 "use client";
-import Tab from "@/components/shared/ui/Tab";
+import Tab from "@/components/shared/elements/Tab";
 import Link from "next/link";
 import Button from "@/components/shared/form/Button";
 import { Chat, MoreVert } from "@mui/icons-material";
-import useToggleOverlay from "@/library/hooks/useToggleOverlay";
-import { createMessagesDirect } from "@/library/actions/user.actions";
 import { useRouter } from "next/navigation";
+import { createMessagesDirect } from "@/lib/actions/user.actions";
+import useToggleOverlay from "@/lib/hooks/useToggleOverlay";
 
 export interface FriendsItemActionsProps {
   userId: string;

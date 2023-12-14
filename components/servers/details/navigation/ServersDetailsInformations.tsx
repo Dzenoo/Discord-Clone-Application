@@ -1,7 +1,7 @@
 import { authOptions } from "@/library/session";
 import { UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
-import LinkHref from "@/components/shared/ui/Link";
+import LinkHref from "@/components/shared/elements/Link";
 
 interface ServersDetailsInformationsTypes {
   members: UserTypes[];

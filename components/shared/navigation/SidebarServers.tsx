@@ -5,9 +5,9 @@ import { Explore } from "@mui/icons-material";
 import { signOut } from "next-auth/react";
 import type { ServerItem } from "@/types/servers";
 import Link from "next/link";
-import useDialog from "@/library/hooks/useDialog";
-import Dialog from "../ui/Dialog";
+import Dialog from "../elements/Dialog";
 import CreateServerForm from "@/components/servers/server-management/CreateServerForm";
+import useDialog from "@/lib/hooks/useDialog";
 
 interface SidebarItemProps {
   href?: string;

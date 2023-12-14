@@ -10,7 +10,7 @@ const ActiveNowSidebar: React.FC = () => {
   if (pathname !== `/${data?.user.id}`) return null;
 
   return (
-    <nav className="p-6 min-h-screen bg-[#222222] overflow-hidden basis-1/2">
+    <nav className="p-6 min-h-screen bg-[#222222] overflow-hidden basis-[30em]">
       <div>
         <h2 className="text-xl font-bold text-white">Active Now</h2>
       </div>

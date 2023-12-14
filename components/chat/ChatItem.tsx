@@ -11,7 +11,7 @@ import Button from "../shared/form/Button";
 import useForm from "@/library/hooks/useForm";
 import Input, { InputElement } from "../shared/form/Input";
 import useDialog from "@/library/hooks/useDialog";
-import Dialog from "../shared/ui/Dialog";
+import Dialog from "../shared/elements/Dialog";
 import { deleteMessageServer } from "@/library/actions/servers.actions";
 import { getUserAuthId } from "@/library/functions";
 

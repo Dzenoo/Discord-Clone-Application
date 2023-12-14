@@ -1,4 +1,4 @@
-import Card from "@/components/shared/ui/Card";
+import Card from "@/components/shared/elements/Card";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
 

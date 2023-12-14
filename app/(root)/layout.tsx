@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
-import { fetchUser } from "@/library/actions/user.actions";
 import { redirect } from "next/navigation";
 import { ServerItem } from "@/types/servers";
 import SidebarServers from "@/components/shared/navigation/SidebarServers";
 import AuthProvider from "@/context/AuthProvider";
 import "../globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import { authOptions } from "@/library/session";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { authOptions } from "@/lib/session";
 
 const inter = Inter({ subsets: ["latin"] });
 

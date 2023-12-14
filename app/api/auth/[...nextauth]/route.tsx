@@ -1,4 +1,4 @@
-import { authOptions } from "@/library/session";
+import { authOptions } from "@/lib/session";
 import NextAuth from "next-auth";
 
 // Define the handler as NextAuth with authOptions

@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Edit } from "@mui/icons-material";
-import { formatCreatedDate } from "@/library/functions";
-import useToggleOverlay from "@/library/hooks/useToggleOverlay";
+import { formatCreatedDate } from "@/lib/functions";
+import useToggleOverlay from "@/lib/hooks/useToggleOverlay";
 
 interface ManageProfileBarTypes {
   username: string;

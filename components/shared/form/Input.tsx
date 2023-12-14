@@ -1,8 +1,9 @@
 "use client";
+
 import {
   ValidatorPropertiesTypes,
   validate,
-} from "@/library/validators/Validators";
+} from "@/lib/validators/Validators";
 import { useCallback, useEffect, useReducer } from "react";
 
 export enum InputElement {
