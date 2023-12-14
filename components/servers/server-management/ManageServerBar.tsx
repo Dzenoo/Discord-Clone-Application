@@ -36,7 +36,7 @@ const ManageServerBar: React.FC<ManageServerBarTypes> = ({
         isOpen={dialogs.invite_people.isOpen}
         closeDialog={() => closeDialog("invite_people")}
       >
-        <InviteToServerForm />
+        <InviteToServerForm serverId={serverId} closeDialog={closeDialog} />
       </Dialog>
       <Dialog
         isOpen={dialogs.create_category.isOpen}

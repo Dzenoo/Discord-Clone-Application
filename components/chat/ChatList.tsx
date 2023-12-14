@@ -16,7 +16,7 @@ const ChatList: React.FC<ChatListProps> = ({
   channelId,
 }) => {
   const filteredMessages: { [key: string]: MessageItem[] } = {};
-  messages!.forEach((message: MessageItem) => {
+  messages?.forEach((message: MessageItem) => {
     const dateKey = new Date(message.createdAt).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",

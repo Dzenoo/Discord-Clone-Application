@@ -77,3 +77,8 @@ export function deleteSearchParams<T extends string>(type: T): string {
 
   return newPathname;
 }
+
+export function generateServerInviteLink(serverId: string) {
+  const link = `${process.env.NEXT_PUBLIC_URL}/servers/invite/${serverId}`;
+  return link;
+}

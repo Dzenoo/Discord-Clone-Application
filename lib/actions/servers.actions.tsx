@@ -12,6 +12,7 @@ import {
   findCategoryById,
   findChannelById,
   findServerById,
+  findUserById,
   updateUser,
   validateServerInputs,
 } from "./functions/functions.actions";
@@ -233,5 +234,47 @@ export async function createChannel(
     return { message: "Channel created successfully." };
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function addToServer(
+  serverId: string,
+  userId: string,
+  path?: string
+) {
+  try {
+    await connectToDb();
+
+    if (!serverId || !userId) {
+      return { message: "Server or User not found." };
+    }
+
+    const server = await Server.findById(serverId);
+
+    if (!server || server.members.includes(userId)) {
+      return { message: "User is already a member of the server." };
+    }
+
+    const updatedServer = await Server.findByIdAndUpdate(serverId, {
+      $push: {
+        members: userId,
+      },
+    });
+
+    const user = await User.findByIdAndUpdate(userId, {
+      $push: {
+        servers: serverId,
+      },
+    });
+
+    if (!updatedServer || !user) {
+      return { message: "Server or User not found." };
+    }
+
+    path && revalidatePath(path);
+
+    return { message: "Added to server successfully.", server: updatedServer };
+  } catch (error) {
+    console.error(error);
   }
 }
