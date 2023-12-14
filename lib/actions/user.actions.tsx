@@ -287,7 +287,7 @@ export async function editMessage(
     }
 
     revalidatePath(path);
-    return { message: "Message edited." };
+    return { message: "Message edited.", messageContent: message.content };
   } catch (error) {
     console.log(error);
   }

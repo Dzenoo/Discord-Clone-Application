@@ -1,9 +1,16 @@
 import { UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
-import LinkHref from "@/components/shared/elements/Link";
 import { authOptions } from "@/lib/session";
 import { isUserAdminForServer } from "@/lib/functions";
 import { ServerItem } from "@/types/servers";
+import LinkHref from "@/components/shared/elements/Link";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ServersDetailsInformationsTypes {
   server: ServerItem;
@@ -16,11 +23,20 @@ const ServersDetailsInformations: React.FC<
   // @ts-ignore
   const userId = session?.user?.id;
 
-  const currentProfile = server?.members?.find(
-    (member: UserTypes) => member?._id === userId
-  );
-
-  const isProfile = currentProfile?._id === userId;
+  function rednerAdminJsx() {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <AdminPanelSettingsIcon style={{ color: "lightblue" }} />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Admin</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   return (
     <div className="p-3 min-h-screen bg-[#222222] overflow-hidden">
@@ -30,19 +46,21 @@ const ServersDetailsInformations: React.FC<
             Online
           </h2>
         </div>
-        <div className="py-3">
+        <div className="py-3 w-full">
           {server?.members?.map((member: UserTypes) => {
             const isMemberAdmin = isUserAdminForServer(server, member);
 
             return (
-              <div>
+              <div className="flex items-center gap-3 w-full">
                 <LinkHref
                   key={`member_${member?._id}`}
-                  href={`${isProfile ? null : `/${userId}/${member?._id} `}`}
+                  href={`${
+                    member._id === userId ? null : `/${userId}/${member?._id} `
+                  }`}
                   image={member?.image}
                   title={member?.name}
                 />
-                {isMemberAdmin ? "adminje" : "nije"}
+                {isMemberAdmin && rednerAdminJsx()}
               </div>
             );
           })}
@@ -58,7 +76,9 @@ const ServersDetailsInformations: React.FC<
           {server?.members?.map((member: UserTypes) => (
             <LinkHref
               key={member?._id}
-              href={`${isProfile ? null : `/${userId}/${member?._id} `}`}
+              href={`${
+                member._id === userId ? null : `/${userId}/${member?._id} `
+              }`}
               image={member?.image}
               title={member?.name}
             />

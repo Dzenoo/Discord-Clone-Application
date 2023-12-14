@@ -7,6 +7,7 @@ interface ChatListProps {
   friendId?: string;
   channelId?: string;
   serverId?: string;
+  isAdmin: boolean;
 }
 
 const ChatList: React.FC<ChatListProps> = ({
@@ -14,6 +15,7 @@ const ChatList: React.FC<ChatListProps> = ({
   friendId,
   serverId,
   channelId,
+  isAdmin,
 }) => {
   const filteredMessages: { [key: string]: MessageItem[] } = {};
   messages?.forEach((message: MessageItem) => {
@@ -53,6 +55,7 @@ const ChatList: React.FC<ChatListProps> = ({
                 friendId={friendId}
                 serverId={serverId}
                 channelId={channelId}
+                isAdmin={isAdmin}
               />
             )
           )}

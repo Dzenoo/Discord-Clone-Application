@@ -65,6 +65,7 @@ const ServerChannel = async ({
             messages={channel?.messages}
             serverId={serverId}
             channelId={channelId}
+            isAdmin={isUserAdmin}
           />
         </div>
         <div className="p-3 sticky bottom-0 right-0">

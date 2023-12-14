@@ -5,12 +5,14 @@ interface ServersDetailsChatTypes {
   messages: MessageItem[];
   channelId?: string;
   serverId?: string;
+  isAdmin: boolean;
 }
 
 const ServersDetailsChat: React.FC<ServersDetailsChatTypes> = ({
   messages,
   channelId,
   serverId,
+  isAdmin,
 }) => {
   return (
     <div className="p-3 h-[80vh] overflow-y-scroll">
@@ -22,6 +24,7 @@ const ServersDetailsChat: React.FC<ServersDetailsChatTypes> = ({
         serverId={serverId}
         channelId={channelId}
         friendId={undefined}
+        isAdmin={isAdmin}
       />
     </div>
   );

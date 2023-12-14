@@ -22,6 +22,7 @@ export interface ChatItemProps {
   friendId?: string;
   serverId?: string;
   channelId?: string;
+  isAdmin: boolean;
 }
 
 const ChatItem: React.FC<ChatItemProps> = ({
@@ -34,6 +35,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   friendId,
   serverId,
   channelId,
+  isAdmin,
 }) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(false);
   const { formState, inputChangeHandler } = useForm(
@@ -50,7 +52,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
       isOpen: false,
     },
   });
-  const userIdAuth = getUserAuthId();
+  const userIdAuth: string = getUserAuthId();
 
   const createdDate: string = new Date(date).toLocaleDateString("en-US", {
     minute: "numeric",
@@ -59,7 +61,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
 
   const isMentioned: boolean = content.includes(username);
   const isOwner: boolean = userId === userIdAuth;
-  const isValidToEdit = formState.inputs.content.value !== content;
+  const isValidToEdit: boolean = formState.inputs.content.value !== content;
 
   function toggleEdit(): void {
     setIsEditing((prevEdit: boolean | undefined) => !prevEdit);
@@ -89,7 +91,6 @@ const ChatItem: React.FC<ChatItemProps> = ({
           messageId,
           `/servers/${serverId}/${channelId}}`
         );
-        console.log(friendId);
         if (response!.message === "Message deleted.") {
           closeDialog("delete_message");
         }
@@ -123,7 +124,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
       id={messageId}
     >
       <div className="flex items-start gap-3">
-        <div>
+        <div className="flex gap-3 items-center">
           <img
             src={userImage}
             alt={username}
@@ -165,26 +166,28 @@ const ChatItem: React.FC<ChatItemProps> = ({
               </div>
             </Dialog>
             {isEditing ? (
-              <Input
-                elementType={InputElement.INPUT}
-                id={"content"}
-                type={"text"}
-                placeholder={""}
-                validators={[VALIDATOR_REQUIRE()]}
-                onInputChange={inputChangeHandler}
-                initialValidity={true}
-                value={formState.inputs.content.value}
-              />
+              <form id="edit">
+                <Input
+                  elementType={InputElement.INPUT}
+                  id={"content"}
+                  type={"text"}
+                  placeholder={""}
+                  validators={[VALIDATOR_REQUIRE()]}
+                  onInputChange={inputChangeHandler}
+                  initialValidity={true}
+                  value={content}
+                />
+              </form>
             ) : (
               <p className="text-white break-words">{content}</p>
             )}
           </div>
         </div>
       </div>
-      {isOwner && (
+      {(isOwner || isAdmin) && (
         <div>
           <div className="flex gap-3 items-center">
-            {isEditing ? (
+            {isEditing && (
               <div className="flex gap-3 items-center">
                 <Button
                   variant="primary"
@@ -201,7 +204,8 @@ const ChatItem: React.FC<ChatItemProps> = ({
                   Cancel
                 </button>
               </div>
-            ) : (
+            )}
+            {!isEditing && (
               <button
                 className="p-[3px] cursor-pointer bg-[#2b2b2b] rounded-md transition hover:bg-[#121212]"
                 onClick={toggleEdit}
