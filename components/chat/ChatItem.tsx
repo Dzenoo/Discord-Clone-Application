@@ -11,6 +11,7 @@ import useForm from "@/lib/hooks/useForm";
 import { deleteMessageServer } from "@/lib/actions/servers.actions";
 import { deleteDirectMessage, editMessage } from "@/lib/actions/user.actions";
 import { VALIDATOR_REQUIRE } from "@/lib/validators/Validators";
+import Link from "next/link";
 
 export interface ChatItemProps {
   userId: string;
@@ -62,6 +63,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   const isMentioned: boolean = content.includes(username);
   const isOwner: boolean = userId === userIdAuth;
   const isValidToEdit: boolean = formState.inputs.content.value !== content;
+  const isLink: boolean = content.includes("http");
 
   function toggleEdit(): void {
     setIsEditing((prevEdit: boolean | undefined) => !prevEdit);
@@ -179,7 +181,13 @@ const ChatItem: React.FC<ChatItemProps> = ({
                 />
               </form>
             ) : (
-              <p className="text-white break-words">{content}</p>
+              <p
+                className={`text-white break-words ${
+                  isLink && "text-blue-600 cursor-pointer"
+                }`}
+              >
+                {isLink ? <Link href={content}>{content}</Link> : content}
+              </p>
             )}
           </div>
         </div>

@@ -66,7 +66,8 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
               isValid: false,
             },
           },
-          false
+          false,
+          "create-form"
         );
         closeDialog(dialogId);
         router.push(`/servers/${response.serverId}/${response.channelId}`);
@@ -88,6 +89,7 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
         <form
           className="py-3 flex flex-col gap-3 overflow-hidden"
           onSubmit={submitHandler}
+          id="create-form"
         >
           <div>
             <ImagesUpload

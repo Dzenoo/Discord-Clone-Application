@@ -23,7 +23,7 @@ const ServersDetailsInformations: React.FC<
   // @ts-ignore
   const userId = session?.user?.id;
 
-  function rednerAdminJsx() {
+  function renderAdminJsx() {
     return (
       <TooltipProvider>
         <Tooltip>
@@ -55,34 +55,17 @@ const ServersDetailsInformations: React.FC<
                 <LinkHref
                   key={`member_${member?._id}`}
                   href={`${
-                    member._id === userId ? null : `/${userId}/${member?._id} `
+                    member._id === userId
+                      ? server?.categories[0].channels[0]._id
+                      : `/${userId}/${member?._id} `
                   }`}
                   image={member?.image}
                   title={member?.name}
                 />
-                {isMemberAdmin && rednerAdminJsx()}
+                {isMemberAdmin && renderAdminJsx()}
               </div>
             );
           })}
-        </div>
-      </div>
-      <div>
-        <div>
-          <h2 className="text-xs uppercase text-gray-400 font-bold truncate">
-            Offline
-          </h2>
-        </div>
-        <div className="py-3">
-          {server?.members?.map((member: UserTypes) => (
-            <LinkHref
-              key={member?._id}
-              href={`${
-                member._id === userId ? null : `/${userId}/${member?._id} `
-              }`}
-              image={member?.image}
-              title={member?.name}
-            />
-          ))}
         </div>
       </div>
     </div>
