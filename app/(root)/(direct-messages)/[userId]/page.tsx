@@ -10,7 +10,7 @@ const Friends = async ({ params }: { params: { userId: string } }) => {
   const user: UserTypes = await fetchUser(params.userId);
   const session = await getServerSession(authOptions);
   // @ts-ignore
-  const userId = session?.user?.id;
+  const userId: string = session?.user?.id;
 
   if (!user || userId !== params.userId) {
     notFound();
@@ -18,7 +18,9 @@ const Friends = async ({ params }: { params: { userId: string } }) => {
 
   return (
     <div className="p-3">
-      <FriendsTopBar />
+      <FriendsTopBar
+        notifications={JSON.parse(JSON.stringify(user?.notifications))}
+      />
       <FriendsList userId={userId} friends={user?.friends} />
     </div>
   );

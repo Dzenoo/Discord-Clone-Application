@@ -1,7 +1,7 @@
 "use server";
 
 import Server, { ChannelType, ServerTypes } from "@/lib/models/server";
-import User from "@/lib/models/user";
+import User, { UserTypes } from "@/lib/models/user";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
@@ -61,7 +61,7 @@ export async function findUserById(userId: string) {
     return null;
   }
 
-  return user;
+  return user as UserTypes;
 }
 
 export async function findDirectMessages(userId: string, friendId: string) {
@@ -167,4 +167,28 @@ export async function createCategories() {
       },
     ],
   };
+}
+
+export async function findNotification(
+  userId: string,
+  friendId: string,
+  friendUsername: string
+) {
+  let result = null;
+  const currentUser = await findUserById(userId);
+
+  if (!currentUser) return;
+
+  for (let i = 0; i < currentUser.notifications.length; i++) {
+    if (
+      currentUser.notifications[i].message ===
+      `${friendId} ${friendUsername} wants to be friends`
+    ) {
+      result = {
+        notificationsIndex: i,
+      };
+    }
+  }
+
+  return result;
 }

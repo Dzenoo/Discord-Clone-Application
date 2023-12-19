@@ -13,6 +13,7 @@ import {
 } from "../validators/Validators";
 import {
   findDirectMessages,
+  findNotification,
   findUserById,
 } from "./functions/functions.actions";
 
@@ -104,41 +105,6 @@ export async function fetchUser(userId: string): Promise<any> {
     }
 
     return user;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function addFriend(
-  userId: string,
-  friendUsername: string,
-  path: string
-): Promise<any> {
-  try {
-    await connectToDb();
-
-    const friend = await User.findOne({ username: friendUsername });
-    const user = await findUserById(userId);
-
-    if (!user || !friend) {
-      return { message: "No user found." };
-    }
-
-    if (
-      user.friends.includes(friend._id) ||
-      friend.friends.includes(user._id)
-    ) {
-      return { message: "Friend already added." };
-    }
-
-    user.friends.push(friend._id);
-    friend.friends.push(user._id);
-
-    await user.save();
-    await friend.save();
-
-    revalidatePath(path);
-    return { message: "Friend added." };
   } catch (error) {
     console.log(error);
   }
@@ -290,5 +256,109 @@ export async function editMessage(
     return { message: "Message edited.", messageContent: message.content };
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function sendFriendsDemand(
+  userId: string,
+  friendUsername: string
+) {
+  try {
+    await connectToDb();
+
+    const currentUser = await findUserById(userId);
+    const currentFriend = await User.findOne({ username: friendUsername });
+
+    if (!currentUser || !currentFriend) {
+      return { message: "Not User Found" };
+    }
+
+    if (currentFriend.friends.includes(userId)) {
+      return { message: "Friend already added." };
+    }
+
+    const notification = {
+      message: `${currentUser._id} """ ${currentUser.username} wants to be friends`,
+      date: Date.now().toString(),
+    };
+
+    currentFriend.notifications.push(notification);
+    await currentFriend.save();
+
+    return { message: "Successfully added friend!" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function acceptFriendsDemand(
+  userId: string,
+  friendId: string,
+  path: string
+) {
+  try {
+    await connectToDb();
+
+    const currentFriend = await User.findByIdAndUpdate(
+      friendId,
+      {
+        $push: { friends: userId },
+      },
+      { new: true }
+    );
+
+    const currentUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: { friends: friendId },
+        $pull: {
+          notifications: {
+            message: `${friendId} """ ${currentFriend.username} wants to be friends`,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!currentUser || !currentFriend) {
+      return { message: "Not User Found" };
+    }
+
+    path && revalidatePath(path);
+
+    return { message: "Successfully accepted!" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function exitFriendsDemand(
+  userId: string,
+  friendId: string,
+  path: string
+) {
+  try {
+    await connectToDb();
+
+    const currentFriend = await User.findById(friendId);
+
+    const currentUser = await User.findByIdAndUpdate(userId, {
+      $pull: {
+        notifications: {
+          message: `${friendId} """ ${currentFriend.username} wants to be friends`,
+        },
+      },
+    });
+
+    if (!currentUser || !currentFriend) {
+      return { message: "Not User Found" };
+    }
+
+    path && revalidatePath(path);
+
+    return { message: "Successfully denied!" };
+  } catch (error) {
+    console.log(error);
+    return { message: "Error while canceling friend request" };
   }
 }

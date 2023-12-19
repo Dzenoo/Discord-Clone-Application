@@ -1,22 +1,28 @@
-import { DirectMessageType } from "@/types/users";
 import mongoose, { Document, Schema } from "mongoose";
 
 interface RoleType {
-  serverId: mongoose.Types.ObjectId;
-  roleId: mongoose.Types.ObjectId;
+  serverId: string;
+  roleId: string;
 }
 
 export interface UserTypes extends Document {
-  _id: mongoose.Types.ObjectId;
+  _id: string;
   name: string;
   email: string;
   username: string;
   image: string;
   password: string;
-  directMessages?: DirectMessageType[];
-  friends?: mongoose.Types.ObjectId[];
-  servers?: mongoose.Types.ObjectId[];
-  roles?: RoleType[];
+  directMessages: {
+    userId: string;
+    messages: any | unknown[];
+  }[];
+  notifications: {
+    message: string;
+    date: string;
+  }[];
+  friends: string[];
+  servers: string[];
+  roles: RoleType[];
 }
 
 const UserSchema: Schema = new Schema<UserTypes>(
@@ -48,6 +54,12 @@ const UserSchema: Schema = new Schema<UserTypes>(
             ref: "Message",
           },
         ],
+      },
+    ],
+    notifications: [
+      {
+        message: { type: String, required: true },
+        date: { type: Date, default: Date.now() },
       },
     ],
     friends: [{ type: mongoose.Types.ObjectId, ref: "User" }],

@@ -2,14 +2,26 @@
 import Button from "@/components/shared/form/Button";
 import Input, { InputElement } from "@/components/shared/form/Input";
 import Tab from "@/components/shared/elements/Tab";
-import { addFriend } from "@/lib/actions/user.actions";
-import { getUserAuthId } from "@/lib/functions";
+import {
+  acceptFriendsDemand,
+  exitFriendsDemand,
+  sendFriendsDemand,
+} from "@/lib/actions/user.actions";
+import { formatCreatedDate, getUserAuthId } from "@/lib/functions";
 import useForm from "@/lib/hooks/useForm";
 import { Chat } from "@mui/icons-material";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-type CurrentTopBar = "online" | "blocked" | "add-friend" | "";
+interface FriendsTopBarProps {
+  notifications: {
+    _id: string;
+    message: string;
+    date: string;
+  }[];
+}
+
+type CurrentTopBar = "friends" | "notifications" | "add-friend" | "";
 
 export const FriendsTopBarData: {
   id: string;
@@ -18,13 +30,13 @@ export const FriendsTopBarData: {
 }[] = [
   {
     id: "b0",
-    title: "All",
-    filter: "",
+    title: "Notifications",
+    filter: "notifications",
   },
   {
     id: "b1",
-    title: "Online",
-    filter: "online",
+    title: "Friends",
+    filter: "friends",
   },
   {
     id: "b3",
@@ -33,7 +45,7 @@ export const FriendsTopBarData: {
   },
 ];
 
-const FriendsTopBar: React.FC = () => {
+const FriendsTopBar: React.FC<FriendsTopBarProps> = ({ notifications }) => {
   const { formState, inputChangeHandler, restartForm } = useForm(
     {
       add_friend: {
@@ -43,7 +55,7 @@ const FriendsTopBar: React.FC = () => {
     },
     false
   );
-  const [currentTab, setcurrentTab] = useState<CurrentTopBar>("");
+  const [currentTab, setcurrentTab] = useState<CurrentTopBar>("notifications");
   const userId = getUserAuthId();
 
   function handleTabClick(title: CurrentTopBar) {
@@ -59,14 +71,13 @@ const FriendsTopBar: React.FC = () => {
     }
 
     try {
-      const response = await addFriend(
+      const response = await sendFriendsDemand(
         userId,
-        formState.inputs.add_friend.value,
-        `/${userId}`
+        formState.inputs.add_friend.value
       );
 
-      if (response.message === "Friend added.") {
-        toast.success(response.message);
+      if (response!.message === "Successfully added friend!") {
+        toast.success(response!.message);
         restartForm(
           {
             add_friend: {
@@ -78,11 +89,29 @@ const FriendsTopBar: React.FC = () => {
           "add-friend"
         );
       } else {
-        toast.error(response.message);
+        toast.error(response!.message);
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function acceptDemand(notificationUserId: string): Promise<any> {
+    const response = await acceptFriendsDemand(
+      userId,
+      notificationUserId,
+      `/${userId}`
+    );
+    toast.info(response!.message);
+  }
+
+  async function denyDemand(notificationUserId: string): Promise<any> {
+    const response = await exitFriendsDemand(
+      userId,
+      notificationUserId,
+      `/${userId}`
+    );
+    toast.info(response!.message);
   }
 
   return (
@@ -157,6 +186,52 @@ const FriendsTopBar: React.FC = () => {
                 </Button>
               </div>
             </form>
+          </div>
+        ) : currentTab === "notifications" ? (
+          <div>
+            {notifications.map(({ message, date, _id }) => {
+              const notificationUserId = message.split(`"""`)[0];
+              const notificationMessage = message.split(`"""`)[1];
+              const formattedDate = formatCreatedDate(date);
+
+              return (
+                <div
+                  key={`notification_${_id}`}
+                  className="p-3 flex justify-between items-center bg-[#2b2b2b] rounded-md shadow-md"
+                >
+                  <div>
+                    <div>
+                      <h2 className="text-white font-bold">
+                        {notificationMessage}
+                      </h2>
+                    </div>
+                    <div>
+                      <p className="text-white">{formattedDate}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-center">
+                    <Button
+                      type="button"
+                      variant="primary"
+                      onClick={() =>
+                        acceptDemand(notificationUserId.trim().toString())
+                      }
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={() =>
+                        denyDemand(notificationUserId.trim().toString())
+                      }
+                    >
+                      Deny
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div>
