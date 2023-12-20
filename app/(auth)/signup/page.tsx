@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/session";
 const SignupPage = async () => {
   const session = await getServerSession(authOptions);
 
-  if (session) redirect("/123");
+  if (session) redirect("/");
 
   return (
     <section className="flex justify-center items-center h-screen overflow-x-hidden">

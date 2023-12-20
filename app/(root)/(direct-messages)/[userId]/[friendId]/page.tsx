@@ -3,6 +3,7 @@ import { DirectMessageType, FriendsItem, UserTypes } from "@/types/users";
 import { getServerSession } from "next-auth";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { authOptions } from "@/lib/session";
+import { notFound } from "next/navigation";
 import ConversationChat from "@/components/direct-messages/conversation/ConversationChat";
 import ConversationInformation from "@/components/direct-messages/conversation/ConversationInformation";
 import ConversationTopBar from "@/components/direct-messages/conversation/ConversationTopBar";
@@ -21,6 +22,10 @@ const Conversation = async ({
   const userIdAuth: string = session?.user?.id;
   const user: UserTypes = await fetchUser(userIdAuth);
   const friend: UserTypes = await fetchUser(params.friendId);
+
+  if (!user || !friend || !session || !params.friendId) {
+    notFound();
+  }
 
   const mutualServers: ServerItem[] | undefined = user?.servers?.filter(
     (server: ServerItem) => server.members.includes(friend._id.toString())

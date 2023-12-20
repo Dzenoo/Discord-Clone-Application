@@ -1,7 +1,7 @@
 import { addToServer } from "@/lib/actions/servers.actions";
 import { authOptions } from "@/lib/session";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { FadeLoader } from "react-spinners";
 
 const ServerInvitePage = async ({
@@ -12,6 +12,9 @@ const ServerInvitePage = async ({
   const session = await getServerSession(authOptions);
   // @ts-ignore
   const userIdAuth = session?.user.id;
+  if (!session || !serverId) {
+    notFound();
+  }
   const response = await addToServer(serverId, userIdAuth);
   const responseMessage = "Added to server successfully.";
 

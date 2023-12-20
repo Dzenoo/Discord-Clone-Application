@@ -1,8 +1,3 @@
-import ChatForm from "@/components/servers/channels/ChatForm";
-import ServersDetailsChat from "@/components/servers/details/navigation/ServersDetailsChat";
-import ServersDetailsTopBar from "@/components/servers/details/navigation/ServersDetailsTopBar";
-import ServersDetailsSidebar from "@/components/servers/details/navigation/ServersDetailsSidebar";
-import ServersDetailsInformations from "@/components/servers/details/navigation/ServersDetailsInformations";
 import { notFound } from "next/navigation";
 import {
   ServerChannel as ServerChannelPropsTypes,
@@ -14,6 +9,11 @@ import { getChannel, isUserAdminForServer } from "@/lib/functions";
 import { fetchServerById } from "@/lib/actions/servers.actions";
 import { authOptions } from "@/lib/session";
 import { fetchUser } from "@/lib/actions/user.actions";
+import ChatForm from "@/components/servers/channels/ChatForm";
+import ServersDetailsChat from "@/components/servers/details/navigation/ServersDetailsChat";
+import ServersDetailsTopBar from "@/components/servers/details/navigation/ServersDetailsTopBar";
+import ServersDetailsSidebar from "@/components/servers/details/navigation/ServersDetailsSidebar";
+import ServersDetailsInformations from "@/components/servers/details/navigation/ServersDetailsInformations";
 import MediaRoom from "@/components/servers/details/mediachat/MediaRoom";
 
 const ServerChannel = async ({
@@ -28,16 +28,17 @@ const ServerChannel = async ({
   const fetchedServer: ServerItem = await fetchServerById(serverId);
   // @ts-ignore
   const fetchedUser: UserTypes = await fetchUser(session?.user?.id);
+
+  if (!fetchedServer || !fetchedUser || !session) {
+    notFound();
+  }
+
   const server: ServerItem = JSON.parse(JSON.stringify(fetchedServer));
   const channel: ServerChannelPropsTypes = getChannel(
     server?.categories,
     channelId
   );
   const isUserAdmin = isUserAdminForServer(server, fetchedUser);
-
-  if (!fetchedServer || !fetchedUser) {
-    notFound();
-  }
 
   return (
     <div className="flex">

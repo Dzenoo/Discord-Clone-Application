@@ -6,6 +6,7 @@ import { Session, getServerSession } from "next-auth";
 import { authOptions } from "@/lib/session";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { UserTypes } from "@/types/users";
+import { notFound } from "next/navigation";
 
 export default async function DirectMessagesLayout({
   children,
@@ -16,6 +17,10 @@ export default async function DirectMessagesLayout({
   // @ts-ignore
   const userIdAuth: string = session?.user?.id;
   const user: UserTypes = await fetchUser(userIdAuth);
+
+  if (!user || !session) {
+    notFound();
+  }
 
   return (
     <div className="flex">

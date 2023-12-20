@@ -67,7 +67,7 @@ const DirectMessagesSidebar: React.FC<DirectMessagesSidebar> = ({ user }) => {
               .map((directMessages: DirectMessageType) => (
                 <LinkHref
                   key={`messages_${directMessages.userId.toString()}`}
-                  href={`/${user?._id}/${directMessages?.userId._id}`}
+                  href={`/${user?._id}/${directMessages?.userId._id}?type=chat`}
                   title={directMessages?.userId.username}
                   image={directMessages?.userId.image}
                 />

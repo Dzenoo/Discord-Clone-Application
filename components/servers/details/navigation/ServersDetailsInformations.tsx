@@ -57,7 +57,7 @@ const ServersDetailsInformations: React.FC<
                   href={`${
                     member._id === userId
                       ? server?.categories[0].channels[0]._id
-                      : `/${userId}/${member?._id} `
+                      : `/${userId}/${member?._id}?type=chat`
                   }`}
                   image={member?.image}
                   title={member?.name}
