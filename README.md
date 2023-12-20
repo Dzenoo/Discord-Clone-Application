@@ -1,7 +1,5 @@
 # Discord Clone Application
 
-![Discord Clone Logo](link/to/logo.png)
-
 ## Overview
 
 Welcome to the Discord Clone Application repository! This project aims to replicate the functionality and design of the popular communication platform Discord. Whether you're a developer looking to contribute or a user interested in trying out a similar experience, you've come to the right place.
