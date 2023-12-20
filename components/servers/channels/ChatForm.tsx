@@ -1,12 +1,12 @@
 "use client";
 
-import { getUserAuthId } from "@/lib/functions";
 import Input, { InputElement } from "../../shared/form/Input";
 
 import { ToastContainer, toast } from "react-toastify";
 import useForm from "@/lib/hooks/useForm";
 import { createMessageServer } from "@/lib/actions/servers.actions";
 import { VALIDATOR_REQUIRE } from "@/lib/validators/Validators";
+import { useSession } from "next-auth/react";
 
 interface ChatFormTypes {
   serverId: string;
@@ -14,7 +14,9 @@ interface ChatFormTypes {
 }
 
 const ChatForm: React.FC<ChatFormTypes> = ({ serverId, channelId }) => {
-  const userId = getUserAuthId();
+  const { data } = useSession();
+  // @ts-ignore
+  const userId: string = data?.user.id;
   const { formState, inputChangeHandler, restartForm } = useForm(
     {
       content: {

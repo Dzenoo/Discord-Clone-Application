@@ -7,7 +7,7 @@ interface ChatListProps {
   friendId?: string;
   channelId?: string;
   serverId?: string;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 }
 
 const ChatList: React.FC<ChatListProps> = ({
@@ -55,7 +55,7 @@ const ChatList: React.FC<ChatListProps> = ({
                 friendId={friendId}
                 serverId={serverId}
                 channelId={channelId}
-                isAdmin={isAdmin}
+                isAdmin={isAdmin!}
               />
             )
           )}

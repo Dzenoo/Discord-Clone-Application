@@ -61,6 +61,7 @@ const ConversationInformation: React.FC<ConversationInformationProps> = ({
               ) : (
                 mutualServers?.map((server: ServerItem) => (
                   <LinkHref
+                    key={server._id}
                     image={server.image}
                     title={server.name}
                     href={`/servers/${server._id}/${server.categories[0].channels[0]._id}`}
@@ -81,6 +82,7 @@ const ConversationInformation: React.FC<ConversationInformationProps> = ({
               ) : (
                 mutualFriends?.map((friends: FriendsItem) => (
                   <LinkHref
+                    key={friends._id}
                     image={friends.image}
                     title={friends.username}
                     href={`/${userId}/${friends._id}`}

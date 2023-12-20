@@ -4,12 +4,12 @@ import Button from "@/components/shared/form/Button";
 import ImagesUpload from "@/components/shared/form/ImagesUpload";
 import Input, { InputElement } from "@/components/shared/form/Input";
 import { createServer } from "@/lib/actions/servers.actions";
-import { getUserAuthId } from "@/lib/functions";
 import useForm from "@/lib/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "@/lib/validators/Validators";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export interface CreateServerFormTypes {
@@ -22,7 +22,9 @@ const CreateServerForm: React.FC<CreateServerFormTypes> = ({
   closeDialog,
 }) => {
   const router = useRouter();
-  const userId = getUserAuthId();
+  const { data } = useSession();
+  // @ts-ignore
+  const userId: string = data?.user.id;
   const { formState, inputChangeHandler, restartForm } = useForm(
     {
       server_name: {

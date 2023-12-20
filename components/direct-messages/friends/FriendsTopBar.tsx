@@ -7,11 +7,12 @@ import {
   exitFriendsDemand,
   sendFriendsDemand,
 } from "@/lib/actions/user.actions";
-import { formatCreatedDate, getUserAuthId } from "@/lib/functions";
+import { formatCreatedDate } from "@/lib/functions";
 import useForm from "@/lib/hooks/useForm";
 import { Chat } from "@mui/icons-material";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
 interface FriendsTopBarProps {
   notifications: {
@@ -51,7 +52,9 @@ const FriendsTopBar: React.FC<FriendsTopBarProps> = ({ notifications }) => {
     false
   );
   const [currentTab, setcurrentTab] = useState<CurrentTopBar>("notifications");
-  const userId = getUserAuthId();
+  const { data } = useSession();
+  // @ts-ignore
+  const userId: string = data?.user.id;
 
   function handleTabClick(title: CurrentTopBar) {
     setcurrentTab(title);

@@ -50,14 +50,6 @@ export function formatCreatedDate(date: string) {
   return createdDate;
 }
 
-export function getUserAuthId() {
-  const { data } = useSession();
-  // @ts-ignore
-  const userId: string = data?.user.id;
-
-  return userId;
-}
-
 export function updateSearchParams<T extends string>(
   type: T,
   value: T

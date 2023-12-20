@@ -5,13 +5,13 @@ import { Delete, Edit } from "@mui/icons-material";
 import Button from "../shared/form/Button";
 import Input, { InputElement } from "../shared/form/Input";
 import Dialog from "../shared/elements/Dialog";
-import { getUserAuthId } from "@/lib/functions";
 import useDialog from "@/lib/hooks/useDialog";
 import useForm from "@/lib/hooks/useForm";
 import { deleteMessageServer } from "@/lib/actions/servers.actions";
 import { deleteDirectMessage, editMessage } from "@/lib/actions/user.actions";
 import { VALIDATOR_REQUIRE } from "@/lib/validators/Validators";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export interface ChatItemProps {
   userId: string;
@@ -53,7 +53,9 @@ const ChatItem: React.FC<ChatItemProps> = ({
       isOpen: false,
     },
   });
-  const userIdAuth: string = getUserAuthId();
+  const { data } = useSession();
+  // @ts-ignore
+  const userIdAuth: string = data?.user.id;
 
   const createdDate: string = new Date(date).toLocaleDateString("en-US", {
     minute: "numeric",

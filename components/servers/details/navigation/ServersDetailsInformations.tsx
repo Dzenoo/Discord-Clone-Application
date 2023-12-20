@@ -51,7 +51,7 @@ const ServersDetailsInformations: React.FC<
             const isMemberAdmin = isUserAdminForServer(server, member);
 
             return (
-              <div className="flex items-center gap-3 w-full">
+              <div className="flex items-center gap-3 w-full" key={member._id}>
                 <LinkHref
                   key={`member_${member?._id}`}
                   href={`${
