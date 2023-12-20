@@ -35,6 +35,9 @@ export default async function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body className={`${inter.className} flex`}>
+          <div className="fixed bottom-0 top-0 right-0 left-0 w-full h-full min-h-screen bg-gray-700 z-40 flex justify-center items-center text-white lg:hidden">
+            <h2>Application is not responsive</h2>
+          </div>
           <SidebarServers servers={servers} userId={userId} />
           <main className="w-full">{children}</main>
         </body>

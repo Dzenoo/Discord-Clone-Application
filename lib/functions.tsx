@@ -1,7 +1,7 @@
 import { ServersCategory, ServerChannel, ServerItem } from "@/types/servers";
 import { UserTypes } from "@/types/users";
-import bcrypt from "bcryptjs";
 import { useSession } from "next-auth/react";
+import bcrypt from "bcryptjs";
 
 export async function hashPassword(password: string): Promise<string> {
   return await bcrypt.hash(password, 12);

@@ -12,7 +12,6 @@ import {
   findCategoryById,
   findChannelById,
   findServerById,
-  findUserById,
   updateUser,
   validateServerInputs,
 } from "./functions/functions.actions";

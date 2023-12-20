@@ -13,7 +13,6 @@ import {
 } from "../validators/Validators";
 import {
   findDirectMessages,
-  findNotification,
   findUserById,
 } from "./functions/functions.actions";
 

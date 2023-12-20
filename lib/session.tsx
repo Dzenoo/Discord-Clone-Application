@@ -1,8 +1,8 @@
 import CredentialProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
 import { connectToDb } from "./mongoose";
-import User from "./models/user";
 import { comparePassword } from "./functions";
+import User from "./models/user";
 // Define authOptions
 export const authOptions: NextAuthOptions = {
   // Set the secret to the value of the NEXT_AUTH_SECRET environment variable
