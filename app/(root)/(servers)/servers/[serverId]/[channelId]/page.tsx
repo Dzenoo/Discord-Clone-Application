@@ -14,6 +14,7 @@ import { getChannel, isUserAdminForServer } from "@/lib/functions";
 import { fetchServerById } from "@/lib/actions/servers.actions";
 import { authOptions } from "@/lib/session";
 import { fetchUser } from "@/lib/actions/user.actions";
+import MediaRoom from "@/components/servers/details/mediachat/MediaRoom";
 
 const ServerChannel = async ({
   params: { serverId, channelId },
@@ -56,22 +57,34 @@ const ServerChannel = async ({
           }}
         />
       </div>
-      <div className="basis-full grow flex flex-col justify-between">
-        <div>
-          <ServersDetailsTopBar name={channel?.name} />
+      {channel.type === "text" && (
+        <div className="basis-full grow flex flex-col justify-between">
+          <div>
+            <ServersDetailsTopBar name={channel?.name} />
+          </div>
+          <div>
+            <ServersDetailsChat
+              messages={channel?.messages}
+              serverId={serverId}
+              channelId={channelId}
+              isAdmin={isUserAdmin}
+            />
+          </div>
+          <div className="p-3 sticky bottom-0 right-0">
+            <ChatForm serverId={serverId} channelId={channelId} />
+          </div>
         </div>
-        <div>
-          <ServersDetailsChat
-            messages={channel?.messages}
-            serverId={serverId}
-            channelId={channelId}
-            isAdmin={isUserAdmin}
+      )}
+      {channel.type === "voice" && (
+        <div className="basis-full grow flex flex-col justify-between">
+          <MediaRoom
+            chatId={channelId}
+            video={true}
+            audio={true}
+            user={JSON.parse(JSON.stringify(fetchedUser))}
           />
         </div>
-        <div className="p-3 sticky bottom-0 right-0">
-          <ChatForm serverId={serverId} channelId={channelId} />
-        </div>
-      </div>
+      )}
       <div className="basis-[30em] max-w-[240px] w-full">
         <ServersDetailsInformations server={server} />
       </div>

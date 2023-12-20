@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { Edit } from "@mui/icons-material";
 import { formatCreatedDate } from "@/lib/functions";
 import useToggleOverlay from "@/lib/hooks/useToggleOverlay";
 
@@ -43,14 +41,6 @@ const ManageProfileBar: React.FC<ManageProfileBarTypes> = ({
             width={100}
             height={100}
           />
-          <Link
-            href={`/profile/${userId}/edit`}
-            className="absolute right-[3px] top-[3px] bg-blue-900 rounded-full p-[6px]"
-          >
-            <Edit fontSize="medium" style={{ color: "#fff", fontSize: "24px" }}>
-              Edit Profile
-            </Edit>
-          </Link>
         </div>
         <div className="bg-[#191919] rounded-md mt-16 mb-3 mx-3 p-3">
           <div className="border-b border-gray-600 pb-3">

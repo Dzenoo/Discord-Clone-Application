@@ -17,9 +17,6 @@ const ServersDetailsTopBar: React.FC<ServersDetailsTopbarTypes> = ({
           <h2 className="text-white font-bold">{name}</h2>
         </div>
       </div>
-      <div>
-        <input type="text" placeholder="Search" className="inputs" />
-      </div>
     </div>
   );
 };

@@ -1,9 +1,14 @@
 "use client";
 
+import { UserTypes } from "@/types/users";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const ActiveNowSidebar: React.FC = () => {
+interface ActiveNowSidebarProps {
+  user: UserTypes;
+}
+
+const ActiveNowSidebar: React.FC<ActiveNowSidebarProps> = ({ user }) => {
   const { data } = useSession();
   const pathname = usePathname();
   // @ts-ignore

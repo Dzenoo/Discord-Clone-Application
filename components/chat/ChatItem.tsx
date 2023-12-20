@@ -186,7 +186,13 @@ const ChatItem: React.FC<ChatItemProps> = ({
                   isLink && "text-blue-600 cursor-pointer"
                 }`}
               >
-                {isLink ? <Link href={content}>{content}</Link> : content}
+                {isLink ? (
+                  <Link href={content} className="text-blue-600">
+                    {content}
+                  </Link>
+                ) : (
+                  content
+                )}
               </p>
             )}
           </div>

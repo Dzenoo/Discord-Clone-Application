@@ -21,7 +21,7 @@ interface FriendsTopBarProps {
   }[];
 }
 
-type CurrentTopBar = "friends" | "notifications" | "add-friend" | "";
+type CurrentTopBar = "notifications" | "add-friend" | "";
 
 export const FriendsTopBarData: {
   id: string;
@@ -32,11 +32,6 @@ export const FriendsTopBarData: {
     id: "b0",
     title: "Notifications",
     filter: "notifications",
-  },
-  {
-    id: "b1",
-    title: "Friends",
-    filter: "friends",
   },
   {
     id: "b3",
@@ -187,56 +182,57 @@ const FriendsTopBar: React.FC<FriendsTopBarProps> = ({ notifications }) => {
               </div>
             </form>
           </div>
-        ) : currentTab === "notifications" ? (
-          <div>
-            {notifications.map(({ message, date, _id }) => {
-              const notificationUserId = message.split(`"""`)[0];
-              const notificationMessage = message.split(`"""`)[1];
-              const formattedDate = formatCreatedDate(date);
-
-              return (
-                <div
-                  key={`notification_${_id}`}
-                  className="p-3 flex justify-between items-center bg-[#2b2b2b] rounded-md shadow-md"
-                >
-                  <div>
-                    <div>
-                      <h2 className="text-white font-bold">
-                        {notificationMessage}
-                      </h2>
-                    </div>
-                    <div>
-                      <p className="text-white">{formattedDate}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3 items-center">
-                    <Button
-                      type="button"
-                      variant="primary"
-                      onClick={() =>
-                        acceptDemand(notificationUserId.trim().toString())
-                      }
-                    >
-                      Accept
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      onClick={() =>
-                        denyDemand(notificationUserId.trim().toString())
-                      }
-                    >
-                      Deny
-                    </Button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         ) : (
-          <div>
-            <input type="text" placeholder="Search" className="inputs" />
-          </div>
+          currentTab === "notifications" && (
+            <div>
+              {notifications.length === 0 && (
+                <p className="text-white">No notifications yet</p>
+              )}
+              {notifications.map(({ message, date, _id }) => {
+                const notificationUserId = message.split(`"""`)[0];
+                const notificationMessage = message.split(`"""`)[1];
+                const formattedDate = formatCreatedDate(date);
+
+                return (
+                  <div
+                    key={`notification_${_id}`}
+                    className="p-3 flex justify-between items-center bg-[#2b2b2b] rounded-md shadow-md"
+                  >
+                    <div>
+                      <div>
+                        <h2 className="text-white font-bold">
+                          {notificationMessage}
+                        </h2>
+                      </div>
+                      <div>
+                        <p className="text-white">{formattedDate}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 items-center">
+                      <Button
+                        type="button"
+                        variant="primary"
+                        onClick={() =>
+                          acceptDemand(notificationUserId.trim().toString())
+                        }
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={() =>
+                          denyDemand(notificationUserId.trim().toString())
+                        }
+                      >
+                        Deny
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )
         )}
       </div>
     </>

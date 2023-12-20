@@ -2,10 +2,11 @@ import Image from "next/image";
 import Toggle from "@/components/shared/elements/Toggle";
 import LinkHref from "@/components/shared/elements/Link";
 import { ServerItem } from "@/types/servers";
-import { FriendsItem, UserTypes } from "@/types/users";
+import { FriendsItem } from "@/types/users";
 import { formatCreatedDate } from "@/lib/functions";
 
 interface ConversationInformationProps {
+  userId: string;
   username: string;
   image: string;
   name: string;
@@ -15,6 +16,7 @@ interface ConversationInformationProps {
 }
 
 const ConversationInformation: React.FC<ConversationInformationProps> = ({
+  userId,
   username,
   image,
   name,
@@ -61,7 +63,7 @@ const ConversationInformation: React.FC<ConversationInformationProps> = ({
                   <LinkHref
                     image={server.image}
                     title={server.name}
-                    href={`/servers/${server._id}`}
+                    href={`/servers/${server._id}/${server.categories[0].channels[0]._id}`}
                   />
                 ))
               )
@@ -81,7 +83,7 @@ const ConversationInformation: React.FC<ConversationInformationProps> = ({
                   <LinkHref
                     image={friends.image}
                     title={friends.username}
-                    href={`/123/${friends._id}`}
+                    href={`/${userId}/${friends._id}`}
                   />
                 ))
               )

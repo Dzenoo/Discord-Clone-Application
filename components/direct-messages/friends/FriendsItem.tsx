@@ -27,14 +27,11 @@ const FriendsItem: React.FC<FriendItemProps & FriendsItemPropsAdditional> = ({
           />
         </div>
         <div className="flex flex-col">
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
             <h2 className="text-white font-medium">{username}</h2>
             <p className="text-xs text-gray-300 friend_code">
               #{_id.toString().slice(0, 3)}
             </p>
-          </div>
-          <div>
-            <p className="text-gray-400">Playing a game</p>
           </div>
         </div>
       </div>

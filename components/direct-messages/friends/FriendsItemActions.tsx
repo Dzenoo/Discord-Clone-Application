@@ -1,10 +1,8 @@
 "use client";
 import Tab from "@/components/shared/elements/Tab";
-import Button from "@/components/shared/form/Button";
-import { Chat, MoreVert } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { createMessagesDirect } from "@/lib/actions/user.actions";
-import useToggleOverlay from "@/lib/hooks/useToggleOverlay";
+import { Chat } from "@mui/icons-material";
 
 export interface FriendsItemActionsProps {
   userId: string;
@@ -15,12 +13,11 @@ const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({
   userId,
   friendId,
 }) => {
-  const { isOpened, handleToggle, overlayRef } = useToggleOverlay();
   const router = useRouter();
 
   async function handleCreateDirect() {
     await createMessagesDirect(userId, friendId);
-    router.push(`${userId}/${friendId}`);
+    router.push(`${userId}/${friendId}?type=chat`);
   }
 
   return (
@@ -30,29 +27,6 @@ const FriendsItemActions: React.FC<FriendsItemActionsProps> = ({
           icon={<Chat style={{ color: "#f3f3f3" }} />}
           onClick={handleCreateDirect}
         />
-      </div>
-      <div className="relative">
-        <div className="friend_options" onClick={handleToggle}>
-          <Tab icon={<MoreVert style={{ color: "#f3f3f3" }} />} />
-        </div>
-        {isOpened && (
-          <div
-            className="flex flex-col gap-3 bg-[#191919] p-[3px] rounded-md absolute left-16 top-0 w-fit"
-            ref={overlayRef}
-          >
-            <div className="w-fit">
-              <Tab title="Start Voice Call" />
-            </div>
-            <div>
-              <Tab title="Start Video Call" />
-            </div>
-            <div>
-              <Button variant="danger" type="button">
-                Remove Friend
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

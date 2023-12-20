@@ -123,11 +123,6 @@ const SidebarServers: React.FC<SidebarServersTypes> = ({ servers, userId }) => {
             name="Add a Server"
           />
         </div>
-        <SidebarItem
-          href={`/explore-servers`}
-          icon={<Explore style={{ color: "#23a559" }} />}
-          name="Explore Public Servers"
-        />
       </div>
     </nav>
   );

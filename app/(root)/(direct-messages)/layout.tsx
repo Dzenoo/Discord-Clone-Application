@@ -23,7 +23,7 @@ export default async function DirectMessagesLayout({
         <DirectMessagesSidebar user={JSON.parse(JSON.stringify(user))} />
       </div>
       <div className="basis-full grow">{children}</div>
-      <ActiveNowSidebar />
+      <ActiveNowSidebar user={JSON.parse(JSON.stringify(user))} />
     </div>
   );
 }
